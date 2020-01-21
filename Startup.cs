@@ -26,6 +26,7 @@ namespace MyResume.WebApp
                 app.UseDeveloperExceptionPage();
             }
 
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
