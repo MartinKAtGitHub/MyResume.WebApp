@@ -15,6 +15,5 @@ namespace MyResume.WebApp.Models
         public string MainText { get; set; }
         public bool EnableComments { get; set; }
         public bool EnableRating { get; set; }
-
     }
 }
