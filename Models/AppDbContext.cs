@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace MyResume.WebApp.Models
 {
 
-    public class AppDbContext :DbContext 
+    public class AppDbContext : IdentityDbContext 
     {
         public DbSet<UserResumePage> UserResumePages { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions) :base(dbContextOptions)

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using MyResume.WebApp.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyResume.WebApp
 {
@@ -28,6 +29,9 @@ namespace MyResume.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("MyResumeDBConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
             
@@ -47,6 +51,9 @@ namespace MyResume.WebApp
             app.UseHttpsRedirection(); // http redirected to httpS
             app.UseStaticFiles();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             // Serves files from outside wwwroot
             //app.UseStaticFiles(new StaticFileOptions
             //{
@@ -59,8 +66,6 @@ namespace MyResume.WebApp
 
             // app.UseRouting();
 
-            //app.UseAuthentication();
-            //app.UseAuthorization();
 
             //app.UseEndpoints(endpoints =>
             //{
