@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MyResume.WebApp.Models;
 using MyResume.WebApp.ModelView;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace MyResume.WebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -31,7 +32,7 @@ namespace MyResume.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser
+                var user = new ApplicationUser
                 {
                     UserName = model.UserName,
                     Email = model.Email,
@@ -53,11 +54,6 @@ namespace MyResume.WebApp.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("index", "home");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description); // the errors are send to the validation tag helper
                 }
 
                 foreach (var error in result.Errors) // This will be added to the asp-validation-summary

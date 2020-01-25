@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MyResume.WebApp.Models
 {
 
-    public class AppDbContext : IdentityDbContext 
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<UserResumePage> UserResumePages { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions) :base(dbContextOptions)

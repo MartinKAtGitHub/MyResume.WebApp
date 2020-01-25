@@ -30,7 +30,7 @@ namespace MyResume.WebApp
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("MyResumeDBConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
 
             services.Configure<IdentityOptions>(options =>
@@ -42,6 +42,7 @@ namespace MyResume.WebApp
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = true;
 
+                options.User.RequireUniqueEmail = true;
 
             });
 
