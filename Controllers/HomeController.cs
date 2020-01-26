@@ -18,25 +18,28 @@ namespace MyResume.WebApp.Controllers
             this.userManager = userManager;
         }
 
-        [HttpGet]
-        public IActionResult Index()
+
+
+        public IActionResult Index(string searchString)
         {
-            var empty = new UserSearchViewModel();
-            return View(empty);
+            var UserSearchResult = new UserSearchViewModel();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var filterdUsers = userManager.Users.Where(
+               t => t.UserName.Contains(searchString)).ToList();
+
+                UserSearchResult.UsersResult = filterdUsers;
+            }
+
+            return View(UserSearchResult);
         }
 
-        [HttpPost]
-        public IActionResult Index(UserSearchViewModel model)
+
+        public IActionResult UserResume(string id)
         {
-            //model.UsersResult = userManager.Users.Where(
-            //    t => t.UserName == model.UserNameSearch).ToList();
 
-            model.UsersResult = (from b in userManager.Users 
-                                 where b.UserName.Contains(model.UserNameSearch) 
-                                 select b).ToList();
-
-
-                return View(model);
+            return View(/*pass in page data*/);
         }
     }
 }

@@ -2,11 +2,21 @@
 
 <div class="card-deck">
 
-    <form class="form-inline mt-2 mt-md-0" asp-controller="home" asp-action="index" method="post">
+    @*<form class="form-inline mt-2 mt-md-0" asp-controller="home" asp-action="index" method="post">
+
+            <input class="form-control mr-sm-2" type="text" placeholder="Search"
+                   asp-for="UserNameSearch">
+
+
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>*@
+
+
+
+    <form class="form-inline mt-2 mt-md-0" asp-controller="Home" asp-action="Index" method="get">
 
         <input class="form-control mr-sm-2" type="text" placeholder="Search"
-               asp-for="UserNameSearch">
-
+               asp-for="SearchString">
 
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
@@ -17,7 +27,7 @@
             @foreach (var User in Model.UsersResult)
             {
                 <li>
-                    <a asp-controller="home" asp-action="userResume" asp-route-id="@User.Id">@User.UserName</a>
+                    <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.Id">@User.UserName</a>
                 </li>
             }
         </ul>
