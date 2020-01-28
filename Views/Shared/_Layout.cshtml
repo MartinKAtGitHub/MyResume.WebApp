@@ -65,7 +65,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link"asp-controller="home" asp-action="index">Home <span class="sr-only">(current)</span></a>
                     </li>
                     @if (signInManager.IsSignedIn(User))
                     {
@@ -76,6 +76,12 @@
                                     Logout @User.Identity.Name
                                 </button>
                             </form>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account"
+                               asp-action="ChangePassword">
+                                Password
+                            </a>
                         </li>
 
                     }

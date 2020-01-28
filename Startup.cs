@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using MyResume.WebApp.Models;
 using Microsoft.AspNetCore.Identity;
+using Portfolio_Website_Core.Utilities.MailService;
 
 namespace MyResume.WebApp
 {
@@ -31,7 +32,8 @@ namespace MyResume.WebApp
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("MyResumeDBConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -44,10 +46,27 @@ namespace MyResume.WebApp
 
                 options.User.RequireUniqueEmail = true;
 
+                options.SignIn.RequireConfirmedEmail = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 2;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3); // default is 5 min
+
+
             });
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
-            
+
+
+            // services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+            // services.AddScoped<ICommentRepository, SQLCommentRepository>();
+
+            //  services.AddSingleton<IAuthorizationHandler, CanEditOnluOtherAdminRolesAndClaimsHandler>();
+            //  services.AddSingleton<IAuthorizationHandler, SuperAdminHandler>();
+            //  services.AddSingleton<DataProtectionPurposeStrings>();
+
+            services.AddTransient<IMessageService, MessageService>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +78,11 @@ namespace MyResume.WebApp
                 app.UseDatabaseErrorPage();
 
                 app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}"); // -> /Controller(error)/Action()  The {0} is filled in with the Error code
             }
 
             app.UseHttpsRedirection(); // http redirected to httpS
@@ -76,17 +100,6 @@ namespace MyResume.WebApp
             //});
 
             app.UseMvcWithDefaultRoute(); // Terminal Middleware
-
-            // app.UseRouting();
-
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //    endpoints.MapRazorPages();
-            //});
         }
     }
 }
