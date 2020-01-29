@@ -20,8 +20,6 @@ namespace MyResume.WebApp.Controllers
             this.userManager = userManager;
         }
 
-
-
         public IActionResult Index(string searchString)
         {
             var UserSearchResult = new UserSearchViewModel();
@@ -40,8 +38,28 @@ namespace MyResume.WebApp.Controllers
 
         public IActionResult UserResume(string id)
         {
+            if(string.IsNullOrEmpty(id))
+            {
+                ViewBag.ErrorTitle = "Can't find Resume ";
+                @ViewBag.ErrorMessage = "No user is selected";
+                return View("Error");
+            }
 
-            return View(/*pass in page data*/);
+            UserResumeViewModel model = new UserResumeViewModel();
+
+            if(userManager.GetUserId(User) == id)
+            {
+                model.EnableEditing = true;
+                //userResumeViewModel.UserInfo = Context.getInfo
+                //userResumeViewModel.Achivemtns = Context.getallAchivements
+                return View(model);
+            }
+
+            model.EnableEditing = false;
+            //userResumeViewModel.UserInfo = Context.getInfo
+            //userResumeViewModel.Achivemtns = Context.getallAchivements
+
+            return View(model);
         }
     }
 }

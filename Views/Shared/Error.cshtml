@@ -1,8 +1,9 @@
 ﻿@if (ViewBag.ErrorTitle == null)
 {
+    //Generic error message
     <h3>
-        Error title null:
         An error has occurred while processing your request.
+        Contact the administration : martinwebsitemail@gmail.com
 
         <h3>Exception Details:</h3>
         <div class="alert alert-danger">
@@ -23,7 +24,6 @@ else
 
     <div class="alert alert-danger">
         <h1 class="text-danger">@ViewBag.ErrorTitle</h1>
-
         <p class="text-danger">@ViewBag.ErrorMessage</p>
     </div>
 

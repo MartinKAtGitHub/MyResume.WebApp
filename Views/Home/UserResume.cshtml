@@ -1,7 +1,13 @@
-﻿@model UserResumePage
+﻿@model UserResumeViewModel
 @{ 
     ViewBag.Title = "User Resume";
 }
 
-
+    <div>
+        <h1>User Info</h1>
+        @if(Model.EnableEditing)
+        {
+            <a>Edit</a>
+        }
+    </div>
 
