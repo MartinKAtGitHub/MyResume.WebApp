@@ -16,13 +16,15 @@ namespace MyResume.WebApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMessageService _messageService;
+        private readonly IUserInfoRepo _userInfoRepo;
 
         public AccountController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IMessageService messageService)
+            SignInManager<ApplicationUser> signInManager, IMessageService messageService, IUserInfoRepo userInfoRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _messageService = messageService;
+            _userInfoRepo = userInfoRepo;
         }
 
 
@@ -304,7 +306,10 @@ namespace MyResume.WebApp.Controllers
 
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
-                    await _messageService.SendEmailAsync(user.UserName, user.Email, "Email confirmation", $"Click the link to confirm your Email : {confirmationLink}" );
+                    await _messageService.SendEmailAsync(user.UserName, user.Email, "Email confirmation",
+                        $"Click the link to confirm your Email : {confirmationLink}" );
+
+                    _userInfoRepo.CreateDefault(user);
 
                     // await _signInManager.SignInAsync(user, isPersistent: false);
                     // return RedirectToAction("index", "home");

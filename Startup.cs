@@ -56,8 +56,7 @@ namespace MyResume.WebApp
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
-
-            // services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+            services.AddScoped<IUserInfoRepo, UserInfoRepoSQL>();
             // services.AddScoped<ICommentRepository, SQLCommentRepository>();
 
             //  services.AddSingleton<IAuthorizationHandler, CanEditOnluOtherAdminRolesAndClaimsHandler>();

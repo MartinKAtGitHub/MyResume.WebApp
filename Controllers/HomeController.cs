@@ -10,14 +10,16 @@ using MyResume.WebApp.ModelView;
 
 namespace MyResume.WebApp.Controllers
 {
-    
+
     public class HomeController : Controller
     {
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserInfoRepo _userInfoRepo;
 
-        public HomeController(UserManager<ApplicationUser> userManager )
+        public HomeController(UserManager<ApplicationUser> userManager, IUserInfoRepo userInfoRepo)
         {
-            this.userManager = userManager;
+            _userManager = userManager;
+            _userInfoRepo = userInfoRepo;
         }
 
         public IActionResult Index(string searchString)
@@ -26,7 +28,7 @@ namespace MyResume.WebApp.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                var filterdUsers = userManager.Users.Where(
+                var filterdUsers = _userManager.Users.Where(
                t => t.UserName.Contains(searchString)).ToList();
 
                 UserSearchResult.UsersResult = filterdUsers;
@@ -38,24 +40,27 @@ namespace MyResume.WebApp.Controllers
 
         public IActionResult UserResume(string id)
         {
-            if(string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id))
             {
                 ViewBag.ErrorTitle = "Can't find Resume ";
                 @ViewBag.ErrorMessage = "No user is selected";
                 return View("Error");
             }
 
-            UserResumeViewModel model = new UserResumeViewModel();
-
-            if(userManager.GetUserId(User) == id)
+            var model = new UserResumeViewModel
             {
-                model.EnableEditing = true;
+                UserInfo = _userInfoRepo.Read(id)
+            };
+
+            if (_userManager.GetUserId(User) == id)
+            {
+                model.EnableOwnerOptions = true;
                 //userResumeViewModel.UserInfo = Context.getInfo
                 //userResumeViewModel.Achivemtns = Context.getallAchivements
                 return View(model);
             }
 
-            model.EnableEditing = false;
+            model.EnableOwnerOptions = false;
             //userResumeViewModel.UserInfo = Context.getInfo
             //userResumeViewModel.Achivemtns = Context.getallAchivements
 

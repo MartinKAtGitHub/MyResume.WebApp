@@ -7,7 +7,8 @@ namespace MyResume.WebApp.Models
 {
     public class UserInformation
     {
-        public string UserId { get; set; } // assign this as you create a new/edit User info
+        public Guid Id { get; set; } 
+        public string UserId { get; set; } // This could be a PK since only 1 entry per user
         public string UserName { get; set; }
         public string AvatarImgPath { get; set; }
         public string Summary { get; set; }

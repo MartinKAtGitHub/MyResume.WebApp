@@ -1,13 +1,45 @@
 ﻿@model UserResumeViewModel
-@{ 
+@{
     ViewBag.Title = "User Resume";
 }
 
-    <div>
-        <h1>User Info</h1>
-        @if(Model.EnableEditing)
+<div>
+    <h1>User Info</h1>
+    <h4>@Model.UserInfo.UserName</h4>
+    <h5>@Model.UserInfo.Summary</h5>
+
+    @if (Model.EnableOwnerOptions)
+    {
+        <a>Edit</a>
+    }
+</div>
+
+<div>
+    <h1>Achievement List</h1>
+    @if (Model.EnableOwnerOptions)
+    {
+        <a>Add new achievement</a>
+    }
+
+    @if(@Model.Achievements != null)
+    {
+        @foreach (var Achievement in @Model.Achievements)
         {
-            <a>Edit</a>
+            <div>
+                <h1>Achievement Info</h1>
+                @if (Model.EnableOwnerOptions)
+                {
+                    <a>Edit</a>
+                }
+            </div>
+
         }
-    </div>
+    }
+    else
+    {
+        <h3>No achievements has been added to this resume</h3>
+
+    }
+
+</div>
 

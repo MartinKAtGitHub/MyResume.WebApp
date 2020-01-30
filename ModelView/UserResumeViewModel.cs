@@ -6,7 +6,7 @@ namespace MyResume.WebApp.ModelView
     {
         public UserInformation UserInfo { get; set; }
         public List <Achievement> Achievements { get; set; }
-        public bool EnableEditing { get; set; }
+        public bool EnableOwnerOptions { get; set; }
         public UserResumeViewModel()
         {
 

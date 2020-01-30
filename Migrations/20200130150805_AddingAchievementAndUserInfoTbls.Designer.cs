@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyResume.WebApp.Models;
 
 namespace MyResume.WebApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200130150805_AddingAchievementAndUserInfoTbls")]
+    partial class AddingAchievementAndUserInfoTbls
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,9 +154,8 @@ namespace MyResume.WebApp.Migrations
 
             modelBuilder.Entity("MyResume.WebApp.Models.Achievement", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("EnableComments")
                         .HasColumnType("bit");
@@ -164,9 +165,6 @@ namespace MyResume.WebApp.Migrations
 
                     b.Property<string>("MainText")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderPosition")
-                        .HasColumnType("int");
 
                     b.Property<string>("Summary")
                         .HasColumnType("nvarchar(max)");
@@ -249,9 +247,8 @@ namespace MyResume.WebApp.Migrations
 
             modelBuilder.Entity("MyResume.WebApp.Models.UserInformation", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("AvailableForContact")
                         .HasColumnType("bit");
@@ -273,7 +270,7 @@ namespace MyResume.WebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserInformation");
+                    b.ToTable("userInformation");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
