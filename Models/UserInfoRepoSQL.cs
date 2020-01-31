@@ -41,9 +41,12 @@ namespace MyResume.WebApp.Models
            return _appDbContext.UserInformation.FirstOrDefault(info => info.UserId == userId);
         }
 
-        public UserInformation Update(UserInformation userInformation)
+        public UserInformation Update(UserInformation userInformationChanges)
         {
-            throw new NotImplementedException();
+            var userInfo = _appDbContext.UserInformation.Attach(userInformationChanges);
+            userInfo.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _appDbContext.SaveChanges();
+            return userInformationChanges;
         }
     }
 }

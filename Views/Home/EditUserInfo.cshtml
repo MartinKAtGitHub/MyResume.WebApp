@@ -1,1 +1,49 @@
-﻿<h1>USER INFORMATION EDIT PAGE. YOU CAN EDIT YOUR INFORMATION IN HERE</h1>
+﻿@model EditUserInfoViewModel
+@{
+    ViewBag.Title = "My information";
+}
+
+
+<img src="~/images/MyResumeIcon.png" asp-append-version="true" />
+<h1> | Add Name and stuff in here</h1>
+
+<div>
+    <form asp-controller="Home" asp-action="EditUserInfo" method="post">
+        <div>
+            <h4>Summery</h4>
+
+            <textarea asp-for="@Model.Summary" style="width:600px; height:100px;">
+        @Model.Summary
+        </textarea>
+
+
+        </div>
+        <div>
+            <h4>Full Background Text</h4>
+
+            <textarea asp-for="@Model.MainText" style="width:600px; height:200px;">
+        @Model.MainText
+        </textarea>
+
+
+        </div>
+        <div>
+
+            <h3>Available for contact <input asp-for="@Model.AvailableForContact" type="checkbox" /> </h3>
+            @if (Model.AvailableForContact)
+            {
+
+                <h4>Available for contact</h4>
+                <input type="text" placeholder="Your Email" />
+                <input type="text" placeholder="msg here" />
+                 
+            }
+            else
+            {
+                <h4>Currently not available for contact</h4>
+
+            }
+        </div>
+        <button class="btn btn-primary" type="submit"> Update </button>
+    </form>
+</div>

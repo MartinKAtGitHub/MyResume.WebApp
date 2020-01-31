@@ -37,7 +37,6 @@ namespace MyResume.WebApp.Controllers
             return View(UserSearchResult);
         }
 
-
         public IActionResult UserResume(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -65,6 +64,44 @@ namespace MyResume.WebApp.Controllers
             //userResumeViewModel.Achivemtns = Context.getallAchivements
 
             return View(model);
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult EditUserInfo()
+        {
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+
+            // For sec reason it is recommended we create a ViewModel only exposing the properties we want to edit
+            var model = new EditUserInfoViewModel
+            {
+                Summary = userInfo.Summary,
+                MainText = userInfo.MainText,
+                AvailableForContact = userInfo.AvailableForContact
+            };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult EditUserInfo(EditUserInfoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+
+                userInfo.Summary = model.Summary;
+                userInfo.MainText = model.MainText;
+                userInfo.AvailableForContact = model.AvailableForContact;
+
+                _userInfoRepo.Update(userInfo);
+                return View(model);
+            }
+
+            return View();
         }
     }
 }
