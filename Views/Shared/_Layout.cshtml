@@ -85,7 +85,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home"
-                               asp-action="UserResume" asp-route-id ="@signInManager.UserManager.GetUserId(User)">
+                               asp-action="UserResume" asp-route-id="@signInManager.UserManager.GetUserId(User)">
                                 My Resume Page
                             </a>
                         </li>
@@ -109,6 +109,12 @@
         <div style="margin-top:80px">
             @RenderBody()
         </div>
+
+        @if (IsSectionDefined("Scripts"))
+        {
+            @RenderSection("Scripts", required: false)
+        }
+
     </div>
 </body>
 </html>

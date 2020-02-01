@@ -1,49 +1,70 @@
 ﻿@model EditUserInfoViewModel
 @{
     ViewBag.Title = "My information";
+
+    var avatarImgPath = "~/images/" + (Model.AvatarImgPath ?? "MyResumeIcon.png");
 }
 
-
-<img src="~/images/MyResumeIcon.png" asp-append-version="true" />
-<h1> | Add Name and stuff in here</h1>
-
-<div>
-    <form asp-controller="Home" asp-action="EditUserInfo" method="post">
+    <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditUserInfo" method="post">
         <div>
-            <h4>Summery</h4>
 
-            <textarea asp-for="@Model.Summary" style="width:600px; height:100px;">
+            <div><img src="@avatarImgPath" asp-append-version="true" /></div>
+
+            <label asp-for="AvatarImage"></label>
+            <div class=" custom-file">
+                <input asp-for="AvatarImage" class="form-control custom-file-input">
+                <label asp-for="AvatarImage" class="custom-file-label">Choose file</label>
+            </div>
+
+            <h1> @Model.AvatarImage.ContentType</h1>
+
+
+            <div>
+                <h4>Summery</h4>
+                <textarea asp-for="@Model.Summary" style="width:600px; height:100px;">
         @Model.Summary
         </textarea>
 
 
-        </div>
-        <div>
-            <h4>Full Background Text</h4>
+            </div>
+            <div>
+                <h4>Full Background Text</h4>
 
-            <textarea asp-for="@Model.MainText" style="width:600px; height:200px;">
+                <textarea asp-for="@Model.MainText" style="width:600px; height:200px;">
         @Model.MainText
         </textarea>
 
 
+            </div>
+            <div>
+
+                <h3>Available for contact <input asp-for="@Model.AvailableForContact" type="checkbox" /> </h3>
+                @if (Model.AvailableForContact)
+                {
+
+                    <h4>Available for contact</h4>
+                    <input type="text" placeholder="Your Email" />
+                    <input type="text" placeholder="msg here" />
+
+                }
+                else
+                {
+                    <h4>Currently not available for contact</h4>
+
+                }
+            </div>
+            <button class="btn btn-primary" type="submit"> Update </button>
         </div>
-        <div>
+        @section Scripts{
 
-            <h3>Available for contact <input asp-for="@Model.AvailableForContact" type="checkbox" /> </h3>
-            @if (Model.AvailableForContact)
-            {
-
-                <h4>Available for contact</h4>
-                <input type="text" placeholder="Your Email" />
-                <input type="text" placeholder="msg here" />
-                 
-            }
-            else
-            {
-                <h4>Currently not available for contact</h4>
-
-            }
-        </div>
-        <button class="btn btn-primary" type="submit"> Update </button>
+            <script>
+              $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next('.custom-file-label').html(fileName);
+                });
+            });
+            </script>
+        }
     </form>
-</div>
+

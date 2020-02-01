@@ -221,14 +221,19 @@ namespace MyResume.WebApp.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
+                if(user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid Login Attempt, make sure your email and password is correct");
+                    return View(model);
+                }
+            
                 if (user != null && !user.EmailConfirmed && (await _userManager.CheckPasswordAsync(user, model.Password)))
                 {
                     ModelState.AddModelError(string.Empty, "Email not confirmed yet");
                     return View(model);
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(user.UserName,
-                                     model.Password, model.RememberMe, true);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
                 {
@@ -307,14 +312,14 @@ namespace MyResume.WebApp.Controllers
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
                     await _messageService.SendEmailAsync(user.UserName, user.Email, "Email confirmation",
-                        $"Click the link to confirm your Email : {confirmationLink}" );
+                        $"Click the link to confirm your Email : {confirmationLink}");
 
                     _userInfoRepo.CreateDefault(user);
 
                     // await _signInManager.SignInAsync(user, isPersistent: false);
                     // return RedirectToAction("index", "home");
 
-                   return View("RegistrationSuccessful");
+                    return View("RegistrationSuccessful");
                 }
 
                 foreach (var error in result.Errors) // This will be added to the asp-validation-summary
