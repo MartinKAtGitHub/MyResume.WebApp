@@ -28,6 +28,7 @@ namespace MyResume.WebApp
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
+            
             });
     }
 }

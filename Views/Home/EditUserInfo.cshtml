@@ -16,7 +16,7 @@
                 <label asp-for="AvatarImage" class="custom-file-label">Choose file</label>
             </div>
 
-            <h1> @Model.AvatarImage.ContentType</h1>
+            <h1> Name </h1>
 
 
             <div>
@@ -53,6 +53,7 @@
 
                 }
             </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <button class="btn btn-primary" type="submit"> Update </button>
         </div>
         @section Scripts{

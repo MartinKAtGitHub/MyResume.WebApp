@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MyResume.WebApp.Models;
 using MyResume.WebApp.ModelView;
 
@@ -18,12 +19,14 @@ namespace MyResume.WebApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserInfoRepo _userInfoRepo;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _config;
 
-        public HomeController(UserManager<ApplicationUser> userManager, IUserInfoRepo userInfoRepo, IWebHostEnvironment webHostEnvironment)
+        public HomeController(UserManager<ApplicationUser> userManager, IUserInfoRepo userInfoRepo, IWebHostEnvironment webHostEnvironment, IConfiguration config)
         {
             _userManager = userManager;
             _userInfoRepo = userInfoRepo;
             _webHostEnvironment = webHostEnvironment;
+            _config = config;
         }
 
         public IActionResult Index(string searchString)
@@ -94,11 +97,12 @@ namespace MyResume.WebApp.Controllers
         [Authorize]
         public IActionResult EditUserInfo(EditUserInfoViewModel model)
         {
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+
             if (ModelState.IsValid)
             {
-                model.AvatarImgPath = ProccessUploadedFile(model, _userManager.GetUserName(User));
+                model.AvatarImgPath = ProccessUploadedFile(model, userInfo);
 
-                var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
                 userInfo.Summary = model.Summary;
                 userInfo.MainText = model.MainText;
@@ -109,25 +113,74 @@ namespace MyResume.WebApp.Controllers
                 return View(model);
             }
 
-            return View();
+
+            model = new EditUserInfoViewModel
+            {
+                AvatarImgPath = userInfo.AvatarImgPath,
+                Summary = userInfo.Summary,
+                MainText = userInfo.MainText,
+                AvailableForContact = userInfo.AvailableForContact
+            };
+            return View(model);
         }
-        private string ProccessUploadedFile(EditUserInfoViewModel model, string userName)
+        private string ProccessUploadedFile(EditUserInfoViewModel model, UserInformation userInfo)
         {
             string uniqueFileName = null;
             if (model.AvatarImage != null)
             {
+                var maxFileSize = Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxFileSize"]);
+                if (model.AvatarImage.Length > maxFileSize)
+                {
+                    ModelState.AddModelError("", $"Max file size allowed is {maxFileSize}");
+
+                    if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
+                    {
+                        return uniqueFileName = userInfo.AvatarImgPath;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
+                var fileExtention = Path.GetExtension(model.AvatarImage.FileName);
+
+                if (!fileExtention.Equals(".png"))
+                {
+
+                    ModelState.AddModelError("", "Only PNG images are supported");
+                    if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
+                    {
+                        return uniqueFileName = userInfo.AvatarImgPath;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
                 string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images"); // This will find the wwwroot/images
                 //uniqueFileName = Guid.NewGuid().ToString() + "_" + model.AvatarImage.FileName;
-                uniqueFileName = "AvatarImg _" + userName + Path.GetExtension(model.AvatarImage.FileName);
+                uniqueFileName = "AvatarImg _" + userInfo.UserName + fileExtention;
 
 
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                //  using (var memoryStream = new MemoryStream())
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create)) // this line makes sure the Filestream is done doing what it needs to do before copying
                 {
                     model.AvatarImage.CopyTo(fileStream);
                 }
             }
+            else
+            {
+                if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
+                {
+                   return uniqueFileName = userInfo.AvatarImgPath;
+                }
+            }
+
 
             return uniqueFileName;
         }
