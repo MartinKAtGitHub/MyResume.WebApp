@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyResume.WebApp.Models;
 
 namespace MyResume.WebApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200203195500_AddedRelationsInfoAndAchivements")]
+    partial class AddedRelationsInfoAndAchivements
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -156,9 +158,6 @@ namespace MyResume.WebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("EnableComments")
                         .HasColumnType("bit");
 
@@ -187,8 +186,6 @@ namespace MyResume.WebApp.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("UserInformationId");
 
@@ -243,9 +240,6 @@ namespace MyResume.WebApp.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("UserInformationId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -259,8 +253,6 @@ namespace MyResume.WebApp.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserInformationId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -366,21 +358,8 @@ namespace MyResume.WebApp.Migrations
 
             modelBuilder.Entity("MyResume.WebApp.Models.Achievement", b =>
                 {
-                    b.HasOne("MyResume.WebApp.Models.ApplicationUser", null)
-                        .WithMany("Achievements")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("MyResume.WebApp.Models.UserInformation", "UserInfo")
                         .WithMany("Achievements")
-                        .HasForeignKey("UserInformationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MyResume.WebApp.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("MyResume.WebApp.Models.UserInformation", "UserInformation")
-                        .WithMany()
                         .HasForeignKey("UserInformationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

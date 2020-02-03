@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using MyResume.WebApp.Models;
 using MyResume.WebApp.ModelView;
 using Portfolio_Website_Core.Utilities.MailService;
@@ -17,14 +19,17 @@ namespace MyResume.WebApp.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMessageService _messageService;
         private readonly IUserInfoRepo _userInfoRepo;
+        private readonly IWebHostEnvironment _env;
 
         public AccountController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager, IMessageService messageService, IUserInfoRepo userInfoRepo)
+            SignInManager<ApplicationUser> signInManager, IMessageService messageService, IUserInfoRepo userInfoRepo,
+            IWebHostEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _messageService = messageService;
             _userInfoRepo = userInfoRepo;
+            _env = env;
         }
 
 
@@ -311,8 +316,20 @@ namespace MyResume.WebApp.Controllers
 
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
-                    await _messageService.SendEmailAsync(user.UserName, user.Email, "Email confirmation",
-                        $"Click the link to confirm your Email : {confirmationLink}");
+                   
+                    if(!_env.IsDevelopment())
+                    {
+                        await _messageService.SendEmailAsync(user.UserName, user.Email, "Email confirmation",
+                            $"Click the link to confirm your Email : {confirmationLink}");
+                    }
+                    else
+                    {
+                        _userInfoRepo.CreateDefault(user);
+                        user.EmailConfirmed = true;
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToAction("index", "home");
+                        //   return RedirectToAction("EmailConfirmDevView", "account" , new { confirmLink  = confirmationLink});
+                    }
 
                     _userInfoRepo.CreateDefault(user);
 
@@ -330,5 +347,12 @@ namespace MyResume.WebApp.Controllers
 
             return View(model);
         }
+
+        //public IActionResult EmailConfirmDevView(string confirmLink) // This is a really bad idea
+        //{
+        //    ViewBag.DEVConfirmLink = confirmLink;
+        //    return View();
+        //}
     }
+    
 }

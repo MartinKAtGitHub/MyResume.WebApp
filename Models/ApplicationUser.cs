@@ -8,6 +8,8 @@ namespace MyResume.WebApp.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        // Add custom props
+        public Guid UserInformationId { get; set; }
+        public UserInformation UserInformation { get; set; }
+        public List<Achievement> Achievements { get; set; }
     }
 }

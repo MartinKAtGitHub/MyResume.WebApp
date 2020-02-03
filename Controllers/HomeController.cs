@@ -123,6 +123,7 @@ namespace MyResume.WebApp.Controllers
             };
             return View(model);
         }
+
         private string ProccessUploadedFile(EditUserInfoViewModel model, UserInformation userInfo)
         {
             string uniqueFileName = null;
