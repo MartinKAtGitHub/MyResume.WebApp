@@ -97,11 +97,12 @@ namespace MyResume.WebApp.Controllers
         [Authorize]
         public IActionResult EditUserInfo(EditUserInfoViewModel model)
         {
+  
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
             if (ModelState.IsValid)
             {
-                model.AvatarImgPath = ProccessUploadedFile(model, userInfo);
+                model.AvatarImgPath = ProccessUploadedFile(model, userInfo, _userManager.GetUserName(User));
 
 
                 userInfo.Summary = model.Summary;
@@ -124,7 +125,7 @@ namespace MyResume.WebApp.Controllers
             return View(model);
         }
 
-        private string ProccessUploadedFile(EditUserInfoViewModel model, UserInformation userInfo)
+        private string ProccessUploadedFile(EditUserInfoViewModel model, UserInformation userInfo, string userName)
         {
             string uniqueFileName = null;
             if (model.AvatarImage != null)
@@ -162,7 +163,7 @@ namespace MyResume.WebApp.Controllers
 
                 string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images"); // This will find the wwwroot/images
                 //uniqueFileName = Guid.NewGuid().ToString() + "_" + model.AvatarImage.FileName;
-                uniqueFileName = "AvatarImg _" + userInfo.UserName + fileExtention;
+                uniqueFileName = "AvatarImg _" + userName + fileExtention;
 
 
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);

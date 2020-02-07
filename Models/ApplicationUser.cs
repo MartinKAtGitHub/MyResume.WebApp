@@ -8,8 +8,7 @@ namespace MyResume.WebApp.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public Guid UserInformationId { get; set; }
-        public UserInformation UserInformation { get; set; }
-        public List<Achievement> Achievements { get; set; }
+        //public Guid UserInformationId { get; set; } // FK
+        //public List<Achievement> Achievements { get; set; }
     }
 }

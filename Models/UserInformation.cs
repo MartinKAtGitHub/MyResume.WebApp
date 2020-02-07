@@ -11,11 +11,11 @@ namespace MyResume.WebApp.Models
     public class UserInformation // Maybe add this in AppUser instead
     {
         //[BindNever] // this is not recommended(?) its preferred to create a ViewModel and populate it with data you need.
-        public Guid Id { get; set; } 
-        public string UserId { get; set; } // This could be a PK since only 1 entry per user BUT if we make an list of Achievements they get a 1 - many relationship
-        
-        [MaxLength(30)]
-        public string UserName { get; set; } // We can get this from UserIdentity(But do i manually add this or should EF core handle it)
+        public Guid UserInformationId { get; set; }
+
+        //[MaxLength(30)] // What is the limit on this in a IdentityUser ? Can this be a FK ?
+        // public string UserName { get; set; } 
+
         [MaxLength(40)]
         public string FirstName { get; set; }
         [MaxLength(40)]
@@ -28,12 +28,17 @@ namespace MyResume.WebApp.Models
         [MaxLength(380)]
         public string Summary { get; set; }
 
-        [MaxLength(5000)]
+        [MaxLength(3000)]
         public string MainText { get; set; }
         public bool AvailableForContact { get; set; }
 
         public string AvatarImgPath { get; set; }
-        public List<Achievement> Achievements { get; set; } // Creates a 1 to many relationship
+
+        [Required]
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+
+        public List<Achievement> Achievements { get; set; }
 
     }
 }

@@ -15,6 +15,10 @@
     <Compile Remove="Migrations\20200203200439_AddInfoAndAchivToAppUser.Designer.cs" />
     <Compile Remove="Migrations\20200203201516_UpdatedNameInfoId.cs" />
     <Compile Remove="Migrations\20200203201516_UpdatedNameInfoId.Designer.cs" />
+    <Compile Remove="Migrations\20200207194953_AddingRelationshipUserAndUserInfo.cs" />
+    <Compile Remove="Migrations\20200207194953_AddingRelationshipUserAndUserInfo.Designer.cs" />
+    <Compile Remove="Migrations\20200207200549_AddingRelationshipUserAndUserInfo.cs" />
+    <Compile Remove="Migrations\20200207200549_AddingRelationshipUserAndUserInfo.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

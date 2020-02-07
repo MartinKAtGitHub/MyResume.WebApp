@@ -19,8 +19,8 @@ namespace MyResume.WebApp.Models
             var defaultEntery = new UserInformation
             {
                 //Id = Guid.NewGuid() // this should be Automatic
-                UserId = user.Id,
-                UserName = user.UserName,
+                ApplicationUserId = user.Id,
+                //UserName = user.UserName,
                 Summary = "Summary text is empty",
                 MainText = "Text empty",
                 AvailableForContact = false
@@ -38,7 +38,7 @@ namespace MyResume.WebApp.Models
 
         public UserInformation Read(string userId)
         {
-           return _appDbContext.UserInformation.FirstOrDefault(info => info.UserId == userId);
+           return _appDbContext.UserInformation.FirstOrDefault(info => info.ApplicationUserId == userId);
         }
 
         public UserInformation Update(UserInformation userInformationChanges)
