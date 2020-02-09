@@ -10,23 +10,24 @@
 
     @if (Model.EnableOwnerOptions)
     {
-        <a asp-action="EditUserInfo" asp-controller="Home">Edit</a>
+        <a asp-action="EditUserInfo" asp-controller="Home">Edit Personal Information</a>
     }
 </div>
 
 <div>
-    <h1>Achievement List</h1>
+    <h1>Item list</h1>
+
     @if (Model.EnableOwnerOptions)
     {
-        <a>Add new achievement</a>
+        <a>Add new Item</a>
     }
 
-    @if(@Model.Achievements != null)
+    @if (@Model.Achievements != null)
     {
         @foreach (var Achievement in @Model.Achievements)
         {
             <div>
-                <h1>Achievement Info</h1>
+                <h1>Item Info</h1>
                 @if (Model.EnableOwnerOptions)
                 {
                     <a>Edit</a>
@@ -37,9 +38,13 @@
     }
     else
     {
-        <h3>No achievements has been added to this resume</h3>
-
+        <h3>No items has been added to this resume</h3>
+        @if (Model.EnableOwnerOptions)
+        {
+            <a asp-action="EditUserItems" asp-controller="Home">Create New Items</a>
+        }
     }
+
 
 </div>
 

@@ -307,8 +307,9 @@ namespace MyResume.WebApp.Controllers
                 {
                     UserName = model.UserName,
                     Email = model.Email,
-
                 };
+
+
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -326,6 +327,9 @@ namespace MyResume.WebApp.Controllers
                     {
                         _userInfoRepo.CreateDefault(user);
                         user.EmailConfirmed = true;
+                        
+                        await _userManager.UpdateAsync(user);
+                        
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return RedirectToAction("index", "home");
                         //   return RedirectToAction("EmailConfirmDevView", "account" , new { confirmLink  = confirmationLink});

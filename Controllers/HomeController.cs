@@ -125,6 +125,14 @@ namespace MyResume.WebApp.Controllers
             return View(model);
         }
 
+        public IActionResult EditUserItems(EditUserInfoViewModel model)
+        {
+
+            return View();
+        }
+
+
+
         private string ProccessUploadedFile(EditUserInfoViewModel model, UserInformation userInfo, string userName)
         {
             string uniqueFileName = null;

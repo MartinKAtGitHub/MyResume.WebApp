@@ -14,7 +14,7 @@ namespace MyResume.WebApp.Models
             _appDbContext = appDbContext;
         }
 
-        public UserInformation CreateDefault(ApplicationUser user)
+        public UserInformation CreateDefault(ApplicationUser user) // Can make Async
         {
             var defaultEntery = new UserInformation
             {
