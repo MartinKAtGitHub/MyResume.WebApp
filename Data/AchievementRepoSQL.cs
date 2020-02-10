@@ -16,26 +16,12 @@ namespace MyResume.WebApp.Data
             _appDbContext = appDbContext;
         }
 
-        public Achievement Create(AchivementViewModel model, UserInformation userInfo) // Can make Async
+        public Achievement Create(Achievement newAchievement) // Can make Async
         {
-            var newAchievement = new Achievement
-            {
-                UserInformationId = userInfo.UserInformationId,
-                
-                Title = model.Title,
-                Summary = model.Summary,
-                MainText = model.MainText,
-                OrderPosition = model.OrderPosition,
-                EnableComments = model.EnableComments,
-                EnableRating = model.EnableRating
-            };
-
             _appDbContext.Achievements.Add(newAchievement);
             _appDbContext.SaveChanges();
 
-
             return newAchievement;
-
         }
 
         public Achievement Delete(string id)
@@ -43,11 +29,22 @@ namespace MyResume.WebApp.Data
             throw new NotImplementedException();
         }
 
-        public Achievement Read(string Id)
+        public Achievement Read(Guid id)
         {
-            throw new NotImplementedException();
+            return _appDbContext.Achievements.Find(id); // This works on all the Unique columns like id Username Email
         }
 
+        public IEnumerable<Achievement> ReadAll(Guid userInfoId)
+        {
+            var QueryResult = 
+                        from a in _appDbContext.Achievements
+                        where a.UserInformationId == userInfoId
+                        select a;
+
+            return QueryResult.ToList();
+        }
+
+        
         public Achievement Update(Achievement newAchievement)
         {
             throw new NotImplementedException();

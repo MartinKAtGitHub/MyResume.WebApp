@@ -1,5 +1,7 @@
 ﻿
-namespace MyResume.WebApp.Models
+using MyResume.WebApp.Models;
+
+namespace MyResume.WebApp.Data
 {
     public interface IUserInfoRepo
     {

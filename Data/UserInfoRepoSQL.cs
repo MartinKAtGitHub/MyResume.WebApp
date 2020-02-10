@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MyResume.WebApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MyResume.WebApp.Models
+namespace MyResume.WebApp.Data
 {
     public class UserInfoRepoSQL : IUserInfoRepo
     {
@@ -31,8 +32,9 @@ namespace MyResume.WebApp.Models
             return defaultEntery;
         }
 
-        public UserInformation Delete(string id)
+        public UserInformation Delete(string id) // We could make this a RESET insted
         {
+            // CreateDefault()
             throw new NotImplementedException();
         }
 

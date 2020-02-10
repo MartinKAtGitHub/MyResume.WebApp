@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace MyResume.WebApp.Data
 {
-    interface IAchievementRepo
+    public interface IAchievementRepo
     {
-        Achievement Create(AchivementViewModel model, UserInformation userInfo);
-        Achievement Read(string Id);
+        Achievement Create(Achievement model);
+        Achievement Read(Guid id);
+        IEnumerable<Achievement> ReadAll(Guid userInfoId);
         Achievement Update(Achievement newAchievement);
         Achievement Delete(string id);
+
     }
 }

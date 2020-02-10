@@ -14,6 +14,7 @@ using MyResume.WebApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Portfolio_Website_Core.Utilities.MailService;
 using Microsoft.AspNetCore.Http.Features;
+using MyResume.WebApp.Data;
 
 namespace MyResume.WebApp
 {
@@ -63,6 +64,7 @@ namespace MyResume.WebApp
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
             services.AddScoped<IUserInfoRepo, UserInfoRepoSQL>();
+            services.AddScoped<IAchievementRepo, AchievementRepoSQL>();
             // services.AddScoped<ICommentRepository, SQLCommentRepository>();
 
             //  services.AddSingleton<IAuthorizationHandler, CanEditOnluOtherAdminRolesAndClaimsHandler>();

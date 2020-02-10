@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MyResume.WebApp.ModelView
 {
-    public class AchivementViewModel
+    public class AchievementViewModel
     {
         public string Title { get; set; }
 

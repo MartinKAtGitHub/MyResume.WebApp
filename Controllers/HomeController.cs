@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MyResume.WebApp.Models;
 using MyResume.WebApp.ModelView;
+using MyResume.WebApp.Data;
 
 namespace MyResume.WebApp.Controllers
 {
@@ -20,13 +21,16 @@ namespace MyResume.WebApp.Controllers
         private readonly IUserInfoRepo _userInfoRepo;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _config;
+        private readonly IAchievementRepo _achievementRepo;
 
-        public HomeController(UserManager<ApplicationUser> userManager, IUserInfoRepo userInfoRepo, IWebHostEnvironment webHostEnvironment, IConfiguration config)
+        public HomeController(UserManager<ApplicationUser> userManager, IUserInfoRepo userInfoRepo, IWebHostEnvironment webHostEnvironment,
+            IConfiguration config, IAchievementRepo achievementRepo)
         {
             _userManager = userManager;
             _userInfoRepo = userInfoRepo;
             _webHostEnvironment = webHostEnvironment;
             _config = config;
+            _achievementRepo = achievementRepo;
         }
 
         public IActionResult Index(string searchString)
@@ -53,22 +57,19 @@ namespace MyResume.WebApp.Controllers
                 return View("Error");
             }
 
-            var model = new UserResumeViewModel
-            {
-                UserInfo = _userInfoRepo.Read(id)
-            };
+            var model = new UserResumeViewModel();
 
             if (_userManager.GetUserId(User) == id)
             {
                 model.EnableOwnerOptions = true;
-                //userResumeViewModel.UserInfo = Context.getInfo
-                //userResumeViewModel.Achivemtns = Context.getallAchivements
-                return View(model);
+            }
+            else
+            {
+                model.EnableOwnerOptions = false;
             }
 
-            model.EnableOwnerOptions = false;
-            //userResumeViewModel.UserInfo = Context.getInfo
-            //userResumeViewModel.Achivemtns = Context.getallAchivements
+            model.UserInfo = _userInfoRepo.Read(id);
+            model.Achievements = _achievementRepo.ReadAll(model.UserInfo.UserInformationId);
 
             return View(model);
         }
@@ -97,7 +98,7 @@ namespace MyResume.WebApp.Controllers
         [Authorize]
         public IActionResult EditUserInfo(EditUserInfoViewModel model)
         {
-  
+
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
             if (ModelState.IsValid)
@@ -125,12 +126,84 @@ namespace MyResume.WebApp.Controllers
             return View(model);
         }
 
-        public IActionResult EditUserItems(EditUserInfoViewModel model)
+        [Authorize]
+        [HttpGet]
+        public IActionResult EditItem(Guid id)
         {
 
+
+            var achievement = _achievementRepo.Read(id); // We need to check if it belongs to the correct user
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+
+            
+            // TODO research better alternatives for handling the errors -----
+
+            if (achievement == null)
+            {
+                Response.StatusCode = 404;
+                ViewBag.ErrorTitle = "Can't find item to edit";
+                ViewBag.ErrorMessage = "";
+                return View("Error");
+            }
+
+            if (achievement.UserInformationId != userInfo.UserInformationId)
+            {
+                Response.StatusCode = 403;
+                ViewBag.ErrorTitle = "Wrong user";
+                ViewBag.ErrorMessage = "Please login with the correct user to edit this item";
+                return View("Error");
+            }
+            
+            // ----------------------------------------------
+
+            var model = new AchievementViewModel
+            {
+                Title = achievement.Title,
+                Summary = achievement.Summary,
+                MainText = achievement.MainText,
+                OrderPosition = achievement.OrderPosition,
+                EnableComments = achievement.EnableComments,
+                EnableRating = achievement.EnableRating
+            };
+
+            return View(model);
+        }
+
+
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult CreateItem()
+        {
             return View();
         }
 
+        [Authorize]
+        [HttpPost]
+        public IActionResult CreateItem(AchievementViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+
+                var newAchievement = new Achievement
+                {
+                    UserInformationId = userInfo.UserInformationId,
+
+                    Title = model.Title,
+                    Summary = model.Summary,
+                    MainText = model.MainText,
+                    OrderPosition = model.OrderPosition,
+                    EnableComments = model.EnableComments,
+                    EnableRating = model.EnableRating
+                };
+
+                _achievementRepo.Create(newAchievement);
+                return RedirectToAction("UserResume", new { id = _userManager.GetUserId(User) });
+            }
+
+            return View();
+        }
 
 
         private string ProccessUploadedFile(EditUserInfoViewModel model, UserInformation userInfo, string userName)
@@ -187,7 +260,7 @@ namespace MyResume.WebApp.Controllers
             {
                 if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
                 {
-                   return uniqueFileName = userInfo.AvatarImgPath;
+                    return uniqueFileName = userInfo.AvatarImgPath;
                 }
             }
 

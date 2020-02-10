@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using MyResume.WebApp.Data;
 using MyResume.WebApp.Models;
 using MyResume.WebApp.ModelView;
 using Portfolio_Website_Core.Utilities.MailService;

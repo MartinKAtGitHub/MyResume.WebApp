@@ -17,31 +17,34 @@
 <div>
     <h1>Item list</h1>
 
-    @if (Model.EnableOwnerOptions)
-    {
-        <a>Add new Item</a>
-    }
-
     @if (@Model.Achievements != null)
     {
-        @foreach (var Achievement in @Model.Achievements)
+        @foreach (var achievement in @Model.Achievements)
         {
             <div>
-                <h1>Item Info</h1>
+                <h3>@achievement.Title</h3>
+
                 @if (Model.EnableOwnerOptions)
                 {
-                    <a>Edit</a>
+                    <a asp-action="EditItem" asp-route-id="@achievement.AchievementId">Edit Item</a>
                 }
             </div>
 
         }
+
+
+        @if (Model.EnableOwnerOptions)
+        {
+            <a asp-action="CreateItem" asp-controller="Home">Create New Item</a>
+        }
+
     }
     else
     {
         <h3>No items has been added to this resume</h3>
         @if (Model.EnableOwnerOptions)
         {
-            <a asp-action="EditUserItems" asp-controller="Home">Create New Items</a>
+            <a asp-action="CreateItem" asp-controller="Home">Create New Item</a>
         }
     }
 
