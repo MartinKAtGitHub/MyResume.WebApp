@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "My information";
 
-    var avatarImgPath = "~/images/" + (Model.AvatarImgPath ?? "MyResumeIcon.png");
+    var avatarImgPath = "~/images/AvatarImages/" + (Model.AvatarImgPath ?? "MyResumeIcon.png");
 }
 
     <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditUserInfo" method="post">
@@ -12,12 +12,15 @@
 
             <label asp-for="AvatarImage"></label>
             <div class=" custom-file">
-                <input asp-for="AvatarImage" class="form-control custom-file-input">
+                <input asp-for="AvatarImage" class="form-control custom-file-input" accept=".png">
                 <label asp-for="AvatarImage" class="custom-file-label">Choose file</label>
             </div>
 
-            <h1> Name </h1>
+            <div>
+                <input type="button" value="Use no avatar(Need JS)" class="btn-warning" />
+            </div>
 
+            <h1> Name </h1>
 
             <div>
                 <h4>Summery</h4>
@@ -64,6 +67,7 @@
                     var fileName = $(this).val().split("\\").pop();
                     $(this).next('.custom-file-label').html(fileName);
                 });
+
             });
             </script>
         }

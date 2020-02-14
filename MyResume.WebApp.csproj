@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\AvatarImages\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 

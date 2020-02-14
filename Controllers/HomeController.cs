@@ -214,7 +214,7 @@ namespace MyResume.WebApp.Controllers
                 var maxFileSize = Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxFileSize"]);
                 if (model.AvatarImage.Length > maxFileSize)
                 {
-                    ModelState.AddModelError("", $"Max file size allowed is {maxFileSize}");
+                    ModelState.AddModelError("", $"Max file size allowed is {maxFileSize/1000} KB");
 
                     if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
                     {
@@ -242,7 +242,7 @@ namespace MyResume.WebApp.Controllers
                     }
                 }
 
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images"); // This will find the wwwroot/images
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/AvatarImages"); // This will find the wwwroot/images
                 //uniqueFileName = Guid.NewGuid().ToString() + "_" + model.AvatarImage.FileName;
                 uniqueFileName = "AvatarImg _" + userName + fileExtention;
 
@@ -251,7 +251,7 @@ namespace MyResume.WebApp.Controllers
 
                 //  using (var memoryStream = new MemoryStream())
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create)) // this line makes sure the Filestream is done doing what it needs to do before copying
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     model.AvatarImage.CopyTo(fileStream);
                 }

@@ -5,3 +5,21 @@
 label, h1 {
     color:rgb(165, 148, 255);
 }
+
+#HomePageLogoContainer {
+    /*background-color:rgb(255, 0, 0);*/
+    height: 10em;
+    width: auto;
+}
+
+/*.searchbar {
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}*/
+
+/*li{
+    float:left;
+    list-style-type:none;
+}*/
