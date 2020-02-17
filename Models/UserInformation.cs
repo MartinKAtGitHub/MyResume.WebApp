@@ -21,7 +21,7 @@ namespace MyResume.WebApp.Models
         [MaxLength(40)]
         public string MiddelName { get; set; }
         [MaxLength(40)]
-        public string LasttName { get; set; }
+        public string LasttName { get; set; } // Misspelling Last - extra T
         [MaxLength(30)]
         public string Profession { get; set; }
 

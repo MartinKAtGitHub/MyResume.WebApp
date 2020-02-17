@@ -1,4 +1,5 @@
-﻿using MyResume.WebApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MyResume.WebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,25 @@ namespace MyResume.WebApp.Data
 
         public UserInformation Read(string userId)
         {
-           return _appDbContext.UserInformation.FirstOrDefault(info => info.ApplicationUserId == userId);
+            return _appDbContext.UserInformation.FirstOrDefault(info => info.ApplicationUserId == userId);
+        }
+
+        public IEnumerable<UserInformation> Search(string searchString)
+        {
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                // we load the FK data(ApplicationUser) using include. Then we search the user name 
+
+                var filterdUsers = _appDbContext.UserInformation
+                    .Include( info => info.ApplicationUser)
+                    .Where( t => t.ApplicationUser.UserName.Contains(searchString)).ToList(); // Double check if this creates another query
+
+
+                return filterdUsers;
+            }
+
+            return new List<UserInformation>();
         }
 
         public UserInformation Update(UserInformation userInformationChanges)

@@ -9,10 +9,14 @@ namespace MyResume.WebApp.ModelView
 {
     public class EditUserInfoViewModel
     {
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
 
-        // string FirstName
-        // string MiddelName
-        // string LastName
+        [Display(Name = "Middle Name")]
+        public string MiddleName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
         // string profession
         public string AvatarImgPath { get; set; }
        

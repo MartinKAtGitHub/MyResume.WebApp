@@ -1,16 +1,51 @@
 ﻿body {
-    background-color:rgb(19, 19, 30);
+    background-color: rgb(19, 19, 30);
 }
 
 label, h1 {
-    color:rgb(165, 148, 255);
+    color: rgb(165, 148, 255);
 }
 
-#HomePageLogoContainer {
+#homePageLogoContainer {
     /*background-color:rgb(255, 0, 0);*/
     height: 10em;
     width: auto;
 }
+
+
+#searchResultContainer {
+
+    background-color: red;
+    margin-top : 5em;
+}
+
+#searchResultElement{
+  
+    background-color :blue;
+    margin-top: 5px;
+}
+
+#searchResultAvatarImg{
+    width:50px;
+    height:50px;
+}
+
+#footer{
+    background-color :orange;
+    height: 50px;
+    margin-top: 10px;
+}
+
+#nameContainer {
+    display: inline-block;
+}
+
+.elementColumn {
+    display: inline-block;
+}
+
+
+
 
 /*.searchbar {
     margin: auto;

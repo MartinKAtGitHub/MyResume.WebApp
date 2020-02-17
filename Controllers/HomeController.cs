@@ -36,14 +36,7 @@ namespace MyResume.WebApp.Controllers
         public IActionResult Index(string searchString)
         {
             var UserSearchResult = new UserSearchViewModel();
-
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                var filterdUsers = _userManager.Users.Where(
-               t => t.UserName.Contains(searchString)).ToList();
-
-                UserSearchResult.UsersResult = filterdUsers;
-            }
+            UserSearchResult.UsersResult = _userInfoRepo.Search(searchString).ToList();
 
             return View(UserSearchResult);
         }
@@ -84,6 +77,9 @@ namespace MyResume.WebApp.Controllers
             // For sec reason it is recommended we create a ViewModel only exposing the properties we want to edit
             var model = new EditUserInfoViewModel
             {
+                FirstName = userInfo.FirstName,
+                MiddleName = userInfo.MiddelName,
+                LastName = userInfo.LasttName,
                 AvatarImgPath = userInfo.AvatarImgPath,
                 Summary = userInfo.Summary,
                 MainText = userInfo.MainText,
@@ -105,6 +101,9 @@ namespace MyResume.WebApp.Controllers
             {
                 model.AvatarImgPath = ProccessUploadedFile(model, userInfo, _userManager.GetUserName(User));
 
+                userInfo.FirstName = model.FirstName;
+                userInfo.MiddelName = model.MiddleName;
+                userInfo.LasttName = model.LastName;
 
                 userInfo.Summary = model.Summary;
                 userInfo.MainText = model.MainText;
@@ -135,7 +134,7 @@ namespace MyResume.WebApp.Controllers
             var achievement = _achievementRepo.Read(id); // We need to check if it belongs to the correct user
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
-            
+
             // TODO research better alternatives for handling the errors -----
 
             if (achievement == null)
@@ -153,7 +152,7 @@ namespace MyResume.WebApp.Controllers
                 ViewBag.ErrorMessage = "Please login with the correct user to edit this item";
                 return View("Error");
             }
-            
+
             // ----------------------------------------------
 
             var model = new AchievementViewModel
@@ -168,8 +167,6 @@ namespace MyResume.WebApp.Controllers
 
             return View(model);
         }
-
-
 
         [Authorize]
         [HttpGet]
@@ -205,7 +202,6 @@ namespace MyResume.WebApp.Controllers
             return View();
         }
 
-
         private string ProccessUploadedFile(EditUserInfoViewModel model, UserInformation userInfo, string userName)
         {
             string uniqueFileName = null;
@@ -214,7 +210,7 @@ namespace MyResume.WebApp.Controllers
                 var maxFileSize = Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxFileSize"]);
                 if (model.AvatarImage.Length > maxFileSize)
                 {
-                    ModelState.AddModelError("", $"Max file size allowed is {maxFileSize/1000} KB");
+                    ModelState.AddModelError("", $"Max file size allowed is {maxFileSize / 1000} KB");
 
                     if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
                     {

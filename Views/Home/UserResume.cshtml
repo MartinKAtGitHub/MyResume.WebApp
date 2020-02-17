@@ -17,7 +17,8 @@
 <div>
     <h1>Item list</h1>
 
-    @if (@Model.Achievements != null)
+    @*@if (@Model.Achievements != null)*@
+    @if (@Model.Achievements.ToList().Count > 0)
     {
         @foreach (var achievement in @Model.Achievements)
         {

@@ -7,9 +7,11 @@ namespace MyResume.WebApp.ModelView
         public UserInformation UserInfo { get; set; }
         public IEnumerable <Achievement> Achievements { get; set; }
         public bool EnableOwnerOptions { get; set; }
+       
+        
         public UserResumeViewModel()
         {
-
+            Achievements = new List<Achievement>();
         }
 
     }

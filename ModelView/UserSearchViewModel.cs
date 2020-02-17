@@ -9,7 +9,13 @@ namespace MyResume.WebApp.ModelView
     public class UserSearchViewModel
     {
         public string SearchString { get; set; }
-        public List<ApplicationUser> UsersResult{ get; set; }
+        public List<UserInformation> UsersResult{ get; set; }
+
+
+        public UserSearchViewModel()
+        {
+            UsersResult = new List<UserInformation>();
+        }
 
     }
 }
