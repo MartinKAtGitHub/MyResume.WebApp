@@ -23,6 +23,7 @@ label, h1 {
   
     background-color :blue;
     margin-top: 5px;
+    max-width: 800px;
 }
 
 #searchResultAvatarImg{
