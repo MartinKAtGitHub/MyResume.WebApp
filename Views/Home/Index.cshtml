@@ -1,6 +1,9 @@
 ﻿@model UserSearchViewModel
 
+@{
 
+    var tempLineBreakLimit = 3;
+}
 
 
 <div id="homePageLogoContainer">
@@ -11,7 +14,7 @@
 <div id="searchBar" class="indexContainer mx-auto">
     <form asp-controller="Home" asp-action="Index" method="get">
         <div class="input-group">
-            
+
             <input class="form-control " type="search" placeholder="Search" asp-for="SearchString">
 
             <div class="input-group-append d-none d-md-flex">
@@ -22,41 +25,76 @@
 </div>
 
 
-<div id="searchResultContainer" class="indexContainer mx-auto" >
+<div id="searchResultContainer" class="indexContainer mx-auto">
 
-    @foreach (var User in Model.UsersResult)
-    {
+    @*@foreach (var User in Model.UsersResult)
+        {
 
-        var avatarImgPath = "~/images/AvatarImages/" + (User.AvatarImgPath ?? "../MyResumeIcon.png");
+            var avatarImgPath = "~/images/AvatarImages/" + (User.AvatarImgPath ?? "../MyResumeIcon.png");
 
 
-        <div class="row align-items-center no-gutters mx-auto" id="searchResultElement">
+            <div class="row align-items-center no-gutters mx-auto" id="searchResultElement">
 
-            <div class="col-2">
-                <img id="searchResultAvatarImg" class="img-fluid" src="@avatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
+                <div class="col-2">
+                    <img id="searchResultAvatarImg" class="img-fluid" src="@avatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
+                </div>
+
+
+                <div class="col-8 align-items-center" id="searchResultFirstName">
+                    <p class="text-center m-0">
+                        @User.FirstName @User.MiddelName @User.LasttName ( @User.ApplicationUser.UserName )
+                    </p>
+                </div>
+
+                <div class="col-1">
+                    <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">Resume</a>
+                </div>
+
+                <div class="col-1">
+                    <a herf="#">Contact</a>
+                </div>
+
+            </div>
+        }*@
+
+    @* For(rowlimit)*@
+    <div class="row">
+
+        @foreach (var User in Model.UsersResult)
+        {
+            var avatarImgPath = "~/images/AvatarImages/" + (User.AvatarImgPath ?? "../MyResumeIcon.png");
+            
+            <div class="col m-4">
+                <div class=" card h-100 mx-auto text-center  bg-success">
+
+                    <img id="avatarImg" class="card-img-top" src="@avatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
+
+                    <div class="card-body">
+                        <p class="card-text text-center mt-1 mb-1">
+                            @User.FirstName @User.MiddelName @User.LasttName
+                        </p>
+
+                        <p class="card-text  m-0">
+                            ( @User.ApplicationUser.UserName )
+                        </p>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col ">
+                                <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">Resume</a>
+                            </div>
+                            <div class="col text-center">
+                                <a herf="#">Contact</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+        }
 
-            <div class="col-8 align-items-center" id="searchResultFirstName">
-                <p class="text-center m-0">
-                    @User.FirstName @User.MiddelName @User.LasttName ( @User.ApplicationUser.UserName )
-                </p>
-            </div>
-
-            <div class="col-1">
-                <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">Resume</a>
-            </div>
-
-            <div class="col-1">
-                <a herf="#">Contact</a>
-            </div>
-
-        </div>
-
-
-
-
-    }
+    </div>
 
 </div>
 
