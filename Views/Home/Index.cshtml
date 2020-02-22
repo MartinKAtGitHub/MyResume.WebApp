@@ -1,10 +1,5 @@
 ﻿@model UserSearchViewModel
 
-@{
-
-    var tempLineBreakLimit = 3;
-}
-
 
 <div id="homePageLogoContainer">
 
@@ -27,37 +22,6 @@
 
 <div id="searchResultContainer" class="indexContainer mx-auto">
 
-    @*@foreach (var User in Model.UsersResult)
-        {
-
-            var avatarImgPath = "~/images/AvatarImages/" + (User.AvatarImgPath ?? "../MyResumeIcon.png");
-
-
-            <div class="row align-items-center no-gutters mx-auto" id="searchResultElement">
-
-                <div class="col-2">
-                    <img id="searchResultAvatarImg" class="img-fluid" src="@avatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
-                </div>
-
-
-                <div class="col-8 align-items-center" id="searchResultFirstName">
-                    <p class="text-center m-0">
-                        @User.FirstName @User.MiddelName @User.LasttName ( @User.ApplicationUser.UserName )
-                    </p>
-                </div>
-
-                <div class="col-1">
-                    <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">Resume</a>
-                </div>
-
-                <div class="col-1">
-                    <a herf="#">Contact</a>
-                </div>
-
-            </div>
-        }*@
-
-    @* For(rowlimit)*@
     <div class="row">
 
         @foreach (var User in Model.UsersResult)
@@ -91,7 +55,6 @@
                     </div>
                 </div>
             </div>
-
         }
 
     </div>

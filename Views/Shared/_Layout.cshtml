@@ -53,67 +53,65 @@
 
     <div class="container-fluid">
 
-        <nav class="navbar navbar-expand-md fixed-top  navbar-dark bg-info">
+        <nav class="navbar navbar-expand flex-column flex-md-row fixed-top navbar-dark justify-content-center">
 
-            <a asp-controller="home" asp-action="index" class="navbar-nav ">
-                <img src="~/images/MyResumeIcon.png" height="64" width="64" />
+
+            <a asp-controller="home" asp-action="index" class="navbar-brand mr-0 mr-md-2">
+                <img src="~/images/MyResumeIcon.png" class="d-inline-block align-top" alt="Site Logo" height="32" width="32" />
+                MyResume
             </a>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <ul class="navbar-nav flex-row">
 
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-controller="home" asp-action="index">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-controller="home" asp-action="index">Home <span class="sr-only">(current)</span></a>
+                </li>
+                @if (signInManager.IsSignedIn(User))
+                {
+
+                    <li class="nav-item">
+                        <form method="post" asp-controller="Account" asp-action="logout">
+                            <button type="submit" class="nav-link btn btn-link py-0" style="width:auto;">
+                                Logout @User.Identity.Name
+                            </button>
+                        </form>
                     </li>
-                    @if (signInManager.IsSignedIn(User))
-                    {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account"
+                           asp-action="ChangePassword">
+                            Password
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home"
+                           asp-action="UserResume" asp-route-id="@signInManager.UserManager.GetUserId(User)">
+                            My Resume Page
+                        </a>
+                    </li>
 
-                        <li class="nav-item">
-                            <form method="post" asp-controller="Account" asp-action="logout">
-                                <button type="submit" class="nav-link btn btn-link py-0" style="width:auto;">
-                                    Logout @User.Identity.Name
-                                </button>
-                            </form>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account"
-                               asp-action="ChangePassword">
-                                Password
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home"
-                               asp-action="UserResume" asp-route-id="@signInManager.UserManager.GetUserId(User)">
-                                My Resume Page
-                            </a>
-                        </li>
+                }
+                else
+                {
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-action="Register" asp-controller="Account">Register</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-action="Login" asp-controller="Account">Login</a>
+                    </li>
+                }
 
-                    }
-                    else
-                    {
-                        <li class="nav-item active">
-                            <a class="nav-link" asp-action="Register" asp-controller="Account">Register</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" asp-action="Login" asp-controller="Account">Login</a>
-                        </li>
-                    }
+            </ul>
 
-                </ul>
-            </div>
 
         </nav>
 
-        <div id="renderBody" class="mt-3">
+        <div id="renderBody" class="mt-5">
             @RenderBody()
         </div>
 
         @*<div id="footer">
-            This will be the footer area
-        </div>*@
+                This will be the footer area
+            </div>*@
 
 
         @if (IsSectionDefined("Scripts"))
