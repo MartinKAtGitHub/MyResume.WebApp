@@ -1,9 +1,19 @@
 ﻿@model UserSearchViewModel
 
 
-<div id="homePageLogoContainer">
+<div id="homePageLogoContainer" class="m-4">
+    <div class="row justify-content-center">
 
 
+
+        <blockquote class="blockquote text-center">
+            <h1 class="display-1 text-center">
+                My Resume
+            </h1>
+            <footer class="blockquote-footer">Created by <cite title="Creator MK">Karan Bhullar</cite></footer>
+        </blockquote>
+
+    </div>
 </div>
 
 <div id="searchBar" class="indexContainer mx-auto">
@@ -12,7 +22,7 @@
 
             <input class="form-control " type="search" placeholder="Search" asp-for="SearchString">
 
-            <div class="input-group-append d-none d-md-flex">
+            <div class="input-group-append">
                 <button type="submit" class="btn btn-primary btn-sm">Search</button>
             </div>
         </div>
@@ -20,44 +30,52 @@
 </div>
 
 
+@if (Model.UsersResult.Count > 0)
+{
+    <div class="row m-3">
+        <div class="col">
+            <h5 class="lead text-center">Matches found : @Model.UsersResult.Count</h5>
+        </div>
+    </div>
+}
+
+
 <div id="searchResultContainer" class="indexContainer mx-auto">
 
-    <div class="row">
+    <div class="row no-gutters justify-content-center">
+            @foreach (var User in Model.UsersResult)
+            {
+                var avatarImgPath = "~/images/AvatarImages/" + (User.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
 
-        @foreach (var User in Model.UsersResult)
-        {
-            var avatarImgPath = "~/images/AvatarImages/" + (User.AvatarImgPath ?? "../MyResumeIcon.png");
-            
-            <div class="col m-4">
-                <div class=" card h-100 mx-auto text-center  bg-success">
+                <div class="col m-4">
+                    <div class=" card h-100 mx-auto text-center  bg-success">
 
-                    <img id="avatarImg" class="card-img-top" src="@avatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
+                        <img id="avatarImg" class="card-img-top" src="@avatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
 
-                    <div class="card-body">
-                        <p class="card-text text-center mt-1 mb-1">
-                            @User.FirstName @User.MiddelName @User.LasttName
-                        </p>
+                        <div class="card-body">
+                            <p class="card-text text-center mt-1 mb-1">
+                                @User.FirstName @User.MiddelName @User.LasttName
+                            </p>
 
-                        <p class="card-text  m-0">
-                            ( @User.ApplicationUser.UserName )
-                        </p>
-                    </div>
+                            <p class="card-text  m-0">
+                                ( @User.ApplicationUser.UserName )
+                            </p>
+                        </div>
 
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col ">
-                                <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">Resume</a>
-                            </div>
-                            <div class="col text-center">
-                                <a herf="#">Contact</a>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col ">
+                                    <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">Resume</a>
+                                </div>
+                                <div class="col text-center">
+                                    <a herf="#">Contact</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-
-    </div>
+            }
+        </div>
 
 </div>
 

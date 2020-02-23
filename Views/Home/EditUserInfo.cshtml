@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "My information";
 
-    var avatarImgPath = "~/images/AvatarImages/" + (Model.AvatarImgPath ?? "../MyResumeIcon.png");
+    var avatarImgPath = "~/images/AvatarImages/" + (Model.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
 }
 
 <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditUserInfo" method="post">

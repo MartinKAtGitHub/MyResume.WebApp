@@ -53,12 +53,11 @@
 
     <div class="container-fluid">
 
-        <nav class="navbar navbar-expand flex-column flex-md-row fixed-top navbar-dark justify-content-center">
+        <nav class="navbar navbar-expand flex-column flex-sm-row navbar-dark justify-content-center">
 
 
-            <a asp-controller="home" asp-action="index" class="navbar-brand mr-0 mr-md-2">
-                <img src="~/images/MyResumeIcon.png" class="d-inline-block align-top" alt="Site Logo" height="32" width="32" />
-                MyResume
+            <a asp-controller="home" asp-action="index" class="navbar-brand mr-0 mr-md-2 ">
+                <img src="~/images/Favicon.png" class="d-inline-block align-top" alt="Site Logo" height="32" width="32" style="image-rendering:pixelated;" />
             </a>
 
             <ul class="navbar-nav flex-row">
@@ -98,6 +97,9 @@
                     <li class="nav-item active">
                         <a class="nav-link" asp-action="Login" asp-controller="Account">Login</a>
                     </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" herf ="#">About(Not Created)</a>
+                    </li>
                 }
 
             </ul>
@@ -105,7 +107,7 @@
 
         </nav>
 
-        <div id="renderBody" class="mt-5">
+        <div id="renderBody" class="mt-5 mx-auto">
             @RenderBody()
         </div>
 
