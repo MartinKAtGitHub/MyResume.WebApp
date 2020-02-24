@@ -14,6 +14,8 @@
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
         <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
 
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet"
@@ -44,6 +46,8 @@
                 integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
                 crossorigin="anonymous"></script>
 
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     </environment>
 
     <link href="~/css/site.css" rel="stylesheet" />
@@ -53,8 +57,7 @@
 
     <div class="container-fluid">
 
-        <nav class="navbar navbar-expand flex-column flex-sm-row navbar-dark justify-content-center">
-
+        <nav class="navbar navbar-expand flex-column flex-sm-row navbar-dark justify-content-center active">
 
             <a asp-controller="home" asp-action="index" class="navbar-brand mr-0 mr-md-2 ">
                 <img src="~/images/Favicon.png" class="d-inline-block align-top" alt="Site Logo" height="32" width="32" style="image-rendering:pixelated;" />
@@ -68,20 +71,20 @@
                 @if (signInManager.IsSignedIn(User))
                 {
 
-                    <li class="nav-item">
-                        <form method="post" asp-controller="Account" asp-action="logout">
+                    <li class="nav-item active form-inline">
+                        <form  method="post" asp-controller="Account" asp-action="logout">
                             <button type="submit" class="nav-link btn btn-link py-0" style="width:auto;">
                                 Logout @User.Identity.Name
                             </button>
                         </form>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" asp-controller="Account"
                            asp-action="ChangePassword">
                             Password
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" asp-controller="Home"
                            asp-action="UserResume" asp-route-id="@signInManager.UserManager.GetUserId(User)">
                             My Resume Page
@@ -98,7 +101,7 @@
                         <a class="nav-link" asp-action="Login" asp-controller="Account">Login</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" herf ="#">About(Not Created)</a>
+                        <a class="nav-link" herf="#">About(Not Created)</a>
                     </li>
                 }
 

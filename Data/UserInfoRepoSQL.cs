@@ -41,7 +41,7 @@ namespace MyResume.WebApp.Data
 
         public UserInformation Read(string userId)
         {
-            return _appDbContext.UserInformation.FirstOrDefault(info => info.ApplicationUserId == userId);
+            return _appDbContext.UserInformation.Include(user => user.ApplicationUser).FirstOrDefault(info => info.ApplicationUserId == userId);
         }
 
         public IEnumerable<UserInformation> Search(string searchString)

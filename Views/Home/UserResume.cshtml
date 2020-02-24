@@ -3,15 +3,22 @@
     ViewBag.Title = "User Resume";
 }
 
-<div>
-    <h1>User Info</h1>
-    @*<h4>@Model.UserInfo.UserName</h4>*@
-    <h5>@Model.UserInfo.Summary</h5>
+<div class="row mb-5">
+    <div class="col-md-7 mb-4  text-md-left text-sm-center">
+        <h3 class="display-3 text-break nameTitle">@Model.UserInfo.FirstName</h3>
+        <h3 class="display-3 text-break nameTitle">@Model.UserInfo.LasttName</h3>
+        <h3 class="display-3 text-break nameTitle">@Model.UserInfo.MiddelName</h3>
+        <h4 class="display-4 text-muted text-break nameTitle">@Model.UserInfo.ApplicationUser.UserName</h4>
+    </div>
+    <div class="col-md">
+        <h5>@Model.UserInfo.Summary</h5>
 
-    @if (Model.EnableOwnerOptions)
-    {
-        <a asp-action="EditUserInfo" asp-controller="Home">Edit Personal Information</a>
-    }
+        @if (Model.EnableOwnerOptions)
+        {
+            <a asp-action="EditUserInfo" asp-controller="Home">Edit Personal Information</a>
+        }
+    </div>
+
 </div>
 
 <div>
