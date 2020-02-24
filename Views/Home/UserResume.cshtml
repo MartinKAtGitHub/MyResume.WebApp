@@ -1,6 +1,7 @@
 ﻿@model UserResumeViewModel
 @{
     ViewBag.Title = "User Resume";
+    var avatarImgPath = "~/images/AvatarImages/" + (Model.UserInfo.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
 }
 
 <div class="row mb-5">
@@ -11,6 +12,9 @@
         <h4 class="display-4 text-muted text-break nameTitle">@Model.UserInfo.ApplicationUser.UserName</h4>
     </div>
     <div class="col-md">
+
+        <img src="@avatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
+
         <h5>@Model.UserInfo.Summary</h5>
 
         @if (Model.EnableOwnerOptions)

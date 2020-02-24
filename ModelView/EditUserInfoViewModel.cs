@@ -9,6 +9,8 @@ namespace MyResume.WebApp.ModelView
 {
     public class EditUserInfoViewModel
     {
+        // ADD VALIDATION TO THIS
+
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
