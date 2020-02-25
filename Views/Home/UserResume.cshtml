@@ -5,15 +5,25 @@
 }
 
 <div class="row mb-5">
-    <div class="col-md-7 mb-4  text-md-left text-sm-center">
-        <h3 class="display-3 text-break nameTitle">@Model.UserInfo.FirstName</h3>
-        <h3 class="display-3 text-break nameTitle">@Model.UserInfo.LasttName</h3>
-        <h3 class="display-3 text-break nameTitle">@Model.UserInfo.MiddelName</h3>
-        <h4 class="display-4 text-muted text-break nameTitle">@Model.UserInfo.ApplicationUser.UserName</h4>
-    </div>
-    <div class="col-md">
 
-        <img src="@avatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
+    <div class="col text-md-left text-sm-center align-self-center">
+        <h3 class="display-3 text-break nameTitle">@Model.UserInfo.FirstName</h3>
+        <h3 class="display-3 text-break nameTitle">@Model.UserInfo.MiddelName</h3>
+        <h3 class="display-3 text-break nameTitle">@Model.UserInfo.LasttName</h3>
+
+        @if (string.IsNullOrEmpty(Model.UserInfo.FirstName) && string.IsNullOrEmpty(Model.UserInfo.MiddelName) && string.IsNullOrEmpty(Model.UserInfo.LasttName))
+        {
+            <h4 class="display-2 text-break text-center nameTitle">@Model.UserInfo.ApplicationUser.UserName</h4>
+
+        }
+        else
+        {
+            <h4 class="display-4 text-muted text-break text-center nameTitle">@Model.UserInfo.ApplicationUser.UserName</h4>
+        }
+    </div>
+    <div class="col-4 text-right align-self-center">
+
+        <img class="mb-3" src="@avatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true"/>
 
         <h5>@Model.UserInfo.Summary</h5>
 
