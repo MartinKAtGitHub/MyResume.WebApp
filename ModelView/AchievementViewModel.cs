@@ -9,11 +9,15 @@ namespace MyResume.WebApp.ModelView
     public class AchievementViewModel
     {
         [Required]
+        [MaxLength(40)]
         public string Title { get; set; }
         [Required]
+        [MaxLength(380)]
         public string Summary { get; set; }
-        [Required]
+
+        [MaxLength(600)]
         public string MainText { get; set; }
+
 
         [Display(Name = "Order position")]
         public int OrderPosition { get; set; }

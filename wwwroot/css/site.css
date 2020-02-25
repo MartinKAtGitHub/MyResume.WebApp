@@ -63,6 +63,12 @@ a:hover {
     background-color: rgb(44, 46, 76);
 }
 
+#itemContainer.row{
+    /*display:grid;
+    width: 25rem;
+    height: 15rem;*/
+    background-color: rebeccapurple;
+}
 
 /*.searchbar {
     margin: auto;

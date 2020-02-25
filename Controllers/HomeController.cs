@@ -182,6 +182,7 @@ namespace MyResume.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+                userInfo.AchievementCount++;
 
                 var newAchievement = new Achievement
                 {
@@ -195,7 +196,9 @@ namespace MyResume.WebApp.Controllers
                     EnableRating = model.EnableRating
                 };
 
+                _userInfoRepo.Update(userInfo);
                 _achievementRepo.Create(newAchievement);
+
                 return RedirectToAction("UserResume", new { id = _userManager.GetUserId(User) });
             }
 

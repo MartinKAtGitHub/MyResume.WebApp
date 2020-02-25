@@ -11,12 +11,15 @@ namespace MyResume.WebApp.ModelView
     {
         // ADD VALIDATION TO THIS
 
+        [MaxLength(15, ErrorMessage = "First name exceeds character limit")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
+        [MaxLength(15, ErrorMessage = "Middle name exceeds character limit")]
         [Display(Name = "Middle Name")]
         public string MiddleName { get; set; }
 
+        [MaxLength(15, ErrorMessage = "Last name exceeds character limit")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
         // string profession

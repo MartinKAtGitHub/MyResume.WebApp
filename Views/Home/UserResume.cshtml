@@ -18,12 +18,12 @@
         }
         else
         {
-            <h4 class="display-4 text-muted text-break text-center nameTitle">@Model.UserInfo.ApplicationUser.UserName</h4>
+            <h4 class="display-4 text-muted text-break nameTitle">@Model.UserInfo.ApplicationUser.UserName</h4>
         }
     </div>
     <div class="col-4 text-right align-self-center">
 
-        <img class="mb-3" src="@avatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true"/>
+        <img class="mb-3" src="@avatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" width="250" height="250" />
 
         <h5>@Model.UserInfo.Summary</h5>
 
@@ -35,15 +35,16 @@
 
 </div>
 
-<div>
-    <h1>Item list</h1>
 
-    @*@if (@Model.Achievements != null)*@
-    @if (@Model.Achievements.ToList().Count > 0)
-    {
+
+
+@*@if (@Model.Achievements != null)*@
+@if (@Model.Achievements.ToList().Count > 0)
+{
+    <div id="itemContainer" class=" row border-top">
         @foreach (var achievement in @Model.Achievements)
         {
-            <div>
+            <div class="col-4 bg-danger">
                 <h3>@achievement.Title</h3>
 
                 @if (Model.EnableOwnerOptions)
@@ -54,22 +55,22 @@
 
         }
 
-
+    </div>
+    <div>
         @if (Model.EnableOwnerOptions)
         {
             <a asp-action="CreateItem" asp-controller="Home">Create New Item</a>
         }
-
-    }
-    else
+    </div>
+}
+else
+{
+    <h3>No items has been added to this resume</h3>
+    @if (Model.EnableOwnerOptions)
     {
-        <h3>No items has been added to this resume</h3>
-        @if (Model.EnableOwnerOptions)
-        {
-            <a asp-action="CreateItem" asp-controller="Home">Create New Item</a>
-        }
+        <a asp-action="CreateItem" asp-controller="Home">Create New Item</a>
     }
+}
 
 
-</div>
 

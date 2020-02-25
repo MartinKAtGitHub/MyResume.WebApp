@@ -19,6 +19,8 @@
     <Compile Remove="Migrations\20200207194953_AddingRelationshipUserAndUserInfo.Designer.cs" />
     <Compile Remove="Migrations\20200207200549_AddingRelationshipUserAndUserInfo.cs" />
     <Compile Remove="Migrations\20200207200549_AddingRelationshipUserAndUserInfo.Designer.cs" />
+    <Compile Remove="Migrations\20200225164041_UpdateTablesInfoAndAchi.cs" />
+    <Compile Remove="Migrations\20200225164041_UpdateTablesInfoAndAchi.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
