@@ -1,21 +1,24 @@
-﻿body {
+﻿
+:root {
+    --itemWidth: 300px;
+}
+
+body {
     background-color: rgb(15, 18, 33);
-    color:cornsilk;
-   
+    color: cornsilk;
 }
 
-a{
-    color:rgb(51, 164, 199);
+a {
+    color: rgb(51, 164, 199);
 }
 
-a:hover {
-    color: rgb(169, 250, 223);
-    text-decoration:none;
-}
+    a:hover {
+        color: rgb(169, 250, 223);
+        text-decoration: none;
+    }
 /*label, h1 {
     color: rgb(165, 148, 255);
 }*/
-
 
 
 
@@ -34,8 +37,8 @@ a:hover {
     /*max-width: 800px;*/
 }
 
-#footer{
-    background-color :orange;
+#footer {
+    background-color: orange;
     height: 50px;
     margin-top: 10px;
 }
@@ -45,9 +48,12 @@ a:hover {
 }
 
 
-/*.nameTitle {
-   font-size:5vw;
-}*/
+#itemContainer.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax( var(--itemWidth), 1fr));
+    padding : 30px;
+    background-color: rebeccapurple;
+}
 
 
 .elementColumn {
@@ -63,12 +69,15 @@ a:hover {
     background-color: rgb(44, 46, 76);
 }
 
-#itemContainer.row{
-    /*display:grid;
-    width: 25rem;
-    height: 15rem;*/
-    background-color: rebeccapurple;
+.item {
+    background-color: aqua;
+    width: var(--itemWidth);
+    height: 150px;
+    padding: 10px;
 }
+
+
+
 
 /*.searchbar {
     margin: auto;
