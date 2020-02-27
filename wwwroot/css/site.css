@@ -1,6 +1,8 @@
 ﻿
 :root {
     --itemWidth: 300px;
+    --itemheight: 150px;
+    --avatarCardWidth: 200px;
 }
 
 body {
@@ -16,9 +18,6 @@ a {
         color: rgb(169, 250, 223);
         text-decoration: none;
     }
-/*label, h1 {
-    color: rgb(165, 148, 255);
-}*/
 
 
 
@@ -29,6 +28,12 @@ a {
 
 #searchResultContainer {
     margin-top: 5em;
+    max-width: 85%;
+}
+
+#searchResultRow.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax( var(--avatarCardWidth), 1fr));
 }
 
 #searchResultElement {
@@ -51,42 +56,38 @@ a {
 #itemContainer.row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax( var(--itemWidth), 1fr));
-    padding : 30px;
+    padding: 30px;
     background-color: rebeccapurple;
 }
 
+.avatarCard {
+    width: var(--avatarCardWidth);
+    background-color: rgb(44, 46, 76);
+}
 
 .elementColumn {
     display: inline-block;
 }
 
-.indexContainer {
-    max-width: 85%;
+.itemSummery {
+    opacity: 0;
+    transition: opacity 0.4s ease 0s;
+    width: var(--itemWidth);
+    height: var(--itemheight);
+    background-color: rgb(44, 46, 76);
+    position: absolute;
+    /*overflow: hidden;*/
 }
 
-.card {
-    width: 18rem;
-    background-color: rgb(44, 46, 76);
-}
+    .itemSummery:hover {
+        opacity: 1;
+        transition: opacity 0.4s ease 0s;
+    }
+
 
 .item {
-    background-color: aqua;
+    background-color: black;
     width: var(--itemWidth);
-    height: 150px;
-    padding: 10px;
+    height: var(--itemheight);
+    padding: 0px;
 }
-
-
-
-
-/*.searchbar {
-    margin: auto;
-    width: 50%;
-    border: 3px solid green;
-    padding: 10px;
-}*/
-
-/*li{
-    float:left;
-    list-style-type:none;
-}*/
