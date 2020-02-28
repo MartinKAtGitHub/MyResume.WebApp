@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using MyResume.WebApp.Models;
 using MyResume.WebApp.ModelView;
 using MyResume.WebApp.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace MyResume.WebApp.Controllers
 {
@@ -99,7 +100,7 @@ namespace MyResume.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                model.AvatarImgPath = ProccessUploadedFile(model, userInfo, _userManager.GetUserName(User));
+                model.AvatarImgPath = ProccessUploadedFile(model.AvatarImage, userInfo, _userManager.GetUserName(User), "~/images/AvatarImages");
 
                 userInfo.FirstName = model.FirstName;
                 userInfo.MiddelName = model.MiddleName;
@@ -130,8 +131,7 @@ namespace MyResume.WebApp.Controllers
         public IActionResult EditItem(Guid id)
         {
 
-
-            var achievement = _achievementRepo.Read(id); // We need to check if it belongs to the correct user
+            var achievement = _achievementRepo.Read(id);
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
 
@@ -164,6 +164,33 @@ namespace MyResume.WebApp.Controllers
                 EnableComments = achievement.EnableComments,
                 EnableRating = achievement.EnableRating
             };
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult EditItem(AchievementViewModel model)
+        {
+
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+            var item = _achievementRepo.Read(userInfo.UserInformationId);
+
+            if (ModelState.IsValid)
+            {
+                item.ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, userInfo, _userManager.GetUserName(User), "images/AvatarImages");
+
+                item.Title = model.Title;
+                item.Summary = model.Summary;
+                item.MainText = model.MainText;
+                item.OrderPosition = model.OrderPosition;
+                item.EnableComments = model.EnableComments;
+                item.EnableRating = model.EnableRating;
+
+                _achievementRepo.Update(item);
+                return View(model);
+            }
 
             return View(model);
         }
@@ -205,27 +232,32 @@ namespace MyResume.WebApp.Controllers
             return View();
         }
 
-        private string ProccessUploadedFile(EditUserInfoViewModel model, UserInformation userInfo, string userName)
+        private string ProccessUploadedFile(IFormFile ImageFile, UserInformation userInfo, string userName, string storageFilePath)
         {
-            string uniqueFileName = null;
-            if (model.AvatarImage != null)
+            string imageFilePath = null;
+            var defaultImage = "~/images/MyResumeDefaultAvatar.png";
+
+            imageFilePath = defaultImage;
+
+            if (ImageFile != null)
             {
                 var maxFileSize = Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxFileSize"]);
-                if (model.AvatarImage.Length > maxFileSize)
+                if (ImageFile.Length > maxFileSize)
                 {
                     ModelState.AddModelError("", $"Max file size allowed is {maxFileSize / 1000} KB");
 
                     if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
                     {
-                        return uniqueFileName = userInfo.AvatarImgPath;
+                        return userInfo.AvatarImgPath;
                     }
                     else
                     {
-                        return null;
+                        //return string.Empty;
+                        return defaultImage;
                     }
                 }
 
-                var fileExtention = Path.GetExtension(model.AvatarImage.FileName);
+                var fileExtention = Path.GetExtension(ImageFile.FileName);
 
                 if (!fileExtention.Equals(".png"))
                 {
@@ -233,38 +265,44 @@ namespace MyResume.WebApp.Controllers
                     ModelState.AddModelError("", "Only PNG images are supported");
                     if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
                     {
-                        return uniqueFileName = userInfo.AvatarImgPath;
+                        return userInfo.AvatarImgPath;
                     }
                     else
                     {
-                        return null;
+                        //return string.Empty;
+                        return defaultImage;
                     }
                 }
 
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/AvatarImages"); // This will find the wwwroot/images
+                string uploadsFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, storageFilePath); // This will find the storage folder in wwwroot
                 //uniqueFileName = Guid.NewGuid().ToString() + "_" + model.AvatarImage.FileName;
-                uniqueFileName = "AvatarImg _" + userName + fileExtention;
+                var splittResult = storageFilePath.Split('/');
+                var uploadsFolderName = splittResult[^1];
+
+                var imageName = $"{uploadsFolderName}_{userName}{fileExtention}";
 
 
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                 var FilePath = Path.Combine(uploadsFolderPath, imageName);
 
                 //  using (var memoryStream = new MemoryStream())
 
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                using (var fileStream = new FileStream(FilePath, FileMode.Create))
                 {
-                    model.AvatarImage.CopyTo(fileStream);
+                    ImageFile.CopyTo(fileStream);
                 }
+
+                imageFilePath = $"{storageFilePath}/{imageName}";
             }
             else
             {
                 if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
                 {
-                    return uniqueFileName = userInfo.AvatarImgPath;
+                    return userInfo.AvatarImgPath;
                 }
             }
 
 
-            return uniqueFileName;
+            return imageFilePath;
         }
     }
 }

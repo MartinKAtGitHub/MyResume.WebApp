@@ -41,6 +41,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\AvatarImages\" />
+    <Folder Include="wwwroot\images\ItemThumbnails\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 

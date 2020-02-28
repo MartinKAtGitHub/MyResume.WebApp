@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using MyResume.WebApp.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +12,12 @@ namespace MyResume.WebApp.Data
     public class UserInfoRepoSQL : IUserInfoRepo
     {
         private readonly AppDbContext _appDbContext;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public UserInfoRepoSQL(AppDbContext appDbContext)
+        public UserInfoRepoSQL(AppDbContext appDbContext, IWebHostEnvironment webHostEnvironment)
         {
             _appDbContext = appDbContext;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public UserInformation CreateDefault(ApplicationUser user) // Can make Async
@@ -25,8 +29,10 @@ namespace MyResume.WebApp.Data
                 //UserName = user.UserName,
                 Summary = "Summary text is empty",
                 MainText = "Text empty",
-                AvailableForContact = false
-            };
+                AvailableForContact = false,
+                AvatarImgPath = "~/images/MyResumeDefaultAvatar.png"
+
+        };
             _appDbContext.UserInformation.Add(defaultEntery);
             _appDbContext.SaveChanges();
 

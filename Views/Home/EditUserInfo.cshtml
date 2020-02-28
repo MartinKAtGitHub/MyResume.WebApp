@@ -2,16 +2,16 @@
 @{
     ViewBag.Title = "My information";
 
-    var avatarImgPath = "~/images/AvatarImages/" + (Model.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
+    //var avatarImgPath = "~/images/AvatarImages/" + (Model.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
 }
 
 <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditUserInfo" method="post">
     <div>
 
-        <div><img src="@avatarImgPath" asp-append-version="true" /></div>
+        <div><img src="@Model.AvatarImgPath" asp-append-version="true" /></div>
 
         <label asp-for="AvatarImage"></label>
-        <div class=" custom-file">
+        <div class="custom-file">
             <input asp-for="AvatarImage" class="form-control custom-file-input" accept=".png">
             <label asp-for="AvatarImage" class="custom-file-label">Choose file</label>
         </div>

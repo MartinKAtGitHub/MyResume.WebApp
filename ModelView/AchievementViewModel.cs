@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyResume.WebApp.ModelView
 {
@@ -17,6 +14,9 @@ namespace MyResume.WebApp.ModelView
 
         [MaxLength(600)]
         public string MainText { get; set; }
+
+        public string ThumbnailImgPath { get; set; }
+        public IFormFile ThumbnailImage { get; set; }
 
 
         [Display(Name = "Order position")]

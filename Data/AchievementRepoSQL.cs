@@ -31,7 +31,7 @@ namespace MyResume.WebApp.Data
 
         public Achievement Read(Guid id)
         {
-            return _appDbContext.Achievements.Find(id); // This works on all the Unique columns like id Username Email
+            return _appDbContext.Achievements.Find(id);
         }
 
         public IEnumerable<Achievement> ReadAll(Guid userInfoId)
@@ -45,9 +45,12 @@ namespace MyResume.WebApp.Data
         }
 
         
-        public Achievement Update(Achievement newAchievement)
+        public Achievement Update(Achievement itemUpdates)
         {
-            throw new NotImplementedException();
+            var item = _appDbContext.Achievements.Attach(itemUpdates);
+            item.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _appDbContext.SaveChanges();
+            return itemUpdates;
         }
     }
 }

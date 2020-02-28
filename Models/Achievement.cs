@@ -21,10 +21,10 @@ namespace MyResume.WebApp.Models
         [MaxLength(600)]
         public string MainText { get; set; }
 
-        public int OrderPosition { get; set; } // 0 will be our default value
+        public int OrderPosition { get; set; }
         public bool EnableComments { get; set; }
         public bool EnableRating { get; set; }
-
+        public string ThumbnailImgPath { get; set; }
         public Guid UserInformationId { get; set; }
         public UserInformation UserInformation { get; set; }
       

@@ -43,14 +43,14 @@
     <div id="searchResultRow" class="row no-gutters">
         @foreach (var User in Model.UsersResult)
         {
-            var avatarImgPath = "~/images/AvatarImages/" + (User.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
+            //var avatarImgPath = "~/images/AvatarImages/" + (User.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
 
             <div class="col mb-4">
 
                 <div class=" avatarCard card h-100 mx-auto text-center">
 
                     <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">
-                        <img id="avatarImg" class="card-img-top" src="@avatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
+                        <img class="card-img-top" src="@User.AvatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
                     </a>
 
                     <div class="card-body">
@@ -70,11 +70,18 @@
                     <div class="card-footer">
                         <div class="row">
                             <div class="col ">
-
-                                <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id"><i class="fas fa-book-open"></i> Resume</a>
+                                <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">
+                                    <div>
+                                        <i class="fas fa-book-open"></i> Resume
+                                    </div>
+                                </a>
                             </div>
                             <div class="col text-center">
-                                <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+                                <a href="#">
+                                    <div>
+                                        <i class="fas fa-envelope"></i> Contact
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
