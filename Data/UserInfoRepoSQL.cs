@@ -31,7 +31,6 @@ namespace MyResume.WebApp.Data
                 MainText = "Text empty",
                 AvailableForContact = false,
                 AvatarImgPath = "~/images/MyResumeDefaultAvatar.png"
-
         };
             _appDbContext.UserInformation.Add(defaultEntery);
             _appDbContext.SaveChanges();

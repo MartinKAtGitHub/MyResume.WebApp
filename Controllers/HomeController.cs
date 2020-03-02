@@ -171,11 +171,11 @@ namespace MyResume.WebApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult EditItem(AchievementViewModel model)
+        public IActionResult EditItem(AchievementViewModel model, Guid id)
         {
 
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
-            var item = _achievementRepo.Read(userInfo.UserInformationId);
+            var item = _achievementRepo.Read(id);
 
             if (ModelState.IsValid)
             {
