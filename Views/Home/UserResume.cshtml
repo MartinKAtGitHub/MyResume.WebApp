@@ -53,8 +53,22 @@
 
                         <div class="itemDeleteBtn">
 
-                            <form asp-action="DeleteItem" asp-route-id="@achievement.AchievementId">
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                            <form asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
+
+
+                                <span id="deleteSpan_@achievement.AchievementId">
+                                    <span class="btn btn-danger"
+                                          onclick="confirmDelete('@achievement.AchievementId', true)">Delete</span>
+                                </span>
+
+
+                                <span id="confirmDeleteSpan_@achievement.AchievementId" style="display:none">
+                                    <span>Are you sure you want to delete?</span>
+                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                    <span class="btn btn-primary"
+                                          onclick="confirmDelete('@achievement.AchievementId', false)">No</span>
+                                </span>
+
                             </form>
                         </div>
                     }
@@ -89,5 +103,8 @@ else
     }
 }
 
+@section Scripts {
+    <script src="~/js/SiteScripts.js"></script>
+}
 
 
