@@ -23,7 +23,7 @@
     </div>
     <div class="col-4 text-right align-self-center">
 
-        <img class="mb-3" src="@Model.UserInfo.AvatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
+        <img class="mb-3 img-fluid" src="@Model.UserInfo.AvatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
 
         <h5>@Model.UserInfo.Summary</h5>
 
@@ -41,20 +41,20 @@
 
         @foreach (var achievement in @Model.Achievements)
         {
-            <div class="col d-flex justify-content-center bg-danger">
+            <div class="col mb-3 d-flex justify-content-center bg-danger">
                 <div class="item ">
+
+                    <img class="imgItemThumbnail" src="@achievement.ThumbnailImgPath" alt="Item thumbnail" asp-append-version="true" />
 
                     @if (Model.EnableOwnerOptions)
                     {
                         <div class="itemEditBtn">
                             @*d-flex justify-content-end align-items-end*@
-                            <a asp-action="EditItem" asp-route-id="@achievement.AchievementId">Edit Item</a>
+                            <a id="editBtn_@achievement.AchievementId" class="btn btn-info" asp-action="EditItem" asp-route-id="@achievement.AchievementId">Edit Item</a>
                         </div>
 
                         <div class="itemDeleteBtn">
-
                             <form asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
-
 
                                 <span id="deleteSpan_@achievement.AchievementId">
                                     <span class="btn btn-danger"
@@ -82,7 +82,6 @@
 
                 </div>
             </div>
-
         }
 
     </div>

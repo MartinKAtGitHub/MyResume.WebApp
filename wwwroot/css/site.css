@@ -63,6 +63,12 @@ a {
     display: inline-block;
 }
 
+
+.imgItemThumbnail {
+    width: var(--itemWidth);
+    height: var(--itemheight);
+}
+
 #itemContainer.row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax( var(--itemWidth), 1fr));
@@ -90,7 +96,6 @@ a {
     position: absolute;
     bottom: 0px;
     right: 0px;
-    background-color: lawngreen;
     z-index: 1;
 }
 

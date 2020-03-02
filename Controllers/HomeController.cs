@@ -100,7 +100,7 @@ namespace MyResume.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                model.AvatarImgPath = ProccessUploadedFile(model.AvatarImage, userInfo, _userManager.GetUserName(User), "~/images/AvatarImages");
+                model.AvatarImgPath = ProccessUploadedFile(model.AvatarImage, userInfo, _userManager.GetUserName(User), "images/AvatarImages");
 
                 userInfo.FirstName = model.FirstName;
                 userInfo.MiddelName = model.MiddleName;
@@ -195,7 +195,7 @@ namespace MyResume.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                item.ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, userInfo, _userManager.GetUserName(User), "images/AvatarImages");
+                item.ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, userInfo, _userManager.GetUserName(User), "images/ItemThumbnails");
 
                 item.Title = model.Title;
                 item.Summary = model.Summary;
@@ -309,7 +309,7 @@ namespace MyResume.WebApp.Controllers
                     ImageFile.CopyTo(fileStream);
                 }
 
-                imageFilePath = $"{storageFilePath}/{imageName}";
+                imageFilePath = $"~/{storageFilePath}/{imageName}";
             }
             else
             {
