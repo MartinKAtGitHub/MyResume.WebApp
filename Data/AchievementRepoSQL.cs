@@ -24,9 +24,14 @@ namespace MyResume.WebApp.Data
             return newAchievement;
         }
 
-        public Achievement Delete(string id)
+        public Achievement Delete(Achievement achievement)
         {
-            throw new NotImplementedException();
+            if (achievement != null)
+            {
+                _appDbContext.Remove(achievement);
+                _appDbContext.SaveChanges();
+            }
+            return achievement;
         }
 
         public Achievement Read(Guid id)

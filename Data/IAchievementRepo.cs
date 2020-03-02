@@ -13,7 +13,7 @@ namespace MyResume.WebApp.Data
         Achievement Read(Guid id);
         IEnumerable<Achievement> ReadAll(Guid userInfoId);
         Achievement Update(Achievement newAchievement);
-        Achievement Delete(string id);
+        Achievement Delete(Achievement id);
 
     }
 }

@@ -126,6 +126,23 @@ namespace MyResume.WebApp.Controllers
             return View(model);
         }
 
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DeleteItem(Guid id)
+        {
+            var item = _achievementRepo.Read(id);
+            var userId = _userManager.GetUserId(User);
+
+            if(item == null)
+            {
+                ViewBag.ErrorMessage = $"Item with Id = {id} cannot be found";
+                return View("PageNotFound");
+            }
+               _achievementRepo.Delete(item);
+            return RedirectToAction("UserResume", new { id = userId });
+        }
+
         [Authorize]
         [HttpGet]
         public IActionResult EditItem(Guid id)
@@ -167,7 +184,6 @@ namespace MyResume.WebApp.Controllers
 
             return View(model);
         }
-
 
         [HttpPost]
         [Authorize]
@@ -231,6 +247,8 @@ namespace MyResume.WebApp.Controllers
 
             return View();
         }
+
+
 
         private string ProccessUploadedFile(IFormFile ImageFile, UserInformation userInfo, string userName, string storageFilePath)
         {

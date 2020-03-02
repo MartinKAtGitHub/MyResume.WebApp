@@ -23,7 +23,7 @@
     </div>
     <div class="col-4 text-right align-self-center">
 
-        <img class="mb-3" src="@Model.UserInfo.AvatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true"/>
+        <img class="mb-3" src="@Model.UserInfo.AvatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
 
         <h5>@Model.UserInfo.Summary</h5>
 
@@ -35,7 +35,6 @@
 
 </div>
 
-@*@if (@Model.Achievements != null)*@
 @if (@Model.Achievements.ToList().Count > 0)
 {
     <div id="itemContainer" class=" row border-top">
@@ -47,8 +46,16 @@
 
                     @if (Model.EnableOwnerOptions)
                     {
-                        <div class="itemEditBtn">  @*d-flex justify-content-end align-items-end*@
+                        <div class="itemEditBtn">
+                            @*d-flex justify-content-end align-items-end*@
                             <a asp-action="EditItem" asp-route-id="@achievement.AchievementId">Edit Item</a>
+                        </div>
+
+                        <div class="itemDeleteBtn">
+
+                            <form asp-action="DeleteItem" asp-route-id="@achievement.AchievementId">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
                         </div>
                     }
 
@@ -69,7 +76,7 @@
     <div>
         @if (Model.EnableOwnerOptions)
         {
-            <a asp-action="CreateItem" asp-controller="Home">Create New Item</a>
+            <a asp-action="CreateItem" asp-controller="Home">Add New Item</a>
         }
     </div>
 }

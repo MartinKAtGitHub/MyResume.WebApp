@@ -90,14 +90,21 @@ a {
     position: absolute;
     bottom: 0px;
     right: 0px;
+    background-color: lawngreen;
+    z-index: 1;
+}
+
+.itemDeleteBtn {
+    position: absolute;
+    bottom: 0px;
+    left: 1px;
     /*width: 100px;
     height: 100px;*/
-    background-color: chartreuse;
     z-index: 1;
 }
 
 .item {
-    position:relative;
+    position: relative;
     background-color: black;
     width: var(--itemWidth);
     height: var(--itemheight);
