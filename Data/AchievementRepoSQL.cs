@@ -41,6 +41,7 @@ namespace MyResume.WebApp.Data
 
         public IEnumerable<Achievement> ReadAll(Guid userInfoId)
         {
+            // Just testing this style of LINQ
             var QueryResult = 
                         from a in _appDbContext.Achievements
                         where a.UserInformationId == userInfoId

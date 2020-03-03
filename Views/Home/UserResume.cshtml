@@ -25,7 +25,7 @@
 
         <img class="mb-3 img-fluid" src="@Model.UserInfo.AvatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
 
-        <h5>@Model.UserInfo.Summary</h5>
+        <h5 id="userResumeSummary">@Model.UserInfo.Summary</h5>
 
         @if (Model.EnableOwnerOptions)
         {
@@ -43,7 +43,6 @@
         {
             <div class="col mb-3 d-flex justify-content-center bg-danger">
                 <div class="item ">
-
                     <img class="imgItemThumbnail" src="@achievement.ThumbnailImgPath" alt="Item thumbnail" asp-append-version="true" />
 
                     @if (Model.EnableOwnerOptions)
@@ -73,7 +72,6 @@
                         </div>
                     }
 
-
                     <div class="itemSummeryFadeIn">
                         <h3>@achievement.Title</h3>
                     </div>
@@ -91,6 +89,7 @@
         {
             <a asp-action="CreateItem" asp-controller="Home">Add New Item</a>
         }
+        <a href="#">Show more</a>
     </div>
 }
 else
@@ -101,6 +100,19 @@ else
         <a asp-action="CreateItem" asp-controller="Home">Create New Item</a>
     }
 }
+
+
+
+<div class="row p-4">
+    <div class="col">
+        <h4>About Me</h4>
+        <div id="mainTextContainer">
+            <p id="mainTextBlock">@Model.UserInfo.MainText</p>
+        </div>
+    </div>
+</div>
+
+
 
 @section Scripts {
     <script src="~/js/SiteScripts.js"></script>

@@ -5,10 +5,19 @@
     //var avatarImgPath = "~/images/AvatarImages/" + (Model.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
 }
 
+
+        <div>
+    <img src="@Model.AvatarImgPath" asp-append-version="true" />
+        </div>
+        <form method="post" asp-action="RemoveAvatarImg">
+            <div>
+                <button type="submit" class="btn-warning">Remove Avatar</button>
+            </div>
+        </form>
+
 <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditUserInfo" method="post">
     <div>
 
-        <div><img src="@Model.AvatarImgPath" asp-append-version="true" /></div>
 
         <label asp-for="AvatarImage"></label>
         <div class="custom-file">
@@ -16,9 +25,7 @@
             <label asp-for="AvatarImage" class="custom-file-label">Choose file</label>
         </div>
 
-        <div>
-            <input type="button" value="Use no avatar(Need JS)" class="btn-warning" />
-        </div>
+        
 
         <div>
             <h1> Name </h1>

@@ -100,7 +100,19 @@ namespace MyResume.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                model.AvatarImgPath = ProccessUploadedFile(model.AvatarImage, userInfo, _userManager.GetUserName(User), "images/AvatarImages");
+                //model.AvatarImgPath = ProccessUploadedFile(model.AvatarImage, userInfo, _userManager.GetUserName(User), "images/AvatarImages");
+
+                var result = ProccessUploadedFile(model.AvatarImage, _userManager.GetUserName(User), "images/AvatarImages");
+
+                if (result != null)
+                {
+                    model.AvatarImgPath = result; // Render on page
+                    userInfo.AvatarImgPath = result; //Save in DB
+                }
+                else
+                {
+                    model.AvatarImgPath = userInfo.AvatarImgPath; // If no changes were made to img path, just use the same img path from before
+                }
 
                 userInfo.FirstName = model.FirstName;
                 userInfo.MiddelName = model.MiddleName;
@@ -108,7 +120,6 @@ namespace MyResume.WebApp.Controllers
 
                 userInfo.Summary = model.Summary;
                 userInfo.MainText = model.MainText;
-                userInfo.AvatarImgPath = model.AvatarImgPath;
                 userInfo.AvailableForContact = model.AvailableForContact;
 
                 _userInfoRepo.Update(userInfo);
@@ -134,12 +145,12 @@ namespace MyResume.WebApp.Controllers
             var item = _achievementRepo.Read(id);
             var userId = _userManager.GetUserId(User);
 
-            if(item == null)
+            if (item == null)
             {
                 ViewBag.ErrorMessage = $"Item with Id = {id} cannot be found";
                 return View("PageNotFound");
             }
-               _achievementRepo.Delete(item);
+            _achievementRepo.Delete(item);
             return RedirectToAction("UserResume", new { id = userId });
         }
 
@@ -195,7 +206,7 @@ namespace MyResume.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                item.ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, userInfo, _userManager.GetUserName(User), "images/ItemThumbnails");
+                item.ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, /*userInfo,*/ _userManager.GetUserName(User), "images/ItemThumbnails");
 
                 item.Title = model.Title;
                 item.Summary = model.Summary;
@@ -229,6 +240,7 @@ namespace MyResume.WebApp.Controllers
 
                 var newAchievement = new Achievement
                 {
+                    ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage,/* userInfo,*/ _userManager.GetUserName(User), "images/ItemThumbnails"),
                     UserInformationId = userInfo.UserInformationId,
 
                     Title = model.Title,
@@ -248,14 +260,24 @@ namespace MyResume.WebApp.Controllers
             return View();
         }
 
+        [Authorize]
+        [HttpPost]
+        public IActionResult RemoveAvatarImg()
+        {
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
+            userInfo.AvatarImgPath = "~/images/MyResumeDefaultAvatar.png";
 
-        private string ProccessUploadedFile(IFormFile ImageFile, UserInformation userInfo, string userName, string storageFilePath)
+            _userInfoRepo.Update(userInfo);
+            return RedirectToAction("EditUserInfo");
+        }
+
+        private string ProccessUploadedFile(IFormFile ImageFile, string userName, string storageFilePath)
         {
             string imageFilePath = null;
-            var defaultImage = "~/images/MyResumeDefaultAvatar.png";
+            //var defaultImage = "~/images/MyResumeDefaultAvatar.png";
 
-            imageFilePath = defaultImage;
+            //imageFilePath = defaultImage; // add default parameter
 
             if (ImageFile != null)
             {
@@ -264,15 +286,7 @@ namespace MyResume.WebApp.Controllers
                 {
                     ModelState.AddModelError("", $"Max file size allowed is {maxFileSize / 1000} KB");
 
-                    if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
-                    {
-                        return userInfo.AvatarImgPath;
-                    }
-                    else
-                    {
-                        //return string.Empty;
-                        return defaultImage;
-                    }
+                    return imageFilePath;
                 }
 
                 var fileExtention = Path.GetExtension(ImageFile.FileName);
@@ -281,15 +295,10 @@ namespace MyResume.WebApp.Controllers
                 {
 
                     ModelState.AddModelError("", "Only PNG images are supported");
-                    if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
-                    {
-                        return userInfo.AvatarImgPath;
-                    }
-                    else
-                    {
-                        //return string.Empty;
-                        return defaultImage;
-                    }
+
+
+                    return imageFilePath;
+
                 }
 
                 string uploadsFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, storageFilePath); // This will find the storage folder in wwwroot
@@ -300,7 +309,7 @@ namespace MyResume.WebApp.Controllers
                 var imageName = $"{uploadsFolderName}_{userName}{fileExtention}";
 
 
-                 var FilePath = Path.Combine(uploadsFolderPath, imageName);
+                var FilePath = Path.Combine(uploadsFolderPath, imageName);
 
                 //  using (var memoryStream = new MemoryStream())
 
@@ -311,14 +320,6 @@ namespace MyResume.WebApp.Controllers
 
                 imageFilePath = $"~/{storageFilePath}/{imageName}";
             }
-            else
-            {
-                if (!string.IsNullOrEmpty(userInfo.AvatarImgPath))
-                {
-                    return userInfo.AvatarImgPath;
-                }
-            }
-
 
             return imageFilePath;
         }

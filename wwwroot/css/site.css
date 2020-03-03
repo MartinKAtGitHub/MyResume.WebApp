@@ -1,7 +1,7 @@
 ﻿
 :root {
     --itemWidth: 300px;
-    --itemheight: 150px;
+    --itemheight: 300px;
     --avatarCardWidth: 200px;
 }
 
@@ -42,6 +42,11 @@ a {
     /*max-width: 800px;*/
 }
 
+#userResumeSummary{
+    white-space:pre-wrap;
+}
+
+
 #footer {
     background-color: orange;
     height: 50px;
@@ -53,10 +58,18 @@ a {
 }
 
 
+#mainTextBlock {
+    white-space: pre-wrap;
+}
 
 .avatarCard {
     width: var(--avatarCardWidth);
     background-color: rgb(44, 46, 76);
+}
+.avatarCardImg{
+    width:  198px;
+    height: 198px;
+    
 }
 
 .elementColumn {
@@ -67,6 +80,7 @@ a {
 .imgItemThumbnail {
     width: var(--itemWidth);
     height: var(--itemheight);
+    position:absolute;
 }
 
 #itemContainer.row {
@@ -115,3 +129,6 @@ a {
     height: var(--itemheight);
     padding: 0px;
 }
+
+
+

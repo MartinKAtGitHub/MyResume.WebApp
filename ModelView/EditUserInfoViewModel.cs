@@ -18,7 +18,11 @@ namespace MyResume.WebApp.ModelView
         [MaxLength(15, ErrorMessage = "Last name exceeds character limit")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        // string profession
+
+
+        /// <summary>
+        /// Holds the full file path to the avatar image. The property also gets a default value when a user is first created see UserInfoRepo.CreateDefault()
+        /// </summary>
         public string AvatarImgPath { get; set; }
        
         [Display(Name ="Avatar image")]
