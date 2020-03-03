@@ -66,10 +66,13 @@ a {
     width: var(--avatarCardWidth);
     background-color: rgb(44, 46, 76);
 }
-.avatarCardImg{
-    width:  198px;
+.avatarCardImg {
+    /*width:  198px;
+    height: 198px;*/
+    width: 100%;
     height: 198px;
     
+    object-fit:cover;
 }
 
 .elementColumn {
