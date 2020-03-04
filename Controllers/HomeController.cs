@@ -240,7 +240,7 @@ namespace MyResume.WebApp.Controllers
 
                 var newAchievement = new Achievement
                 {
-                    ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage,/* userInfo,*/ _userManager.GetUserName(User), "images/ItemThumbnails"),
+                    ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, _userManager.GetUserName(User), "images/ItemThumbnails"),
                     UserInformationId = userInfo.UserInformationId,
 
                     Title = model.Title,
@@ -294,9 +294,11 @@ namespace MyResume.WebApp.Controllers
         private string ProccessUploadedFile(IFormFile ImageFile, string userName, string storageFilePath)
         {
             string imageFilePath = null;
-            //var defaultImage = "~/images/MyResumeDefaultAvatar.png";
-
-            //imageFilePath = defaultImage; // add default parameter
+           
+            //if (System.IO.File.Exists(fileName))
+            //{
+            //    System.IO.File.Delete(fileName);
+            //}
 
             if (ImageFile != null)
             {
