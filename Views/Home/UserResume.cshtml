@@ -41,44 +41,47 @@
 
         @foreach (var achievement in @Model.Achievements)
         {
-            <div class="col mb-3 d-flex justify-content-center bg-danger">
-                <div class="item ">
-                    <img class="imgItemThumbnail" src="@achievement.ThumbnailImgPath" alt="Item thumbnail" asp-append-version="true" />
+            <div class="col mb-3 d-flex justify-content-center">
+                <a asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
+                    <div class="item ">
+                        <img class="imgItemThumbnail" src="@achievement.ThumbnailImgPath" alt="Item thumbnail" asp-append-version="true" />
 
-                    @if (Model.EnableOwnerOptions)
-                    {
-                        <div class="itemEditBtn">
-                            @*d-flex justify-content-end align-items-end*@
-                            <a id="editBtn_@achievement.AchievementId" class="btn btn-info" asp-action="EditItem" asp-route-id="@achievement.AchievementId">Edit Item</a>
+                        @if (Model.EnableOwnerOptions)
+                        {
+                            <div class="itemEditBtn">
+                                @*d-flex justify-content-end align-items-end*@
+                                <a id="editBtn_@achievement.AchievementId" class="btn btn-info" asp-action="EditItem" asp-route-id="@achievement.AchievementId">Edit Item</a>
+                            </div>
+
+                            <div class="itemDeleteBtn">
+                                <form asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
+
+                                    <span id="deleteSpan_@achievement.AchievementId">
+                                        <span class="btn btn-danger"
+                                              onclick="confirmDelete('@achievement.AchievementId', true)">Delete</span>
+                                    </span>
+
+
+                                    <span id="confirmDeleteSpan_@achievement.AchievementId" style="display:none">
+                                        <span>Are you sure you want to delete?</span>
+                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                        <span class="btn btn-primary"
+                                              onclick="confirmDelete('@achievement.AchievementId', false)">No</span>
+                                    </span>
+
+                                </form>
+                            </div>
+                        }
+
+                        <div class="itemSummeryFadeIn">
+                            <h3>@achievement.Title</h3>
                         </div>
 
-                        <div class="itemDeleteBtn">
-                            <form asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
 
-                                <span id="deleteSpan_@achievement.AchievementId">
-                                    <span class="btn btn-danger"
-                                          onclick="confirmDelete('@achievement.AchievementId', true)">Delete</span>
-                                </span>
+                        @*<img src="" alt="Alternate Text" />*@
 
-
-                                <span id="confirmDeleteSpan_@achievement.AchievementId" style="display:none">
-                                    <span>Are you sure you want to delete?</span>
-                                    <button type="submit" class="btn btn-danger">Yes</button>
-                                    <span class="btn btn-primary"
-                                          onclick="confirmDelete('@achievement.AchievementId', false)">No</span>
-                                </span>
-
-                            </form>
-                        </div>
-                    }
-
-                    <div class="itemSummeryFadeIn">
-                        <h3>@achievement.Title</h3>
                     </div>
-
-                    @*<img src="" alt="Alternate Text" />*@
-
-                </div>
+                </a>
             </div>
         }
 

@@ -6,18 +6,22 @@
 }
 
 
-        <div>
-    <img src="@Model.AvatarImgPath" asp-append-version="true" />
-        </div>
-        <form method="post" asp-action="RemoveAvatarImg">
-            <div>
-                <button type="submit" class="btn-warning">Remove Avatar</button>
-            </div>
-        </form>
+<div>
+    <img class="mb-3" src="@Model.AvatarImgPath" asp-append-version="true" />
+    @if(ViewBag.FileSuccessMessage != null)
+    {
+        <div class=" alert alert-success"> ViewBag.FileSuccessMessage</div>   
+    }
+</div>
+
+<form method="post" asp-action="RemoveAvatarImg">
+    <div>
+        <button type="submit" class="btn-warning">Remove Avatar</button>
+    </div>
+</form>
 
 <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditUserInfo" method="post">
     <div>
-
 
         <label asp-for="AvatarImage"></label>
         <div class="custom-file">
@@ -25,12 +29,12 @@
             <label asp-for="AvatarImage" class="custom-file-label">Choose file</label>
         </div>
 
-        
+
 
         <div>
             <h1> Name </h1>
             <label asp-for="FirstName"></label>
-            <input asp-for="FirstName" placeholder="@Model.FirstName"/>
+            <input asp-for="FirstName" placeholder="@Model.FirstName" />
             <label asp-for="MiddleName"></label>
             <input asp-for="MiddleName" placeholder="@Model.MiddleName" />
             <label asp-for="LastName"></label>
