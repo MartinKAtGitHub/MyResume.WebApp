@@ -260,6 +260,23 @@ namespace MyResume.WebApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult DisplayItem(Guid id)
+        {
+            var item = _achievementRepo.Read(id);
+
+            if (item == null)
+            {
+                Response.StatusCode = 404;
+                ViewBag.ErrorTitle = "Can't find display item";
+                ViewBag.ErrorMessage = "";
+                return View("Error");
+            }
+
+            return View(item);
+        }
+
+
         [Authorize]
         [HttpPost]
         public IActionResult RemoveAvatarImg()
@@ -272,6 +289,8 @@ namespace MyResume.WebApp.Controllers
             return RedirectToAction("EditUserInfo");
         }
 
+
+        // Utility methods ---------------
         private string ProccessUploadedFile(IFormFile ImageFile, string userName, string storageFilePath)
         {
             string imageFilePath = null;
