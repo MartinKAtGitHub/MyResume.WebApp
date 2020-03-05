@@ -31,10 +31,12 @@ namespace MyResume.WebApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.Configure<FormOptions>(op => // Blocks file size over 3000 bytes app wide
-            //{
-            //    op.MultipartBodyLengthLimit = 3000; // in bytes 1000byte = 1kb
-            //});
+            // So before the file is checked its is buffed(stored on the pc temperately) we want to limit the file they can upload to this buffer area which is default to 128mb
+            services.Configure<FormOptions>(op => 
+            {
+                op.MultipartBodyLengthLimit = 102400; // in bytes 1024byte = 1kb
+              
+            });
 
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("MyResumeDBConnection")));
 

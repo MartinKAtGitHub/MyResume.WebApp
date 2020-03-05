@@ -21,6 +21,8 @@
     <Compile Remove="Migrations\20200207200549_AddingRelationshipUserAndUserInfo.Designer.cs" />
     <Compile Remove="Migrations\20200225164041_UpdateTablesInfoAndAchi.cs" />
     <Compile Remove="Migrations\20200225164041_UpdateTablesInfoAndAchi.Designer.cs" />
+    <Compile Remove="Migrations\20200305182350_AddingGalleryImagePathTbl.cs" />
+    <Compile Remove="Migrations\20200305182350_AddingGalleryImagePathTbl.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

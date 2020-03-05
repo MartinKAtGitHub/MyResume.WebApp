@@ -25,6 +25,9 @@ namespace MyResume.WebApp.Models
         public bool EnableComments { get; set; }
         public bool EnableRating { get; set; }
         public string ThumbnailImgPath { get; set; }
+
+        public List<ItemGalleryImageFilePath>itemGalleryImageFilePaths { get; set; }
+        
         public Guid UserInformationId { get; set; }
         public UserInformation UserInformation { get; set; }
       

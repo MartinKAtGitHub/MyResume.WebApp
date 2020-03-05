@@ -12,7 +12,9 @@
         <form enctype="multipart/form-data" method="post" asp-action="CreateItem">
 
             <div asp-validation-summary="All" class="text-danger"></div>
-
+          
+            <h6>Max file size is 5Kb</h6>
+           
             <label asp-for="ThumbnailImage"></label>
             <div class="custom-file">
                 <input asp-for="ThumbnailImage" class="form-control custom-file-input" accept=".png">

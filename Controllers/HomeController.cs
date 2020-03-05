@@ -251,6 +251,12 @@ namespace MyResume.WebApp.Controllers
                     EnableRating = model.EnableRating
                 };
 
+                newAchievement.itemGalleryImageFilePaths = new List<ItemGalleryImageFilePath>()
+                {
+
+                };
+
+
                 _userInfoRepo.Update(userInfo);
                 _achievementRepo.Create(newAchievement);
 
@@ -312,7 +318,7 @@ namespace MyResume.WebApp.Controllers
                 
                 if (ImageFile.Length > maxFileSize)
                 {
-                    ModelState.AddModelError("", $"Max file size allowed is {maxFileSize / 1000} KB"); // This can also be 1024
+                    ModelState.AddModelError("", $"Max file size allowed is {maxFileSize / 1024} KB");
 
                     return imageFilePath;
                 }
