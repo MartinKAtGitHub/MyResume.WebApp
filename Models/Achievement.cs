@@ -11,8 +11,9 @@ namespace MyResume.WebApp.Models
     {
         public Guid AchievementId { get; set; }
    
-        [MaxLength(40)]
-        public string Title { get; set; }
+        [MaxLength(35)]
+        [Required] 
+        public string Title { get; set; } // Need validation for wired characters
 
         [MaxLength(380)]
         [Required]
@@ -26,7 +27,7 @@ namespace MyResume.WebApp.Models
         public bool EnableRating { get; set; }
         public string ThumbnailImgPath { get; set; }
 
-        public List<ItemGalleryImageFilePath>itemGalleryImageFilePaths { get; set; }
+        public List<ItemGalleryImageFilePath>ItemGalleryImageFilePaths { get; set; }
         
         public Guid UserInformationId { get; set; }
         public UserInformation UserInformation { get; set; }

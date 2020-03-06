@@ -163,7 +163,7 @@ namespace MyResume.WebApp.Controllers
             var item = _achievementRepo.Read(id);
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
-            
+
             // TODO research better alternatives for handling the errors -----
 
             if (item == null)
@@ -184,8 +184,6 @@ namespace MyResume.WebApp.Controllers
 
             // ----------------------------------------------
 
-          
-
             var model = new AchievementViewModel
             {
                 Title = item.Title,
@@ -197,11 +195,10 @@ namespace MyResume.WebApp.Controllers
             };
 
 
-            //var filterdGalleryImageFilePaths = item.itemGalleryImageFilePaths.Where(x => x.Achievement.AchievementId == item.AchievementId);
-            //foreach (var path in filterdGalleryImageFilePaths)
-            //{
-            //    model.ImagePaths.Add(path.FilePath);
-            //}
+            foreach (var filePathContainer in item.ItemGalleryImageFilePaths)
+            {
+                model.ImagePaths.Add(filePathContainer.GalleryImageFilePath);
+            }
 
             return View(model);
         }
@@ -212,8 +209,8 @@ namespace MyResume.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
                 var item = _achievementRepo.Read(id);
+                var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
                 IFormFile[] formFiles = new IFormFile[model.GalleryImagesArray.Length];
 
@@ -222,7 +219,7 @@ namespace MyResume.WebApp.Controllers
                     formFiles[i] = model.GalleryImagesArray[i].GalleryImage;
                 }
 
-              
+
 
                 item.Title = model.Title;
                 item.Summary = model.Summary;
@@ -233,18 +230,20 @@ namespace MyResume.WebApp.Controllers
 
                 var filePaths = FileProcessing.UploadItemGalleryPngs(formFiles, userInfo.ApplicationUser.UserName, this, _config, _webHostEnvironment);
 
-               //// var paths = item.itemGalleryImageFilePaths.Where(x => x.Achievement.AchievementId == item.AchievementId);
-               
-               // for (int i = 0; i < filePaths.Length; i++)
-               // {
-               //     var splittResult = filePaths[i].Split('/');
-               //     var imgName = splittResult[^1];
+              ////  var newList = new List<ItemGalleryImageFilePath>();
+             
+              //  for (int i = 0; i < filePaths.Length; i++)
+              //  {
+              //      var splittResult = filePaths[i].Split('/');
+              //      var imgName = splittResult[^1];
 
-               //     // item.itemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath {Id= imgName, GalleryImageFilePath = filePaths[i] });
-               //    // var path = item.itemGalleryImageFilePaths.Where(x => x.FilePath == filePaths[i]);
+              //   //   newList.Add(new ItemGalleryImageFilePath { GalleryImageFilePath = filePaths[i] });
 
+              //      //    item.itemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath { GalleryImageFilePath = filePaths[i] });
+            
+              //  }
 
-               // }
+              // // item.itemGalleryImageFilePaths = newList;
 
                 _achievementRepo.Update(item);
                 return View(model);
@@ -267,14 +266,10 @@ namespace MyResume.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
-                userInfo.AchievementCount++;
-
+                // userInfo.AchievementCount++;
 
                 var newAchievement = new Achievement
                 {
-                    // ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, _userManager.GetUserName(User)),
-
-                    
                     UserInformationId = userInfo.UserInformationId,
 
                     Title = model.Title,
@@ -282,25 +277,40 @@ namespace MyResume.WebApp.Controllers
                     MainText = model.MainText,
                     OrderPosition = model.OrderPosition,
                     EnableComments = model.EnableComments,
-                    EnableRating = model.EnableRating
+                    EnableRating = model.EnableRating,
+                    ItemGalleryImageFilePaths = new List<ItemGalleryImageFilePath>()
+                    
                 };
 
-                IFormFile[] formFiles = new IFormFile[model.GalleryImagesArray.Length];
-                for (int i = 0; i < formFiles.Length; i++)
+                for (int i = 0; i < 6; i++)
                 {
-                    formFiles[i] = model.GalleryImagesArray[i].GalleryImage;
+                    newAchievement.ItemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath 
+                    {
+                        Id = Guid.NewGuid().ToString(), //Id = $"{userInfo.ApplicationUser.UserName}_{model.Title}_Gallery_{i}"
+                        GalleryImageFilePath = null 
+                    });
                 }
 
-                var filePaths = FileProcessing.UploadItemGalleryPngs(formFiles, userInfo.ApplicationUser.UserName, this, _config, _webHostEnvironment);
 
-
-                //for (int i = 0; i < filePaths.Length; i++)
+                //IFormFile[] formFiles = new IFormFile[model.GalleryImagesArray.Length];
+                //for (int i = 0; i < formFiles.Length; i++) // since i have to create a bridge class to bind the IfromFiles like i want i have to do this loop to get the data from the form
                 //{
-                //    var splittResult = filePaths[i].Split('/');
-                //    var imgName = splittResult[^1];
-                //    newAchievement.itemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath { FilePath = filePaths[i] });
+                //    formFiles[i] = model.GalleryImagesArray[i].GalleryImage;
                 //}
 
+
+                //var filePaths = FileProcessing.UploadItemGalleryPngs(formFiles, userInfo.ApplicationUser.UserName, this, _config, _webHostEnvironment);
+
+                //if(filePaths.Length > 0)
+                //{
+                //    for (int i = 0; i < filePaths.Length; i++)
+                //    {
+                //        var splittResult = filePaths[i].Split('/');
+                //        var imgName = splittResult[^1];
+
+                //        newAchievement.itemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath { GalleryImageFilePath = filePaths[i] });
+                //    }
+                //}
 
                 _userInfoRepo.Update(userInfo);
                 _achievementRepo.Create(newAchievement);

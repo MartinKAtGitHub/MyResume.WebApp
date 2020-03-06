@@ -43,7 +43,7 @@ namespace MyResume.WebApp.Data
 
         public Achievement Read(Guid id)
         {
-            return _appDbContext.Achievements.Include(achievement => achievement.itemGalleryImageFilePaths).SingleOrDefault(achievement=> id == achievement.AchievementId);
+            return _appDbContext.Achievements.Include(achievement => achievement.ItemGalleryImageFilePaths).FirstOrDefault(achievement => id == achievement.AchievementId);
         }
 
         public IEnumerable<Achievement> ReadAll(Guid userInfoId)
