@@ -1,4 +1,5 @@
-﻿using MyResume.WebApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MyResume.WebApp.Models;
 using MyResume.WebApp.ModelView;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace MyResume.WebApp.Data
 
         public Achievement Read(Guid id)
         {
-            return _appDbContext.Achievements.Find(id);
+            return _appDbContext.Achievements.Include(achievement => achievement.itemGalleryImageFilePaths).SingleOrDefault(achievement=> id == achievement.AchievementId);
         }
 
         public IEnumerable<Achievement> ReadAll(Guid userInfoId)

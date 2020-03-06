@@ -10,32 +10,44 @@
     <hr />
 
     <div class="row">
+        @for (int i = 0; i < @Model.ImagePaths.Count; i++)
+        {
+        <div class="col">
+            <img class="img-fluid" src="@Model.ImagePaths[i]" alt="Alternate Text"  asp-append-version="true"/>
+        </div>
+        }
+    </div>
+
+
+
+    <div class="row">
         <div class="col">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
            
-            <h6>Max file size is 5Kb</h6>
-           
-            <label asp-for="ThumbnailImage"></label>
+            @*<label asp-for="ThumbnailImage"></label>
             <div class="custom-file mb-5">
                 <input asp-for="ThumbnailImage" class="form-control custom-file-input" accept=".png">
                 <label asp-for="ThumbnailImage" class="custom-file-label">Choose file</label>
-            </div>
-
-            @*@for (int i = 0; i < 6; i++)
-        {
-            <div class="custom-file mb-2">
-                <input asp-for="@Model.GalleryImages" class="form-control custom-file-input" accept=".png">
-                <label asp-for="@Model.GalleryImages" class="custom-file-label">Choose file</label>
-            </div>
-        }*@
+            </div>*@
 
 
+
+            <h6>Max file size is 5Kb</h6>
 
             @for (int i = 0; i < Model.GalleryImagesArray.Length; i++)
             {
                 <div class="custom-file mb-2">
                     <input asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="form-control custom-file-input" accept=".png">
                     <label asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="custom-file-label">Choose file</label>
+                    
+                    @{ 
+                        var msg = @ViewData["GalleryImage" + i];
+                        if(string.IsNullOrEmpty(msg as string))
+                        {
+                             <h6>@msg</h6>
+                        }
+
+                    }
                 </div>
             }
 

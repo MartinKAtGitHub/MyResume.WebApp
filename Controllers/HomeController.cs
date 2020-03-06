@@ -12,6 +12,7 @@ using MyResume.WebApp.Models;
 using MyResume.WebApp.ModelView;
 using MyResume.WebApp.Data;
 using Microsoft.AspNetCore.Http;
+using MyResume.WebApp.Utilities;
 
 namespace MyResume.WebApp.Controllers
 {
@@ -102,7 +103,7 @@ namespace MyResume.WebApp.Controllers
             {
                 //model.AvatarImgPath = ProccessUploadedFile(model.AvatarImage, userInfo, _userManager.GetUserName(User), "images/AvatarImages");
 
-                var result = ProccessUploadedFile(model.AvatarImage, _userManager.GetUserName(User), "images/AvatarImages");
+                var result = FileProcessing.UploadAvatarPng(model.AvatarImage, _userManager.GetUserName(User), this, _config, _webHostEnvironment);
 
                 if (result != null)
                 {
@@ -159,13 +160,13 @@ namespace MyResume.WebApp.Controllers
         public IActionResult EditItem(Guid id)
         {
 
-            var achievement = _achievementRepo.Read(id);
+            var item = _achievementRepo.Read(id);
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
-
+            
             // TODO research better alternatives for handling the errors -----
 
-            if (achievement == null)
+            if (item == null)
             {
                 Response.StatusCode = 404;
                 ViewBag.ErrorTitle = "Can't find item to edit";
@@ -173,7 +174,7 @@ namespace MyResume.WebApp.Controllers
                 return View("Error");
             }
 
-            if (achievement.UserInformationId != userInfo.UserInformationId)
+            if (item.UserInformationId != userInfo.UserInformationId)
             {
                 Response.StatusCode = 403;
                 ViewBag.ErrorTitle = "Wrong user";
@@ -183,15 +184,24 @@ namespace MyResume.WebApp.Controllers
 
             // ----------------------------------------------
 
+          
+
             var model = new AchievementViewModel
             {
-                Title = achievement.Title,
-                Summary = achievement.Summary,
-                MainText = achievement.MainText,
-                OrderPosition = achievement.OrderPosition,
-                EnableComments = achievement.EnableComments,
-                EnableRating = achievement.EnableRating
+                Title = item.Title,
+                Summary = item.Summary,
+                MainText = item.MainText,
+                OrderPosition = item.OrderPosition,
+                EnableComments = item.EnableComments,
+                EnableRating = item.EnableRating,
             };
+
+
+            //var filterdGalleryImageFilePaths = item.itemGalleryImageFilePaths.Where(x => x.Achievement.AchievementId == item.AchievementId);
+            //foreach (var path in filterdGalleryImageFilePaths)
+            //{
+            //    model.ImagePaths.Add(path.FilePath);
+            //}
 
             return View(model);
         }
@@ -200,13 +210,19 @@ namespace MyResume.WebApp.Controllers
         [Authorize]
         public IActionResult EditItem(AchievementViewModel model, Guid id)
         {
-
-            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
-            var item = _achievementRepo.Read(id);
-
             if (ModelState.IsValid)
             {
-                item.ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, /*userInfo,*/ _userManager.GetUserName(User), "images/ItemThumbnails");
+                var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+                var item = _achievementRepo.Read(id);
+
+                IFormFile[] formFiles = new IFormFile[model.GalleryImagesArray.Length];
+
+                for (int i = 0; i < formFiles.Length; i++)
+                {
+                    formFiles[i] = model.GalleryImagesArray[i].GalleryImage;
+                }
+
+              
 
                 item.Title = model.Title;
                 item.Summary = model.Summary;
@@ -214,6 +230,21 @@ namespace MyResume.WebApp.Controllers
                 item.OrderPosition = model.OrderPosition;
                 item.EnableComments = model.EnableComments;
                 item.EnableRating = model.EnableRating;
+
+                var filePaths = FileProcessing.UploadItemGalleryPngs(formFiles, userInfo.ApplicationUser.UserName, this, _config, _webHostEnvironment);
+
+               //// var paths = item.itemGalleryImageFilePaths.Where(x => x.Achievement.AchievementId == item.AchievementId);
+               
+               // for (int i = 0; i < filePaths.Length; i++)
+               // {
+               //     var splittResult = filePaths[i].Split('/');
+               //     var imgName = splittResult[^1];
+
+               //     // item.itemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath {Id= imgName, GalleryImageFilePath = filePaths[i] });
+               //    // var path = item.itemGalleryImageFilePaths.Where(x => x.FilePath == filePaths[i]);
+
+
+               // }
 
                 _achievementRepo.Update(item);
                 return View(model);
@@ -238,9 +269,12 @@ namespace MyResume.WebApp.Controllers
                 var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
                 userInfo.AchievementCount++;
 
+
                 var newAchievement = new Achievement
                 {
-                    ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, _userManager.GetUserName(User), "images/ItemThumbnails"),
+                    // ThumbnailImgPath = ProccessUploadedFile(model.ThumbnailImage, _userManager.GetUserName(User)),
+
+                    
                     UserInformationId = userInfo.UserInformationId,
 
                     Title = model.Title,
@@ -251,10 +285,21 @@ namespace MyResume.WebApp.Controllers
                     EnableRating = model.EnableRating
                 };
 
-                newAchievement.itemGalleryImageFilePaths = new List<ItemGalleryImageFilePath>()
+                IFormFile[] formFiles = new IFormFile[model.GalleryImagesArray.Length];
+                for (int i = 0; i < formFiles.Length; i++)
                 {
+                    formFiles[i] = model.GalleryImagesArray[i].GalleryImage;
+                }
 
-                };
+                var filePaths = FileProcessing.UploadItemGalleryPngs(formFiles, userInfo.ApplicationUser.UserName, this, _config, _webHostEnvironment);
+
+
+                //for (int i = 0; i < filePaths.Length; i++)
+                //{
+                //    var splittResult = filePaths[i].Split('/');
+                //    var imgName = splittResult[^1];
+                //    newAchievement.itemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath { FilePath = filePaths[i] });
+                //}
 
 
                 _userInfoRepo.Update(userInfo);
@@ -295,75 +340,5 @@ namespace MyResume.WebApp.Controllers
             return RedirectToAction("EditUserInfo");
         }
 
-
-        // Utility methods ---------------
-        private string ProccessUploadedFile(IFormFile ImageFile, string userName, string storageFilePath)
-        {
-            string imageFilePath = null;
-           
-            //if (System.IO.File.Exists(fileName))
-            //{
-            //    System.IO.File.Delete(fileName);
-            //}
-
-            if (ImageFile != null)
-            {
-                var maxFileSize = Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxFileSize"]);
-                
-                if(ImageFile.Length == 0)
-                {
-                    ModelState.AddModelError("", $"File is empty");
-                    return imageFilePath;
-                }
-                
-                if (ImageFile.Length > maxFileSize)
-                {
-                    ModelState.AddModelError("", $"Max file size allowed is {maxFileSize / 1024} KB");
-
-                    return imageFilePath;
-                }
-
-                var fileExtention = Path.GetExtension(ImageFile.FileName).ToLower();
-
-                if (!fileExtention.Equals(".png")) // this might be faked, should read the file signature bytes of the file to confirm its a PNG file
-                {
-
-                    ModelState.AddModelError("", "Only PNG images are supported");
-
-                    return imageFilePath;
-                }
-
-                string uploadsFolderPath = Path.Combine(_webHostEnvironment.WebRootPath, storageFilePath); // This will find the storage folder in wwwroot
-                //uniqueFileName = Guid.NewGuid().ToString() + "_" + model.AvatarImage.FileName;
-                var splittResult = storageFilePath.Split('/');
-                var uploadsFolderName = splittResult[^1];
-
-                var imageName = $"{uploadsFolderName}_{userName}{fileExtention}";
-
-
-                var FilePath = Path.Combine(uploadsFolderPath, imageName);
-
-                //  using (var memoryStream = new MemoryStream())
-
-                using (var fileStream = new FileStream(FilePath, FileMode.Create))
-                {
-                    if(fileStream.Length == 0)
-                    {
-
-                    }
-
-                    ImageFile.CopyTo(fileStream);
-                }
-
-                imageFilePath = $"~/{storageFilePath}/{imageName}";
-            }
-
-            if(imageFilePath != null) 
-            {
-                ViewBag.FileSuccessMessage = " New avatar image was successfully uploaded"; // idk if this is a good idea.
-            }
-
-            return imageFilePath;
-        }
     }
 }

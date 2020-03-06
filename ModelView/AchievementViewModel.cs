@@ -9,8 +9,8 @@ namespace MyResume.WebApp.ModelView
     {
         public AchievementViewModel()
         {
-            GalleryImages = new List<IFormFile>();
-            GalleryImagesArray = new BindRetardation[6];
+            GalleryImagesArray = new BidingIformFileBridge[6];
+            ImagePaths = new List<string>();
         }
 
         [Required]
@@ -22,16 +22,16 @@ namespace MyResume.WebApp.ModelView
 
         [MaxLength(600)]
         public string MainText { get; set; }
-        public IFormFile ThumbnailImage { get; set; }
-        public List<IFormFile> GalleryImages { get; set; }
-        public BindRetardation[] GalleryImagesArray { get; set; }
+
+        public List<string> ImagePaths { get; set; }
+        public BidingIformFileBridge[] GalleryImagesArray { get; set; }
 
         [Display(Name = "Order position")]
         public int OrderPosition { get; set; }
         public bool EnableComments { get; set; }
         public bool EnableRating { get; set; }
 
-        public class BindRetardation // This works but not when i use the IFormFile[]
+        public class BidingIformFileBridge // This works but not when i use the IFormFile[]
         {
             public IFormFile GalleryImage { get; set; }
         }

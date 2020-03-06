@@ -9,7 +9,7 @@ namespace MyResume.WebApp.Models
     public class ItemGalleryImageFilePath
     {
         public string Id { get; set; }
-        public string GalleryImageFilePath { get; set; }
+        public string FilePath { get; set; }
 
         [Required]
         public Achievement Achievement { get; set; }
