@@ -184,8 +184,10 @@ namespace MyResume.WebApp.Controllers
 
             // ----------------------------------------------
 
-            var model = new AchievementViewModel
+            var model = new AchievementViewModel()
             {
+                GalleryImagesArray = new AchievementViewModel.BidingIformFileBridge[Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"])],
+                ImageSrcPaths = new List<string>(),
                 Title = item.Title,
                 Summary = item.Summary,
                 MainText = item.MainText,
@@ -195,11 +197,13 @@ namespace MyResume.WebApp.Controllers
             };
 
 
-            foreach (var filePathContainer in item.ItemGalleryImageFilePaths)
+            var sorted = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex);
+            foreach (var filePathContainer in sorted)
             {
-                model.ImagePaths.Add(filePathContainer.GalleryImageFilePath);
+                model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath);
             }
 
+            //model.ImageSrcPaths = model.ImageSrcPaths.OrderBy(i => i == null).ThenBy(i => i).ToList();
             return View(model);
         }
 
@@ -230,20 +234,20 @@ namespace MyResume.WebApp.Controllers
 
                 var filePaths = FileProcessing.UploadItemGalleryPngs(formFiles, userInfo.ApplicationUser.UserName, this, _config, _webHostEnvironment);
 
-              ////  var newList = new List<ItemGalleryImageFilePath>();
-             
-              //  for (int i = 0; i < filePaths.Length; i++)
-              //  {
-              //      var splittResult = filePaths[i].Split('/');
-              //      var imgName = splittResult[^1];
+                ////  var newList = new List<ItemGalleryImageFilePath>();
 
-              //   //   newList.Add(new ItemGalleryImageFilePath { GalleryImageFilePath = filePaths[i] });
+                //  for (int i = 0; i < filePaths.Length; i++)
+                //  {
+                //      var splittResult = filePaths[i].Split('/');
+                //      var imgName = splittResult[^1];
 
-              //      //    item.itemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath { GalleryImageFilePath = filePaths[i] });
-            
-              //  }
+                //   //   newList.Add(new ItemGalleryImageFilePath { GalleryImageFilePath = filePaths[i] });
 
-              // // item.itemGalleryImageFilePaths = newList;
+                //      //    item.itemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath { GalleryImageFilePath = filePaths[i] });
+
+                //  }
+
+                // // item.itemGalleryImageFilePaths = newList;
 
                 _achievementRepo.Update(item);
                 return View(model);
@@ -256,7 +260,13 @@ namespace MyResume.WebApp.Controllers
         [HttpGet]
         public IActionResult CreateItem()
         {
-            return View();
+
+            var model = new AchievementViewModel()
+            {
+                GalleryImagesArray = new AchievementViewModel.BidingIformFileBridge[Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"])]
+            };
+
+            return View(model);
         }
 
         [Authorize]
@@ -279,38 +289,43 @@ namespace MyResume.WebApp.Controllers
                     EnableComments = model.EnableComments,
                     EnableRating = model.EnableRating,
                     ItemGalleryImageFilePaths = new List<ItemGalleryImageFilePath>()
-                    
+
                 };
 
-                for (int i = 0; i < 6; i++)
+
+                IFormFile[] formFiles = new IFormFile[model.GalleryImagesArray.Length];
+             
+                for (int i = 0; i < formFiles.Length; i++) // since i have to create a bridge class to bind the IfromFiles like i want i have to do this loop to get the data from the form
                 {
-                    newAchievement.ItemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath 
+                    formFiles[i] = model.GalleryImagesArray[i].GalleryImage;
+                }
+                var filePaths = FileProcessing.UploadItemGalleryPngs(formFiles, userInfo.ApplicationUser.UserName, this, _config, _webHostEnvironment);
+
+                var maxImageLimit = Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"]);
+
+                if (filePaths.Length > maxImageLimit)
+                {
+                    ModelState.AddModelError("", "You are trying to upload more images then the allowd limit ");
+                    return View();
+                }
+
+                for (int i = 0; i < maxImageLimit; i++)
+                {
+                    newAchievement.ItemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath
                     {
                         Id = Guid.NewGuid().ToString(), //Id = $"{userInfo.ApplicationUser.UserName}_{model.Title}_Gallery_{i}"
-                        GalleryImageFilePath = null 
+                        GalleryImageFilePath = null,
+                        GalleryIndex = i
                     });
                 }
 
-
-                //IFormFile[] formFiles = new IFormFile[model.GalleryImagesArray.Length];
-                //for (int i = 0; i < formFiles.Length; i++) // since i have to create a bridge class to bind the IfromFiles like i want i have to do this loop to get the data from the form
-                //{
-                //    formFiles[i] = model.GalleryImagesArray[i].GalleryImage;
-                //}
-
-
-                //var filePaths = FileProcessing.UploadItemGalleryPngs(formFiles, userInfo.ApplicationUser.UserName, this, _config, _webHostEnvironment);
-
-                //if(filePaths.Length > 0)
-                //{
-                //    for (int i = 0; i < filePaths.Length; i++)
-                //    {
-                //        var splittResult = filePaths[i].Split('/');
-                //        var imgName = splittResult[^1];
-
-                //        newAchievement.itemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath { GalleryImageFilePath = filePaths[i] });
-                //    }
-                //}
+                if (filePaths.Length > 0)
+                {
+                    for (int i = 0; i < filePaths.Length; i++)
+                    {
+                        newAchievement.ItemGalleryImageFilePaths[i].GalleryImageFilePath = filePaths[i];
+                    }
+                }
 
                 _userInfoRepo.Update(userInfo);
                 _achievementRepo.Create(newAchievement);

@@ -6,20 +6,40 @@
 
 <h1>CreateItem</h1>
 
+<h6>Max file size is 5Kb</h6>
+
+@*<div class="row">
+    @for (int i = 0; i < @Model.GalleryImagesArray.Length; i++)
+    {
+        <div class="col">
+            <img class="img-fluid" src="imgsrc" alt="Alternate Text" asp-append-version="true" />
+        </div>
+    }
+</div>*@
+
 <hr />
 <div class="row">
     <div class="col">
         <form enctype="multipart/form-data" method="post" asp-action="CreateItem">
 
             <div asp-validation-summary="All" class="text-danger"></div>
-          
-            <h6>Max file size is 5Kb</h6>
-           
-            @*<label asp-for="ThumbnailImage"></label>
-            <div class="custom-file">
-                <input asp-for="ThumbnailImage" class="form-control custom-file-input" accept=".png">
-                <label asp-for="ThumbnailImage" class="custom-file-label">Choose file</label>
-            </div>*@
+
+            @for (int i = 0; i < Model.GalleryImagesArray.Length; i++)
+            {
+                <div class="custom-file mb-2">
+                    <input asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="form-control custom-file-input" accept=".png">
+                    <label asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="custom-file-label">Choose file</label>
+
+                    @{
+                        var msg = @ViewData["GalleryImage" + i];
+                        if (string.IsNullOrEmpty(msg as string))
+                        {
+                            <h6>@msg</h6>
+                        }
+
+                    }
+                </div>
+            }
 
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -52,9 +72,9 @@
                 </label>
             </div>
             @*<div class="form-group">
-            <label asp-for="UserInformationId" class="control-label"></label>
-            <select asp-for="UserInformationId" class ="form-control" asp-items="ViewBag.UserInformationId"></select>
-        </div>*@
+                    <label asp-for="UserInformationId" class="control-label"></label>
+                    <select asp-for="UserInformationId" class ="form-control" asp-items="ViewBag.UserInformationId"></select>
+                </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -67,5 +87,16 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}*@
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+
+        });
+    </script>
+
+
 }

@@ -7,11 +7,17 @@ namespace MyResume.WebApp.ModelView
 {
     public class AchievementViewModel
     {
-        public AchievementViewModel()
-        {
-            GalleryImagesArray = new BidingIformFileBridge[6];
-            ImagePaths = new List<string>();
-        }
+        //public AchievementViewModel() { }
+
+        //public AchievementViewModel(int maxImageLimit)
+        //{
+        //    GalleryImagesArray = new BidingIformFileBridge[maxImageLimit];
+        //   // ImagePaths = new List<string>();
+        //}
+
+
+
+
 
         [Required]
         [MaxLength(40)]
@@ -23,7 +29,8 @@ namespace MyResume.WebApp.ModelView
         [MaxLength(600)]
         public string MainText { get; set; }
 
-        public List<string> ImagePaths { get; set; }
+        public List<string> ImageSrcPaths { get; set; }
+        //public string[] ImageSrcPaths { get; set; }
         public BidingIformFileBridge[] GalleryImagesArray { get; set; }
 
         [Display(Name = "Order position")]

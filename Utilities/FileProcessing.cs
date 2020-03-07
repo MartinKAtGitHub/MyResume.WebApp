@@ -81,8 +81,8 @@ namespace MyResume.WebApp.Utilities
         public static string[] UploadItemGalleryPngs(IFormFile[] ImageFiles, string userName, Controller controller, IConfiguration config, IWebHostEnvironment webHostEnvironment)
         {
             string storageFilePath = "images/ItemThumbnails";
-            
-                string[] imageFilePath = new string[ImageFiles.Length];
+
+            string[] imageFilePath = new string[ImageFiles.Length];
 
             for (int i = 0; i < ImageFiles.Length; i++)
             {
@@ -116,10 +116,10 @@ namespace MyResume.WebApp.Utilities
 
                     string uploadsFolderPath = Path.Combine(webHostEnvironment.WebRootPath, storageFilePath); // This will find the storage folder in wwwroot
                                                                                                               //uniqueFileName = Guid.NewGuid().ToString() + "_" + model.AvatarImage.FileName;
-                    //var splittResult = storageFilePath.Split('/');
-                    //var uploadsFolderName = splittResult[^1];
+                                                                                                              //var splittResult = storageFilePath.Split('/');
+                                                                                                              //var uploadsFolderName = splittResult[^1];
 
-                    var imageName = $"{userName}_GalleryImg{i}{fileExtention}";
+                    var imageName = $"{userName}_{Guid.NewGuid()}_GalleryImg{i}{fileExtention}";
 
                     var FilePath = Path.Combine(uploadsFolderPath, imageName);
 
@@ -131,6 +131,10 @@ namespace MyResume.WebApp.Utilities
 
                     imageFilePath[i] = $"~/{storageFilePath}/{imageName}";
                 }
+                else
+                {
+                    controller.ModelState.AddModelError("", "No file to upload");
+                }
 
                 if (imageFilePath[i] != null)
                 {
@@ -139,7 +143,7 @@ namespace MyResume.WebApp.Utilities
 
 
             }
-                return imageFilePath;
+            return imageFilePath;
 
         }
     }
