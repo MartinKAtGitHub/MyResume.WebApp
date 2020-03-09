@@ -210,7 +210,6 @@ namespace MyResume.WebApp.Controllers
         public IActionResult EditItem(Guid id, AchievementViewModel model)
         {
 
-
             if (ModelState.IsValid)
             {
                 var item = _achievementRepo.Read(id);
@@ -236,13 +235,10 @@ namespace MyResume.WebApp.Controllers
                     return View(model);
                 }
 
-                //for (int i = 0; i < filePaths.Length; i++)
-                //{
-                //    item.ItemGalleryImageFilePaths[i].GalleryImageFilePath = filePaths[i];
-                //}
 
                 var sorted = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex);
-             
+
+                model.ImageSrcPaths = new List<string>(); // WHY DO I HAVE TO DO THIS
                 foreach (var filePathContainer in sorted)
                 {
                     model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath);
@@ -272,9 +268,6 @@ namespace MyResume.WebApp.Controllers
         [HttpPost]
         public IActionResult CreateItem(AchievementViewModel model)
         {
-
-            var tets = model;
-
             if (ModelState.IsValid)
             {
                 var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));

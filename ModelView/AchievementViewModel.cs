@@ -7,17 +7,7 @@ namespace MyResume.WebApp.ModelView
 {
     public class AchievementViewModel
     {
-        //public AchievementViewModel() { }
-
-        //public AchievementViewModel(int maxImageLimit)
-        //{
-        //    GalleryImagesArray = new BidingIformFileBridge[maxImageLimit];
-        //   // ImagePaths = new List<string>();
-        //}
-
-
-
-
+        public AchievementViewModel() { }
 
         [Required]
         [MaxLength(35)]
@@ -31,7 +21,9 @@ namespace MyResume.WebApp.ModelView
         public string MainText { get; set; }
 
         // i dont use this info in the back end so information binded to this is just thrown
-        public List<string> ImageSrcPaths { get; set; } 
+        public List<string> ImageSrcPaths { get; set; }  // put this in the BidingBridge class
+      
+        [MaxLength(5)] //<<<< this works with arrays
         public BidingBridgeIFormFile[] GalleryImagesArray { get; set; }
 
         [Display(Name = "Order position")]
