@@ -3,34 +3,28 @@
 @{
 
     ViewBag.Title = "Item information";
-    // var avatarImgPath = "~/images/AvatarImages/" + (Model.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
+
+    var test = Model;
 }
-<form enctype="multipart/form-data" method="post" asp-controller="Home" asp-action="EditItem">
-    <h4>Achievement</h4>
-    <hr />
+<h4>ITEM</h4>
+<hr />
 
-    <div class="row">
-        @for (int i = 0; i < @Model.GalleryImagesArray.Length; i++)
-        {
-            <div class="col">
-                <img class="img-fluid" src="@Model.ImageSrcPaths[i]" alt="Alternate Text" asp-append-version="true" />
-            </div>
-        }
-    </div>
-
-
-
-    <div class="row">
+<div class="row">
+    @for (int i = 0; i < @Model.GalleryImagesArray.Length; i++)
+    {
         <div class="col">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            @*<label asp-for="ThumbnailImage"></label>
-                <div class="custom-file mb-5">
-                    <input asp-for="ThumbnailImage" class="form-control custom-file-input" accept=".png">
-                    <label asp-for="ThumbnailImage" class="custom-file-label">Choose file</label>
-                </div>*@
+            <img class="img-fluid" src="@Model.ImageSrcPaths[i]" alt="Alternate Text" asp-append-version="true" />
+        </div>
+    }
+</div>
 
 
+
+<div class="row">
+    <div class="col">
+
+        <form enctype="multipart/form-data" method="post" asp-action="EditItem">
+            <div asp-validation-summary="All" class="text-danger"></div>
 
             <h6>Max file size is 5Kb</h6>
 
@@ -46,7 +40,6 @@
                         {
                             <h6>@msg</h6>
                         }
-
                     }
                 </div>
             }
@@ -85,11 +78,11 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" />
+                <input type="submit" value="Edit" class="btn btn-primary" />
             </div>
-        </div>
+        </form>
     </div>
-</form>
+</div>
 
 <div>
     <a asp-action="UserResume" asp-route-id="@signInManager.UserManager.GetUserId(User)">Back to List</a>

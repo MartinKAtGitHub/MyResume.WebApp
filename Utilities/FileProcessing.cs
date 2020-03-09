@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static MyResume.WebApp.ModelView.AchievementViewModel;
 
 namespace MyResume.WebApp.Utilities
 {
@@ -71,40 +72,40 @@ namespace MyResume.WebApp.Utilities
 
             if (imageFilePath != null)
             {
-                controller.ViewBag.FileSuccessMessage = " New avatar image was successfully uploaded"; // idk if this is a good idea.
+                controller.ViewBag.FileSuccessMessage = " New avatar image was successfully uploaded"; // idk if this is a good idea. Achievement
             }
 
             return imageFilePath;
         }
 
 
-        public static string[] UploadItemGalleryPngs(IFormFile[] ImageFiles, string userName, Controller controller, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        public static string[] UploadItemGalleryPngs(BidingBridgeIFormFile[] bidingBridgeIFormFiles, string userName,Guid achievementId ,Controller controller, IConfiguration config, IWebHostEnvironment webHostEnvironment)
         {
             string storageFilePath = "images/ItemThumbnails";
 
-            string[] imageFilePath = new string[ImageFiles.Length];
+            string[] imageFilePath = new string[bidingBridgeIFormFiles.Length];
 
-            for (int i = 0; i < ImageFiles.Length; i++)
+            for (int i = 0; i < bidingBridgeIFormFiles.Length; i++)
             {
 
-                if (ImageFiles[i] != null)
+                if (bidingBridgeIFormFiles[i].GalleryImage!= null)
                 {
                     var maxFileSize = Convert.ToInt32(config.GetSection("FileUploadSettings")["MaxFileSize"]);
 
-                    if (ImageFiles[i].Length == 0)
+                    if (bidingBridgeIFormFiles[i].GalleryImage.Length == 0)
                     {
                         controller.ModelState.AddModelError("", $"File is empty");
                         return null;
                     }
 
-                    if (ImageFiles[i].Length > maxFileSize)
+                    if (bidingBridgeIFormFiles[i].GalleryImage.Length > maxFileSize)
                     {
                         controller.ModelState.AddModelError("", $"Max file size allowed is {maxFileSize / 1024} KB");
 
                         return null;
                     }
 
-                    var fileExtention = Path.GetExtension(ImageFiles[i].FileName).ToLower();
+                    var fileExtention = Path.GetExtension(bidingBridgeIFormFiles[i].GalleryImage.FileName).ToLower();
 
                     if (!fileExtention.Equals(".png")) // this might be faked, should read the file signature bytes of the file to confirm its a PNG file
                     {
@@ -119,14 +120,14 @@ namespace MyResume.WebApp.Utilities
                                                                                                               //var splittResult = storageFilePath.Split('/');
                                                                                                               //var uploadsFolderName = splittResult[^1];
 
-                    var imageName = $"{userName}_{Guid.NewGuid()}_GalleryImg{i}{fileExtention}";
+                    var imageName = $"{userName}_{achievementId.ToString()}_GalleryImg{i}{fileExtention}";
 
                     var FilePath = Path.Combine(uploadsFolderPath, imageName);
 
                     using (var fileStream = new FileStream(FilePath, FileMode.Create)) // overwrites the file if it already exists
                     {
 
-                        ImageFiles[i].CopyTo(fileStream);
+                        bidingBridgeIFormFiles[i].GalleryImage.CopyTo(fileStream);
                     }
 
                     imageFilePath[i] = $"~/{storageFilePath}/{imageName}";

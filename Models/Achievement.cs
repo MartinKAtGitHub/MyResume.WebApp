@@ -11,12 +11,12 @@ namespace MyResume.WebApp.Models
     {
         public Guid AchievementId { get; set; }
    
-        [MaxLength(35)]
         [Required] 
+        [MaxLength(35)]
         public string Title { get; set; } // Need validation for wired characters
 
-        [MaxLength(380)]
         [Required]
+        [MaxLength(380)]
         public string Summary { get; set; }
        
         [MaxLength(600)]

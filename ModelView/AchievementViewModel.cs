@@ -20,8 +20,9 @@ namespace MyResume.WebApp.ModelView
 
 
         [Required]
-        [MaxLength(40)]
+        [MaxLength(35)]
         public string Title { get; set; }
+      
         [Required]
         [MaxLength(380)]
         public string Summary { get; set; }
@@ -29,16 +30,16 @@ namespace MyResume.WebApp.ModelView
         [MaxLength(600)]
         public string MainText { get; set; }
 
-        public List<string> ImageSrcPaths { get; set; }
-        //public string[] ImageSrcPaths { get; set; }
-        public BidingIformFileBridge[] GalleryImagesArray { get; set; }
+        // i dont use this info in the back end so information binded to this is just thrown
+        public List<string> ImageSrcPaths { get; set; } 
+        public BidingBridgeIFormFile[] GalleryImagesArray { get; set; }
 
         [Display(Name = "Order position")]
         public int OrderPosition { get; set; }
         public bool EnableComments { get; set; }
         public bool EnableRating { get; set; }
 
-        public class BidingIformFileBridge // This works but not when i use the IFormFile[]
+        public class BidingBridgeIFormFile // This works but not when i use the IFormFile[]
         {
             public IFormFile GalleryImage { get; set; }
         }

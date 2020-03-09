@@ -13,7 +13,11 @@ namespace MyResume.WebApp.Models
         public string Id { get; set; }
         public string GalleryImageFilePath { get; set; }
 
+        /// <summary>
+        /// The DB dose not store/retrieve data in the same order in went inn. so we cache the index so we can sort it back into the order the images was loaded inn
+        /// </summary>
         public int GalleryIndex { get; set; }
+      
         [Required]
         public Achievement Achievement { get; set; }
     }
