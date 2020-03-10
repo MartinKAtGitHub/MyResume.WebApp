@@ -44,13 +44,15 @@
             <div class="col mb-3 d-flex justify-content-center">
                 <a asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
                     <div class="item ">
-                        <img class="imgItemThumbnail" src="@achievement.ThumbnailImgPath" alt="Item thumbnail" asp-append-version="true" />
+                        <img class="imgItemThumbnail" src="@achievement.ItemGalleryImageFilePaths.FirstOrDefault(x=> x.GalleryIndex == 0).GalleryImageFilePath" alt="Item thumbnail" asp-append-version="true" />
 
                         @if (Model.EnableOwnerOptions)
                         {
                             <div class="itemEditBtn">
-                                @*d-flex justify-content-end align-items-end*@
-                                <a id="editBtn_@achievement.AchievementId" class="btn btn-info" asp-action="EditItem" asp-route-id="@achievement.AchievementId">Edit Item</a>
+                    
+                                <a id="editBtn_@achievement.AchievementId" class="btn btn-info" asp-action="EditItem" asp-route-id="@achievement.AchievementId">
+                                    Edit Item
+                                </a>
                             </div>
 
                             <div class="itemDeleteBtn">
@@ -81,7 +83,7 @@
                         @*<img src="" alt="Alternate Text" />*@
 
                     </div>
-                </a>
+                </a> @*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> This is what is Causing the errors <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
             </div>
         }
 

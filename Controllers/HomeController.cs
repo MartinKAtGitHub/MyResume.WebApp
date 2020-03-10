@@ -64,6 +64,9 @@ namespace MyResume.WebApp.Controllers
             }
 
             model.UserInfo = _userInfoRepo.Read(id);
+
+            var item =
+
             model.Achievements = _achievementRepo.ReadAll(model.UserInfo.UserInformationId);
 
             return View(model);
@@ -186,7 +189,7 @@ namespace MyResume.WebApp.Controllers
 
             var model = new AchievementViewModel()
             {
-                GalleryImagesArray = new AchievementViewModel.BidingBridgeIFormFile[Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"])],
+
                 ImageSrcPaths = new List<string>(),
                 Title = item.Title,
                 Summary = item.Summary,
@@ -214,6 +217,7 @@ namespace MyResume.WebApp.Controllers
             {
                 var item = _achievementRepo.Read(id);
                 var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+                model.ImageSrcPaths = new List<string>();
 
                 item.Title = model.Title;
                 item.Summary = model.Summary;
@@ -222,29 +226,39 @@ namespace MyResume.WebApp.Controllers
                 item.EnableComments = model.EnableComments;
                 item.EnableRating = model.EnableRating;
 
-             //  item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex).ToList();
+                var files = new List<IFormFile>() {
+                    model.Thumbnail,
+                    model.GallaryImage_1,
+                    model.GallaryImage_2,
+                    model.GallaryImage_3,
+                    model.GallaryImage_4,
+                    model.GallaryImage_5
+                };
 
-
-                var filePaths = FileProcessing.UploadItemGalleryPngs(model.GalleryImagesArray, userInfo.ApplicationUser.UserName, item.AchievementId, this, _config, _webHostEnvironment);
+                var filePaths = FileProcessing.UploadItemGalleryPngs(files, userInfo.ApplicationUser.UserName, item.AchievementId, this, _config, _webHostEnvironment);
 
                 var maxImageLimit = Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"]);
 
-                if (filePaths.Length > maxImageLimit)
+                item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(x => x.GalleryIndex).ToList();
+
+                for (int i = 0; i < maxImageLimit; i++)
                 {
-                    ModelState.AddModelError("", "You are trying to upload more images then the allowed limit ");
-                    return View(model);
+
+                    if (filePaths[i] == null)
+                    {
+                        continue;
+                    }
+                    item.ItemGalleryImageFilePaths[i].GalleryImageFilePath = filePaths[i];
                 }
 
-
                 var sorted = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex);
-
-                model.ImageSrcPaths = new List<string>(); // WHY DO I HAVE TO DO THIS
                 foreach (var filePathContainer in sorted)
                 {
                     model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath);
                 }
 
                 _achievementRepo.Update(item);
+
                 return View(model);
             }
 
@@ -258,7 +272,7 @@ namespace MyResume.WebApp.Controllers
 
             var model = new AchievementViewModel()
             {
-                GalleryImagesArray = new AchievementViewModel.BidingBridgeIFormFile[Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"])]
+                // GalleryImagesArray = new AchievementViewModel.BidingBridgeIFormFile[Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"])]
             };
 
             return View(model);
@@ -289,37 +303,42 @@ namespace MyResume.WebApp.Controllers
 
                 };
 
-                var filePaths = FileProcessing.UploadItemGalleryPngs(model.GalleryImagesArray, userInfo.ApplicationUser.UserName, newItemId, this, _config, _webHostEnvironment);
+                var files = new List<IFormFile>() {
+                    model.Thumbnail,
+                    model.GallaryImage_1,
+                    model.GallaryImage_2,
+                    model.GallaryImage_3,
+                    model.GallaryImage_4,
+                    model.GallaryImage_5
+                };
+
+                var filePaths = FileProcessing.UploadItemGalleryPngs(files, userInfo.ApplicationUser.UserName, newItemId, this, _config, _webHostEnvironment);
+
                 var maxImageLimit = Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"]);
 
-                if (filePaths.Length > maxImageLimit)
-                {
-                    ModelState.AddModelError("", "You are trying to upload more images then the allowed limit ");
-                    return View();
-                }
-
+                // Allocate space in the DB for this item.
                 for (int i = 0; i < maxImageLimit; i++)
                 {
                     newItem.ItemGalleryImageFilePaths.Add(new ItemGalleryImageFilePath
                     {
                         Id = Guid.NewGuid().ToString(), //Id = $"{userInfo.ApplicationUser.UserName}_{model.Title}_Gallery_{i}"
-                        GalleryImageFilePath = null,
+                        GalleryImageFilePath = filePaths[i] ?? null,
                         GalleryIndex = i
                     });
                 }
 
-                if (filePaths.Length > 0)
-                {
-                    for (int i = 0; i < filePaths.Length; i++)
-                    {
-                        newItem.ItemGalleryImageFilePaths[i].GalleryImageFilePath = filePaths[i];
-                    }
-                }
+                //if (filePaths.Length > 0)
+                //{
+                //    for (int i = 0; i < filePaths.Length; i++)
+                //    {
+                //        newItem.ItemGalleryImageFilePaths[i].GalleryImageFilePath = filePaths[i];
+                //    }
+                //}
 
-                if (newItem.ItemGalleryImageFilePaths.Count > 0)
-                {
-                    newItem.ThumbnailImgPath = newItem.ItemGalleryImageFilePaths[0].GalleryImageFilePath;
-                }
+                //if (newItem.ItemGalleryImageFilePaths.Count > 0)
+                //{
+                //    newItem.ThumbnailImgPath = newItem.ItemGalleryImageFilePaths[0].GalleryImageFilePath;
+                //}
 
                 _userInfoRepo.Update(userInfo);
                 _achievementRepo.Create(newItem);
@@ -327,7 +346,7 @@ namespace MyResume.WebApp.Controllers
                 return RedirectToAction("UserResume", new { id = _userManager.GetUserId(User) });
             }
 
-            return View();
+            return View(model);
         }
 
         [HttpGet]

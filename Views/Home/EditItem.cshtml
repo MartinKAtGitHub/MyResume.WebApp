@@ -28,21 +28,48 @@
             <div asp-validation-summary="All" class="text-danger"></div>
 
 
-            @for (int i = 0; i < Model.GalleryImagesArray.Length; i++)
-            {
-                <div class="custom-file mb-4">
-                    <input asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="form-control custom-file-input" accept=".png">
-                    <label asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="custom-file-label">Choose file</label>
+            @*@for (int i = 0; i < Model.GalleryImagesArray.Length; i++)
+        {
+            <div class="custom-file mb-4">
+                <input asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="form-control custom-file-input" accept=".png">
+                <label asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="custom-file-label">Choose file</label>
 
-                    @*@{
-                        var msg = @ViewData["GalleryImage" + i];
-                        if (string.IsNullOrEmpty(msg as string))
-                        {
-                            <h6>@msg</h6>
-                        }
-                    }*@
-                </div>
+                @{
+                var msg = @ViewData["GalleryImage" + i];
+                if (string.IsNullOrEmpty(msg as string))
+                {
+                    <h6>@msg</h6>
+                }
             }
+            </div>
+        }*@
+
+            <div class="custom-file mb-2">
+                <input asp-for="@Model.Thumbnail" class="form-control custom-file-input" accept=".png">
+                <label asp-for="@Model.Thumbnail" class="custom-file-label">Choose file</label>
+
+            </div>
+            <div class="custom-file mb-2">
+                <input asp-for="@Model.GallaryImage_1" class="form-control custom-file-input" accept=".png">
+                <label asp-for="@Model.GallaryImage_1" class="custom-file-label">Choose file</label>
+
+            </div>
+            <div class="custom-file mb-2">
+                <input asp-for="@Model.GallaryImage_2" class="form-control custom-file-input" accept=".png">
+                <label asp-for="@Model.GallaryImage_2" class="custom-file-label">Choose file</label>
+            </div>
+            <div class="custom-file mb-2">
+                <input asp-for="@Model.GallaryImage_3" class="form-control custom-file-input" accept=".png">
+                <label asp-for="@Model.GallaryImage_3" class="custom-file-label">Choose file</label>
+            </div>
+            <div class="custom-file mb-2">
+                <input asp-for="@Model.GallaryImage_4" class="form-control custom-file-input" accept=".png">
+                <label asp-for="@Model.GallaryImage_4" class="custom-file-label">Choose file</label>
+            </div>
+            <div class="custom-file mb-2">
+                <input asp-for="@Model.GallaryImage_5" class="form-control custom-file-input" accept=".png">
+                <label asp-for="@Model.GallaryImage_5" class="custom-file-label">Choose file</label>
+            </div>
 
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>

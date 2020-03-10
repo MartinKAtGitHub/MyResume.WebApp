@@ -25,7 +25,8 @@ namespace MyResume.WebApp.Models
         public int OrderPosition { get; set; }
         public bool EnableComments { get; set; }
         public bool EnableRating { get; set; }
-        public string ThumbnailImgPath { get; set; }
+      
+        // public string ThumbnailImgPath { get; set; }
 
         public List<ItemGalleryImageFilePath>ItemGalleryImageFilePaths { get; set; }
         

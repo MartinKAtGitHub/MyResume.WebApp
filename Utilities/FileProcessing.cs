@@ -79,39 +79,37 @@ namespace MyResume.WebApp.Utilities
         }
 
 
-        public static string[] UploadItemGalleryPngs(BidingBridgeIFormFile[] bidingBridgeIFormFiles, string userName,Guid achievementId ,Controller controller, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        public static string[] UploadItemGalleryPngs(List<IFormFile> IFormFiles, string userName,Guid achievementId ,Controller controller, IConfiguration config, IWebHostEnvironment webHostEnvironment)
         {
             string storageFilePath = "images/ItemThumbnails";
 
-            string[] imageFilePath = new string[bidingBridgeIFormFiles.Length];
+            string[] imageFilePath = new string[IFormFiles.Count];
 
-            for (int i = 0; i < bidingBridgeIFormFiles.Length; i++)
+            for (int i = 0; i < IFormFiles.Count; i++)
             {
 
-                if (bidingBridgeIFormFiles[i].GalleryImage!= null)
+                if (IFormFiles[i]!= null)
                 {
                     var maxFileSize = Convert.ToInt32(config.GetSection("FileUploadSettings")["MaxFileSize"]);
 
-                    if (bidingBridgeIFormFiles[i].GalleryImage.Length == 0)
+                    if (IFormFiles[i].Length == 0)
                     {
-                        controller.ModelState.AddModelError("", $"File is empty");
+                        controller.ModelState.AddModelError("", $@" {IFormFiles[i].FileName}File is empty");
                         return null;
                     }
 
-                    if (bidingBridgeIFormFiles[i].GalleryImage.Length > maxFileSize)
+                    if (IFormFiles[i].Length > maxFileSize)
                     {
-                        controller.ModelState.AddModelError("", $"Max file size allowed is {maxFileSize / 1024} KB");
+                        controller.ModelState.AddModelError("", $@" {IFormFiles[i].FileName} needs to be smaller then {maxFileSize / 1024} KB");
 
                         return null;
                     }
 
-                    var fileExtention = Path.GetExtension(bidingBridgeIFormFiles[i].GalleryImage.FileName).ToLower();
+                    var fileExtention = Path.GetExtension(IFormFiles[i].FileName).ToLower();
 
                     if (!fileExtention.Equals(".png")) // this might be faked, should read the file signature bytes of the file to confirm its a PNG file
                     {
-
-                        controller.ModelState.AddModelError("", "Only PNG images are supported");
-
+                        controller.ModelState.AddModelError("", $@" {IFormFiles[i].FileName} - file type not supported, only (.png) is allowed");
                         return null;
                     }
 
@@ -127,14 +125,10 @@ namespace MyResume.WebApp.Utilities
                     using (var fileStream = new FileStream(FilePath, FileMode.Create)) // overwrites the file if it already exists
                     {
 
-                        bidingBridgeIFormFiles[i].GalleryImage.CopyTo(fileStream);
+                        IFormFiles[i].CopyTo(fileStream);
                     }
 
                     imageFilePath[i] = $"~/{storageFilePath}/{imageName}";
-                }
-                else
-                {
-                    controller.ModelState.AddModelError("", "No file to upload");
                 }
 
                 if (imageFilePath[i] != null)

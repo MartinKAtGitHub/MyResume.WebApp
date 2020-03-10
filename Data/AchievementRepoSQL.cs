@@ -20,9 +20,9 @@ namespace MyResume.WebApp.Data
         public Achievement Create(Achievement newAchievement) // Can make Async
         {
            
-            if(newAchievement.ThumbnailImgPath == null)
+            if(newAchievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath == null)
             {
-                newAchievement.ThumbnailImgPath = "~/images/ThumbnailDefault.png";
+                newAchievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath = "~/images/ThumbnailDefault.png";
             }
 
             _appDbContext.Achievements.Add(newAchievement);
@@ -50,7 +50,7 @@ namespace MyResume.WebApp.Data
         {
             // Just testing this style of LINQ
             var QueryResult = 
-                        from a in _appDbContext.Achievements
+                        from a in _appDbContext.Achievements.Include(x => x.ItemGalleryImageFilePaths)
                         where a.UserInformationId == userInfoId
                         select a;
 
