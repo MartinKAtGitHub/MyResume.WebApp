@@ -44,12 +44,14 @@
             <div class="col mb-3 d-flex justify-content-center">
                 <a asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
                     <div class="item ">
-                        <img class="imgItemThumbnail" src="@achievement.ItemGalleryImageFilePaths.FirstOrDefault(x=> x.GalleryIndex == 0).GalleryImageFilePath" alt="Item thumbnail" asp-append-version="true" />
 
+                        @*<img class="imgItemThumbnail"  src="@achievement.ItemGalleryImageFilePaths.FirstOrDefault(x=> x.GalleryIndex == 0).GalleryImageFilePath" alt="Item thumbnail" asp-append-version="true" />*@
+                        <img class="imgItemThumbnail" src="@achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath" alt="Item thumbnail" asp-append-version="true" />
+                       
                         @if (Model.EnableOwnerOptions)
                         {
                             <div class="itemEditBtn">
-                    
+
                                 <a id="editBtn_@achievement.AchievementId" class="btn btn-info" asp-action="EditItem" asp-route-id="@achievement.AchievementId">
                                     Edit Item
                                 </a>

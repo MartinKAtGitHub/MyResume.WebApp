@@ -65,13 +65,18 @@ namespace MyResume.WebApp.Controllers
 
             model.UserInfo = _userInfoRepo.Read(id);
 
-            var item =
-
             model.Achievements = _achievementRepo.ReadAll(model.UserInfo.UserInformationId);
+            foreach (var item in model.Achievements)
+            {
+                item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex).ToList(); ;
+
+                if (string.IsNullOrEmpty(item.ItemGalleryImageFilePaths[0].GalleryImageFilePath)){
+                    item.ItemGalleryImageFilePaths[0].GalleryImageFilePath = _config.GetValue<string>("FileUploadSettings:DefaultGalleryImgFilePath");
+                }
+            }
 
             return View(model);
         }
-
 
         [HttpGet]
         [Authorize]
@@ -90,6 +95,7 @@ namespace MyResume.WebApp.Controllers
                 MainText = userInfo.MainText,
                 AvailableForContact = userInfo.AvailableForContact
             };
+
 
             return View(model);
         }
@@ -270,11 +276,7 @@ namespace MyResume.WebApp.Controllers
         public IActionResult CreateItem()
         {
 
-            var model = new AchievementViewModel()
-            {
-                // GalleryImagesArray = new AchievementViewModel.BidingBridgeIFormFile[Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"])]
-            };
-
+            var model = new AchievementViewModel();
             return View(model);
         }
 
@@ -326,19 +328,6 @@ namespace MyResume.WebApp.Controllers
                         GalleryIndex = i
                     });
                 }
-
-                //if (filePaths.Length > 0)
-                //{
-                //    for (int i = 0; i < filePaths.Length; i++)
-                //    {
-                //        newItem.ItemGalleryImageFilePaths[i].GalleryImageFilePath = filePaths[i];
-                //    }
-                //}
-
-                //if (newItem.ItemGalleryImageFilePaths.Count > 0)
-                //{
-                //    newItem.ThumbnailImgPath = newItem.ItemGalleryImageFilePaths[0].GalleryImageFilePath;
-                //}
 
                 _userInfoRepo.Update(userInfo);
                 _achievementRepo.Create(newItem);

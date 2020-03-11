@@ -20,10 +20,14 @@ namespace MyResume.WebApp.Data
         public Achievement Create(Achievement newAchievement) // Can make Async
         {
            
-            if(newAchievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath == null)
-            {
-                newAchievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath = "~/images/ThumbnailDefault.png";
-            }
+
+            //for (int i = 0; i < newAchievement.ItemGalleryImageFilePaths.Count; i++)
+            //{
+            //    if(newAchievement.ItemGalleryImageFilePaths[i].GalleryImageFilePath == null)
+            //    {
+            //        newAchievement.ItemGalleryImageFilePaths[i].GalleryImageFilePath = "~/images/ThumbnailDefault.png";
+            //    }
+            //}
 
             _appDbContext.Achievements.Add(newAchievement);
             _appDbContext.SaveChanges();

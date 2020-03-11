@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MyResume.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,13 @@ namespace MyResume.WebApp.Data
     {
         private readonly AppDbContext _appDbContext;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _config;
 
-        public UserInfoRepoSQL(AppDbContext appDbContext, IWebHostEnvironment webHostEnvironment)
+        public UserInfoRepoSQL(AppDbContext appDbContext, IWebHostEnvironment webHostEnvironment, IConfiguration config)
         {
             _appDbContext = appDbContext;
             _webHostEnvironment = webHostEnvironment;
+            _config = config;
         }
 
         public UserInformation CreateDefault(ApplicationUser user) // Can make Async
@@ -30,7 +33,9 @@ namespace MyResume.WebApp.Data
                 Summary = "Summary text is empty",
                 MainText = "Text empty",
                 AvailableForContact = false,
-                AvatarImgPath = "~/images/MyResumeDefaultAvatar.png"
+                // AvatarImgPath = "~/images/MyResumeDefaultAvatar.png"
+                AvatarImgPath = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath")
+               
         };
             _appDbContext.UserInformation.Add(defaultEntery);
             _appDbContext.SaveChanges();

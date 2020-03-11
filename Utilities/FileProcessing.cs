@@ -128,7 +128,8 @@ namespace MyResume.WebApp.Utilities
                         IFormFiles[i].CopyTo(fileStream);
                     }
 
-                    imageFilePath[i] = $"~/{storageFilePath}/{imageName}";
+                    //imageFilePath[i] = $"~/{storageFilePath}/{imageName}"; // the ~/ is used by asp.net core ? to indicate the root folder of the application.
+                    imageFilePath[i] = $"/{storageFilePath}/{imageName}";
                 }
 
                 if (imageFilePath[i] != null)
