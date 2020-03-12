@@ -17,13 +17,7 @@ namespace MyResume.WebApp.Utilities
         public static string UploadAvatarPng(IFormFile ImageFile, string userName, Controller controller, IConfiguration config, IWebHostEnvironment webHostEnvironment)
         {
             string imageFilePath = null;
-            var storageFilePath = @"images\AvatarImages";
-
-            //if (System.IO.File.Exists(fileName))
-            //{
-            //    System.IO.File.Delete(fileName);
-            //}
-
+            var avatarImagesDir = config.GetValue<string>("FileUploadSettings:AvatarImageDir");
             if (ImageFile != null)
             {
                 var maxFileSize = Convert.ToInt32(config.GetSection("FileUploadSettings")["MaxFileSize"]);
@@ -43,20 +37,19 @@ namespace MyResume.WebApp.Utilities
 
                 var fileExtention = Path.GetExtension(ImageFile.FileName).ToLower();
 
-                if (!fileExtention.Equals(".png")) // this might be faked, should read the file signature bytes of the file to confirm its a PNG file
+                if (!fileExtention.Equals(config.GetValue<string>("FileUploadSettings:AcceptedFileType"))) // this might be faked, should read the file signature bytes of the file to confirm its a PNG file
                 {
-
                     controller.ModelState.AddModelError("", "Only PNG images are supported");
 
                     return null;
                 }
 
-                string uploadsFolderPath = Path.Combine(webHostEnvironment.WebRootPath, storageFilePath); // This will find the storage folder in wwwroot
+                string uploadsFolderPath = Path.Combine(webHostEnvironment.WebRootPath, avatarImagesDir); // This will find the storage folder in wwwroot
                 //uniqueFileName = Guid.NewGuid().ToString() + "_" + model.AvatarImage.FileName;
-                var splittResult = storageFilePath.Split('\\');
-                var uploadsFolderName = splittResult[^1];
+                //var splittResult = storageFilePath.Split('\\');
+                //var uploadsFolderName = splittResult[^1];
 
-                var imageName = $"{uploadsFolderName}_{userName}{fileExtention}";
+                var imageName = $"{config.GetValue<string>("FileUploadSettings:AvatarImagePreFix")}{userName}{fileExtention}";
 
 
                 var FilePath = Path.Combine(uploadsFolderPath, imageName);
@@ -67,7 +60,7 @@ namespace MyResume.WebApp.Utilities
                     ImageFile.CopyTo(fileStream);
                 }
 
-                imageFilePath = $"~/{storageFilePath}/{imageName}";
+                imageFilePath = $@"\{avatarImagesDir}\{imageName}";
             }
 
             if (imageFilePath != null)
@@ -77,7 +70,6 @@ namespace MyResume.WebApp.Utilities
 
             return imageFilePath;
         }
-
 
         public static string[] UploadItemGalleryPngs(List<IFormFile> IFormFiles, string userName,Guid achievementId ,Controller controller, IConfiguration config, IWebHostEnvironment webHostEnvironment)
         {
@@ -107,7 +99,7 @@ namespace MyResume.WebApp.Utilities
 
                     var fileExtention = Path.GetExtension(IFormFiles[i].FileName).ToLower();
 
-                    if (!fileExtention.Equals(".png")) // this might be faked, should read the file signature bytes of the file to confirm its a PNG file
+                    if (!fileExtention.Equals(config.GetValue<string>("FileUploadSettings:AcceptedFileType"))) // this might be faked, should read the file signature bytes of the file to confirm its a PNG file
                     {
                         controller.ModelState.AddModelError("", $@" {IFormFiles[i].FileName} - file type not supported, only (.png) is allowed");
                         return null;
@@ -142,6 +134,34 @@ namespace MyResume.WebApp.Utilities
             return imageFilePath;
 
         }
+
+        public static string DeleteAvatarImage(string userName, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        {
+        
+            var RootPath = webHostEnvironment.WebRootPath; // the wwwroot absolute path
+            var avatarImagesDir = config.GetValue<string>("FileUploadSettings:AvatarImageDir");
+            var imageFileName = $"{config.GetValue<string>("FileUploadSettings:AvatarImagePreFix")}{userName}{config.GetValue<string>("FileUploadSettings:AcceptedFileType")}";
+
+            var absoluteImageFilePath = Path.Combine(RootPath, avatarImagesDir, imageFileName);
+
+            try
+            {
+                if (File.Exists(absoluteImageFilePath))
+                {
+                     File.Delete(absoluteImageFilePath);
+                }
+
+            }
+            catch (IOException)
+            {
+
+                throw;
+            }
+
+
+            return imageFileName;
+        }
+
     }
 
 }

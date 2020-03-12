@@ -1,7 +1,8 @@
 ﻿@model UserResumeViewModel
 @{
     ViewBag.Title = "User Resume";
-    //var avatarImgPath = "~/images/AvatarImages/" + (Model.UserInfo.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
+
+    var avatarImgPath = Model.UserInfo.AvatarImgPath ?? Model.DefaultAvatarImage;
 }
 
 <div class="row mb-5">
@@ -23,7 +24,7 @@
     </div>
     <div class="col-4 text-right align-self-center">
 
-        <img class="mb-3 img-fluid" src="@Model.UserInfo.AvatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
+        <img class="mb-3 img-fluid" src="@avatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
 
         <h5 id="userResumeSummary">@Model.UserInfo.Summary</h5>
 

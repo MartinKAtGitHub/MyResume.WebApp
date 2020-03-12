@@ -48,13 +48,22 @@ namespace MyResume.WebApp.Controllers
             if (string.IsNullOrEmpty(id))
             {
                 ViewBag.ErrorTitle = "Can't find Resume ";
-                @ViewBag.ErrorMessage = "No user is selected";
+                ViewBag.ErrorMessage = "No user is selected";
                 return View("Error");
             }
 
-            var model = new UserResumeViewModel();
+            var userID = _userManager.GetUserId(User);
+            var userInfo = _userInfoRepo.Read(id);
+            var allUserItems = _achievementRepo.ReadAll(userInfo.UserInformationId);
 
-            if (_userManager.GetUserId(User) == id)
+            var model = new UserResumeViewModel
+            {
+                UserInfo = userInfo,
+                Achievements = allUserItems
+            };
+
+
+            if (userID == id)
             {
                 model.EnableOwnerOptions = true;
             }
@@ -63,14 +72,14 @@ namespace MyResume.WebApp.Controllers
                 model.EnableOwnerOptions = false;
             }
 
-            model.UserInfo = _userInfoRepo.Read(id);
-
-            model.Achievements = _achievementRepo.ReadAll(model.UserInfo.UserInformationId);
+            model.DefaultAvatarImage = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath");
+            
             foreach (var item in model.Achievements)
             {
-                item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex).ToList(); ;
+                item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex).ToList();
 
-                if (string.IsNullOrEmpty(item.ItemGalleryImageFilePaths[0].GalleryImageFilePath)){
+                if (string.IsNullOrEmpty(item.ItemGalleryImageFilePaths[0].GalleryImageFilePath))
+                {
                     item.ItemGalleryImageFilePaths[0].GalleryImageFilePath = _config.GetValue<string>("FileUploadSettings:DefaultGalleryImgFilePath");
                 }
             }
@@ -95,7 +104,6 @@ namespace MyResume.WebApp.Controllers
                 MainText = userInfo.MainText,
                 AvailableForContact = userInfo.AvailableForContact
             };
-
 
             return View(model);
         }
@@ -361,7 +369,15 @@ namespace MyResume.WebApp.Controllers
         {
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
-            userInfo.AvatarImgPath = "~/images/MyResumeDefaultAvatar.png";
+            if (userInfo.AvatarImgPath == null) // We don't want to do anything if we dont have an image to remove 
+            {
+                return RedirectToAction("EditUserInfo");
+            }
+
+            //userInfo.AvatarImgPath = "~/images/MyResumeDefaultAvatar.png";
+
+            FileProcessing.DeleteAvatarImage(userInfo.ApplicationUser.UserName,_config,_webHostEnvironment);
+            userInfo.AvatarImgPath = null;
 
             _userInfoRepo.Update(userInfo);
             return RedirectToAction("EditUserInfo");
