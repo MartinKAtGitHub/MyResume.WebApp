@@ -160,6 +160,7 @@ namespace MyResume.WebApp.Controllers
                 return View("PageNotFound");
             }
 
+            FileProcessing.DeleteAllGalleryImages(_userManager.GetUserName(User), item, _config, _webHostEnvironment);
             _achievementRepo.Delete(item);
             return RedirectToAction("UserResume", new { id = userId });
         }
@@ -250,7 +251,7 @@ namespace MyResume.WebApp.Controllers
                     }
                     item.ItemGalleryImageFilePaths[i].GalleryImageFilePath = filePaths[i];
                 }
-               
+
                 foreach (var filePathContainer in item.ItemGalleryImageFilePaths)
                 {
                     model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath); // for img src display 
@@ -354,7 +355,7 @@ namespace MyResume.WebApp.Controllers
         {
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
-            if (string.IsNullOrEmpty( userInfo.AvatarImgPath)) // We don't want to do anything if we dont have an image to remove 
+            if (string.IsNullOrEmpty(userInfo.AvatarImgPath)) // We don't want to do anything if we dont have an image to remove 
             {
                 return RedirectToAction("EditUserInfo");
             }
@@ -375,7 +376,7 @@ namespace MyResume.WebApp.Controllers
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
             var item = _achievementRepo.Read(id);
 
-            if (string.IsNullOrEmpty( item.ItemGalleryImageFilePaths[imageIndex].GalleryImageFilePath )) // We don't want to do anything if we dont have an image to remove 
+            if (string.IsNullOrEmpty(item.ItemGalleryImageFilePaths[imageIndex].GalleryImageFilePath)) // We don't want to do anything if we dont have an image to remove 
             {
                 ModelState.AddModelError("", "Can't find an image to remove");
                 return RedirectToAction("EditItem", new { id });

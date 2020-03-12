@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MyResume.WebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -183,6 +184,35 @@ namespace MyResume.WebApp.Utilities
             {
 
                 throw;
+            }
+        }
+
+        public static void DeleteAllGalleryImages(string userName, Achievement item, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        {
+
+            var RootPath = webHostEnvironment.WebRootPath; // the wwwroot absolute path
+            var avatarImagesDir = config.GetValue<string>("FileUploadSettings:GalleryImageDir");
+
+
+            foreach (var imageData in item.ItemGalleryImageFilePaths)
+            {
+                var imageFileName = $"{userName}_{item.AchievementId.ToString()}_GalleryImg{imageData.GalleryIndex}{config.GetValue<string>("FileUploadSettings:AcceptedFileType")}";
+
+                var absoluteImageFilePath = Path.Combine(RootPath, avatarImagesDir, imageFileName);
+
+                try
+                {
+                    if (File.Exists(absoluteImageFilePath))
+                    {
+                        File.Delete(absoluteImageFilePath);
+                    }
+
+                }
+                catch (IOException)
+                {
+
+                    throw;
+                } 
             }
         }
     }
