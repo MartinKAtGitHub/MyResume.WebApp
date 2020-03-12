@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Edit item";
 
-    var test = Model;
 }
 <h4>ITEM</h4>
 <h6>Max file size is 5Kb</h6>
@@ -14,6 +13,13 @@
     {
         <div class="col">
             <img class="img-fluid" src="@Model.ImageSrcPaths[i]" alt="Alternate Text" asp-append-version="true" />
+
+            <form method="post" asp-action="RemoveGalleryImg" asp-route-id="@this.ViewContext.RouteData.Values["id"] " asp-route-imageIndex="@i">
+                <div>
+                    <button type="submit" class="btn-warning">Remove Avatar</button>
+                </div>
+            </form>
+
         </div>
     }
 </div>
@@ -27,22 +33,6 @@
 
             <div asp-validation-summary="All" class="text-danger"></div>
 
-
-            @*@for (int i = 0; i < Model.GalleryImagesArray.Length; i++)
-        {
-            <div class="custom-file mb-4">
-                <input asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="form-control custom-file-input" accept=".png">
-                <label asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="custom-file-label">Choose file</label>
-
-                @{
-                var msg = @ViewData["GalleryImage" + i];
-                if (string.IsNullOrEmpty(msg as string))
-                {
-                    <h6>@msg</h6>
-                }
-            }
-            </div>
-        }*@
 
             <div class="custom-file mb-2">
                 <input asp-for="@Model.Thumbnail" class="form-control custom-file-input" accept=".png">
@@ -70,6 +60,7 @@
                 <input asp-for="@Model.GallaryImage_5" class="form-control custom-file-input" accept=".png">
                 <label asp-for="@Model.GallaryImage_5" class="custom-file-label">Choose file</label>
             </div>
+
 
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>

@@ -9,6 +9,8 @@ namespace MyResume.WebApp.ModelView
         public bool EnableOwnerOptions { get; set; }
 
         public string DefaultAvatarImage { get; set; }
+        public string DefaultGalleryImage { get; set; }
+
 
         public UserResumeViewModel()
         {

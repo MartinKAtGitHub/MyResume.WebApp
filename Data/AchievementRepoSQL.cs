@@ -19,16 +19,6 @@ namespace MyResume.WebApp.Data
 
         public Achievement Create(Achievement newAchievement) // Can make Async
         {
-           
-
-            //for (int i = 0; i < newAchievement.ItemGalleryImageFilePaths.Count; i++)
-            //{
-            //    if(newAchievement.ItemGalleryImageFilePaths[i].GalleryImageFilePath == null)
-            //    {
-            //        newAchievement.ItemGalleryImageFilePaths[i].GalleryImageFilePath = "~/images/ThumbnailDefault.png";
-            //    }
-            //}
-
             _appDbContext.Achievements.Add(newAchievement);
             _appDbContext.SaveChanges();
 
@@ -37,17 +27,17 @@ namespace MyResume.WebApp.Data
 
         public Achievement Delete(Achievement achievement)
         {
-            if (achievement != null)
-            {
                 _appDbContext.Remove(achievement);
                 _appDbContext.SaveChanges();
-            }
+            
             return achievement;
         }
 
         public Achievement Read(Guid id)
         {
-            return _appDbContext.Achievements.Include(achievement => achievement.ItemGalleryImageFilePaths).FirstOrDefault(achievement => id == achievement.AchievementId);
+            var item = _appDbContext.Achievements.Include(achievement => achievement.ItemGalleryImageFilePaths).FirstOrDefault(achievement => id == achievement.AchievementId);
+            item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(x => x.GalleryIndex).ToList();
+            return item;
         }
 
         public IEnumerable<Achievement> ReadAll(Guid userInfoId)
@@ -57,6 +47,11 @@ namespace MyResume.WebApp.Data
                         from a in _appDbContext.Achievements.Include(x => x.ItemGalleryImageFilePaths)
                         where a.UserInformationId == userInfoId
                         select a;
+
+            foreach (var item in QueryResult)
+            {
+                item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(x => x.GalleryIndex).ToList();
+            }
 
             return QueryResult.ToList();
         }

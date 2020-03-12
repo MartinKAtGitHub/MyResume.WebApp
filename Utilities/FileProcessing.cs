@@ -71,7 +71,7 @@ namespace MyResume.WebApp.Utilities
             return imageFilePath;
         }
 
-        public static string[] UploadItemGalleryPngs(List<IFormFile> IFormFiles, string userName,Guid achievementId ,Controller controller, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        public static string[] UploadItemGalleryPngs(List<IFormFile> IFormFiles, string userName, Guid achievementId, Controller controller, IConfiguration config, IWebHostEnvironment webHostEnvironment)
         {
             string storageFilePath = "images/ItemThumbnails";
 
@@ -80,7 +80,7 @@ namespace MyResume.WebApp.Utilities
             for (int i = 0; i < IFormFiles.Count; i++)
             {
 
-                if (IFormFiles[i]!= null)
+                if (IFormFiles[i] != null)
                 {
                     var maxFileSize = Convert.ToInt32(config.GetSection("FileUploadSettings")["MaxFileSize"]);
 
@@ -135,9 +135,9 @@ namespace MyResume.WebApp.Utilities
 
         }
 
-        public static string DeleteAvatarImage(string userName, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        public static void DeleteAvatarImage(string userName, IConfiguration config, IWebHostEnvironment webHostEnvironment)
         {
-        
+
             var RootPath = webHostEnvironment.WebRootPath; // the wwwroot absolute path
             var avatarImagesDir = config.GetValue<string>("FileUploadSettings:AvatarImageDir");
             var imageFileName = $"{config.GetValue<string>("FileUploadSettings:AvatarImagePreFix")}{userName}{config.GetValue<string>("FileUploadSettings:AcceptedFileType")}";
@@ -148,7 +148,7 @@ namespace MyResume.WebApp.Utilities
             {
                 if (File.Exists(absoluteImageFilePath))
                 {
-                     File.Delete(absoluteImageFilePath);
+                    File.Delete(absoluteImageFilePath);
                 }
 
             }
@@ -159,9 +159,32 @@ namespace MyResume.WebApp.Utilities
             }
 
 
-            return imageFileName;
         }
 
+
+        public static void DeleteGalleryImage(string userName, Guid itemID, int galleryImgIndex, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        {
+
+            var RootPath = webHostEnvironment.WebRootPath; // the wwwroot absolute path
+            var avatarImagesDir = config.GetValue<string>("FileUploadSettings:GalleryImageDir");
+            var imageFileName = $"{userName}_{itemID.ToString()}_GalleryImg{galleryImgIndex}{config.GetValue<string>("FileUploadSettings:AcceptedFileType")}";
+
+            var absoluteImageFilePath = Path.Combine(RootPath, avatarImagesDir, imageFileName);
+
+            try
+            {
+                if (File.Exists(absoluteImageFilePath))
+                {
+                    File.Delete(absoluteImageFilePath);
+                }
+
+            }
+            catch (IOException)
+            {
+
+                throw;
+            }
+        }
     }
 
 }

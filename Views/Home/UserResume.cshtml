@@ -3,6 +3,7 @@
     ViewBag.Title = "User Resume";
 
     var avatarImgPath = Model.UserInfo.AvatarImgPath ?? Model.DefaultAvatarImage;
+
 }
 
 <div class="row mb-5">
@@ -46,9 +47,11 @@
                 <a asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
                     <div class="item ">
 
-                        @*<img class="imgItemThumbnail"  src="@achievement.ItemGalleryImageFilePaths.FirstOrDefault(x=> x.GalleryIndex == 0).GalleryImageFilePath" alt="Item thumbnail" asp-append-version="true" />*@
-                        <img class="imgItemThumbnail" src="@achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath" alt="Item thumbnail" asp-append-version="true" />
-                       
+                        @{
+                            var thumbNail = achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath ?? Model.DefaultGalleryImage;
+                        }
+                        <img class="imgItemThumbnail" src="@thumbNail" alt="Item thumbnail" asp-append-version="true" />
+
                         @if (Model.EnableOwnerOptions)
                         {
                             <div class="itemEditBtn">

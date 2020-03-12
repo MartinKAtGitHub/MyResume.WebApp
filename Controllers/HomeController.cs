@@ -73,16 +73,7 @@ namespace MyResume.WebApp.Controllers
             }
 
             model.DefaultAvatarImage = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath");
-            
-            foreach (var item in model.Achievements)
-            {
-                item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex).ToList();
-
-                if (string.IsNullOrEmpty(item.ItemGalleryImageFilePaths[0].GalleryImageFilePath))
-                {
-                    item.ItemGalleryImageFilePaths[0].GalleryImageFilePath = _config.GetValue<string>("FileUploadSettings:DefaultGalleryImgFilePath");
-                }
-            }
+            model.DefaultGalleryImage = _config.GetValue<string>("FileUploadSettings:DefaultGalleryImgFilePath");
 
             return View(model);
         }
@@ -168,6 +159,7 @@ namespace MyResume.WebApp.Controllers
                 ViewBag.ErrorMessage = $"Item with Id = {id} cannot be found";
                 return View("PageNotFound");
             }
+
             _achievementRepo.Delete(item);
             return RedirectToAction("UserResume", new { id = userId });
         }
@@ -213,9 +205,7 @@ namespace MyResume.WebApp.Controllers
                 EnableRating = item.EnableRating,
             };
 
-
-            var sorted = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex);
-            foreach (var filePathContainer in sorted)
+            foreach (var filePathContainer in item.ItemGalleryImageFilePaths)
             {
                 model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath);
             }
@@ -250,25 +240,20 @@ namespace MyResume.WebApp.Controllers
                 };
 
                 var filePaths = FileProcessing.UploadItemGalleryPngs(files, userInfo.ApplicationUser.UserName, item.AchievementId, this, _config, _webHostEnvironment);
-
                 var maxImageLimit = Convert.ToInt32(_config.GetSection("FileUploadSettings")["MaxImageStorageLimit"]);
-
-                item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(x => x.GalleryIndex).ToList();
 
                 for (int i = 0; i < maxImageLimit; i++)
                 {
-
                     if (filePaths[i] == null)
                     {
                         continue;
                     }
                     item.ItemGalleryImageFilePaths[i].GalleryImageFilePath = filePaths[i];
                 }
-
-                var sorted = item.ItemGalleryImageFilePaths.OrderBy(i => i.GalleryIndex);
-                foreach (var filePathContainer in sorted)
+               
+                foreach (var filePathContainer in item.ItemGalleryImageFilePaths)
                 {
-                    model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath);
+                    model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath); // for img src display 
                 }
 
                 _achievementRepo.Update(item);
@@ -369,19 +354,40 @@ namespace MyResume.WebApp.Controllers
         {
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
-            if (userInfo.AvatarImgPath == null) // We don't want to do anything if we dont have an image to remove 
+            if (string.IsNullOrEmpty( userInfo.AvatarImgPath)) // We don't want to do anything if we dont have an image to remove 
             {
                 return RedirectToAction("EditUserInfo");
             }
 
-            //userInfo.AvatarImgPath = "~/images/MyResumeDefaultAvatar.png";
 
-            FileProcessing.DeleteAvatarImage(userInfo.ApplicationUser.UserName,_config,_webHostEnvironment);
+            FileProcessing.DeleteAvatarImage(userInfo.ApplicationUser.UserName, _config, _webHostEnvironment);
             userInfo.AvatarImgPath = null;
 
             _userInfoRepo.Update(userInfo);
             return RedirectToAction("EditUserInfo");
         }
+
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult RemoveGalleryImg(Guid id, int imageIndex)
+        {
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+            var item = _achievementRepo.Read(id);
+
+            if (string.IsNullOrEmpty( item.ItemGalleryImageFilePaths[imageIndex].GalleryImageFilePath )) // We don't want to do anything if we dont have an image to remove 
+            {
+                ModelState.AddModelError("", "Can't find an image to remove");
+                return RedirectToAction("EditItem", new { id });
+            }
+
+            FileProcessing.DeleteGalleryImage(userInfo.ApplicationUser.UserName, id, imageIndex, _config, _webHostEnvironment);
+            item.ItemGalleryImageFilePaths[imageIndex].GalleryImageFilePath = null;
+
+            _achievementRepo.Update(item);
+            return RedirectToAction("EditItem", new { id });
+        }
+
 
     }
 }
