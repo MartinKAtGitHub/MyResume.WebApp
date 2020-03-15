@@ -77,15 +77,19 @@
                 <input asp-for="MainText" class="form-control" />
                 <span asp-validation-for="MainText" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="OrderPosition" class="control-label"></label>
+                <label asp-for="OrderPosition" class="control-label"></label> 
+                <span data-toggle="tooltip" data-placement="right" title="Choose the order of your items from position 1 to 6. Items can have the same value"><i class="fas fa-question-circle"></i></span>
                 <input asp-for="OrderPosition" class="form-control" />
                 <span asp-validation-for="OrderPosition" class="text-danger"></span>
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="EnableComments" /> @Html.DisplayNameFor(model => model.EnableComments)
                 </label>
+
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -114,5 +118,11 @@
 
         });
     </script>
+
+    <script>
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })</script>
 }
 

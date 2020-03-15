@@ -23,6 +23,8 @@
     <Compile Remove="Migrations\20200225164041_UpdateTablesInfoAndAchi.Designer.cs" />
     <Compile Remove="Migrations\20200305182350_AddingGalleryImagePathTbl.cs" />
     <Compile Remove="Migrations\20200305182350_AddingGalleryImagePathTbl.Designer.cs" />
+    <Compile Remove="Migrations\20200315151406_AddedRangeLimitOnOrderPos.cs" />
+    <Compile Remove="Migrations\20200315151406_AddedRangeLimitOnOrderPos.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

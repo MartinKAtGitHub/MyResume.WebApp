@@ -29,8 +29,8 @@ namespace MyResume.WebApp.ModelView
         public IFormFile GallaryImage_4 { get; set; }
         public IFormFile GallaryImage_5 { get; set; }
 
-
-        [Display(Name = "Order position")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Order position (1-6)")]
         [Range(1, 6, ErrorMessage = "Value for Order position must be between 1 and 6.")]
         public int OrderPosition { get; set; }
         public bool EnableComments { get; set; }

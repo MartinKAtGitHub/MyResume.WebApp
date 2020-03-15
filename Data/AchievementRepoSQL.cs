@@ -56,7 +56,8 @@ namespace MyResume.WebApp.Data
                 item.ItemGalleryImageFilePaths = item.ItemGalleryImageFilePaths.OrderBy(x => x.GalleryIndex).ToList();
             }
 
-            return QueryResult.ToList();
+
+            return (QueryResult.OrderBy(x => x.OrderPosition)).ToList();
         }
 
         
