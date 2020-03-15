@@ -7,12 +7,12 @@ namespace MyResume.WebApp.ModelView
 {
     public class AchievementViewModel
     {
-     
+
 
         [Required]
         [MaxLength(35)]
         public string Title { get; set; }
-      
+
         [Required]
         [MaxLength(380)]
         public string Summary { get; set; }
@@ -20,7 +20,7 @@ namespace MyResume.WebApp.ModelView
         [MaxLength(600)]
         public string MainText { get; set; }
 
-      
+
 
         public IFormFile Thumbnail { get; set; }
         public IFormFile GallaryImage_1 { get; set; }
@@ -31,6 +31,7 @@ namespace MyResume.WebApp.ModelView
 
 
         [Display(Name = "Order position")]
+        [Range(1, 6, ErrorMessage = "Value for Order position must be between 1 and 6.")]
         public int OrderPosition { get; set; }
         public bool EnableComments { get; set; }
         public bool EnableRating { get; set; }

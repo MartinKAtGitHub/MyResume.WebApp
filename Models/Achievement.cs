@@ -22,6 +22,7 @@ namespace MyResume.WebApp.Models
         [MaxLength(600)]
         public string MainText { get; set; }
 
+        [Range(1, 6)]
         public int OrderPosition { get; set; }
         public bool EnableComments { get; set; }
         public bool EnableRating { get; set; }

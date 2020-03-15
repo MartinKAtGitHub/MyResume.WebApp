@@ -62,7 +62,6 @@ namespace MyResume.WebApp.Controllers
                 Achievements = allUserItems
             };
 
-
             if (userID == id)
             {
                 model.EnableOwnerOptions = true;
@@ -98,7 +97,6 @@ namespace MyResume.WebApp.Controllers
 
             return View(model);
         }
-
 
         [HttpPost]
         [Authorize]
@@ -144,25 +142,6 @@ namespace MyResume.WebApp.Controllers
                 AvailableForContact = userInfo.AvailableForContact
             };
             return View(model);
-        }
-
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult DeleteItem(Guid id)
-        {
-            var item = _achievementRepo.Read(id);
-            var userId = _userManager.GetUserId(User);
-
-            if (item == null)
-            {
-                ViewBag.ErrorMessage = $"Item with Id = {id} cannot be found";
-                return View("PageNotFound");
-            }
-
-            FileProcessing.DeleteAllGalleryImages(_userManager.GetUserName(User), item, _config, _webHostEnvironment);
-            _achievementRepo.Delete(item);
-            return RedirectToAction("UserResume", new { id = userId });
         }
 
         [Authorize]
@@ -269,6 +248,17 @@ namespace MyResume.WebApp.Controllers
         [HttpGet]
         public IActionResult CreateItem()
         {
+            // If max limit is reached ----------------------
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+            var maxLimit = _config.GetValue<int>("ItemSettings:MaxLimit");
+           
+            if (userInfo.AchievementCount >= maxLimit)
+            {
+                ViewBag.ErrorTitle = "Item limit reached!";
+                ViewBag.ErrorMessage = $"The limit per user is {maxLimit}. Please delete any outdated items";
+                return View("Error");
+            }
+            // -----------------------------------------------
 
             var model = new AchievementViewModel();
             return View(model);
@@ -278,11 +268,20 @@ namespace MyResume.WebApp.Controllers
         [HttpPost]
         public IActionResult CreateItem(AchievementViewModel model)
         {
+            // If max limit is reached ----------------------
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+            var maxLimit = _config.GetValue<int>("ItemSettings:MaxLimit");
+
+            if (userInfo.AchievementCount >= maxLimit)
+            {
+                ViewBag.ErrorTitle = "Item limit reached!";
+                ViewBag.ErrorMessage = $"The limit per user is {maxLimit}. Please delete any outdated items";
+                return View("Error");
+            }
+            // -----------------------------------------------
+
             if (ModelState.IsValid)
             {
-                var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
-                // userInfo.AchievementCount++;
-
                 var newItemId = Guid.NewGuid();
 
                 var newItem = new Achievement
@@ -323,6 +322,8 @@ namespace MyResume.WebApp.Controllers
                     });
                 }
 
+               model.OrderPosition = userInfo.AchievementCount++;
+
                 _userInfoRepo.Update(userInfo);
                 _achievementRepo.Create(newItem);
 
@@ -330,6 +331,29 @@ namespace MyResume.WebApp.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DeleteItem(Guid id)
+        {
+            var item = _achievementRepo.Read(id);
+            var userId = _userManager.GetUserId(User);
+            var userInfo = _userInfoRepo.Read(userId);
+
+            if (item == null)
+            {
+                ViewBag.ErrorMessage = $"Item with Id = {id} cannot be found";
+                return View("PageNotFound");
+            }
+
+            FileProcessing.DeleteAllGalleryImages(_userManager.GetUserName(User), item, _config, _webHostEnvironment);
+
+            userInfo.AchievementCount--;
+
+            _userInfoRepo.Update(userInfo);
+            _achievementRepo.Delete(item);
+            return RedirectToAction("UserResume", new { id = userId });
         }
 
         [HttpGet]

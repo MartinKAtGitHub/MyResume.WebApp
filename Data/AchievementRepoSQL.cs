@@ -40,6 +40,9 @@ namespace MyResume.WebApp.Data
             return item;
         }
 
+        /// <summary>
+        /// Returns a sorted list of all the items the current user has, the list is sorted based on order position row. Lower value higher position
+        /// </summary>
         public IEnumerable<Achievement> ReadAll(Guid userInfoId)
         {
             // Just testing this style of LINQ
