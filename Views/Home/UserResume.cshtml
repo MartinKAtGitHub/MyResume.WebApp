@@ -43,54 +43,117 @@
 
         @foreach (var achievement in @Model.Achievements)
         {
-            <div class="col mb-3 d-flex justify-content-center">
-                <a asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
-                    <div class="item ">
 
-                        @{
-                            var thumbNail = achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath ?? Model.DefaultGalleryImage;
-                        }
-                        <img class="imgItemThumbnail" src="@thumbNail" alt="Item thumbnail" asp-append-version="true" />
-
-                        @if (Model.EnableOwnerOptions)
-                        {
-                            <div class="itemEditBtn">
-
-                                <a id="editBtn_@achievement.AchievementId" class="btn btn-info" asp-action="EditItem" asp-route-id="@achievement.AchievementId">
-                                    Edit Item
-                                </a>
-                            </div>
-
-                            <div class="itemDeleteBtn">
-                                <form asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
-
-                                    <span id="deleteSpan_@achievement.AchievementId">
-                                        <span class="btn btn-danger"
-                                              onclick="confirmDelete('@achievement.AchievementId', true)">Delete</span>
-                                    </span>
+            var thumbNail = achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath ?? Model.DefaultGalleryImage;
 
 
-                                    <span id="confirmDeleteSpan_@achievement.AchievementId" style="display:none">
-                                        <span>Are you sure you want to delete?</span>
-                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                        <span class="btn btn-primary"
-                                              onclick="confirmDelete('@achievement.AchievementId', false)">No</span>
-                                    </span>
+            <div class="col mb-4">
 
-                                </form>
-                            </div>
-                        }
+                <div class=" item card h-100 mx-auto text-center">
 
-                        <div class="itemSummeryFadeIn">
-                            <h3>@achievement.Title</h3>
-                        </div>
-
-
-                        @*<img src="" alt="Alternate Text" />*@
-
+                    <a asp-controller="Home" asp-action="UserResume" asp-route-id="@achievement.AchievementId">
+                        <img class="card-img-top" src="@thumbNail" alt="User item thumbnail" asp-append-version="true" />
+                    </a>
+                    <div class="card-img-overlay">
+                        FADE SHIT HAPPNINGIN HERE BRUH
                     </div>
-                </a> @*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> This is what is Causing the errors <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*@
+
+                    @if (Model.EnableOwnerOptions)
+                    {
+                        <div class="card-footer p-0">
+                            <div class="row no-gutters ">
+
+                                <div id="editCol_@achievement.AchievementId" class="col p-3 align-items-center justify-content-center bg-info border-right">
+                                    <a id="editBtn_@achievement.AchievementId" class="itemEditAnchor" asp-action="EditItem" asp-route-id="@achievement.AchievementId">
+                                        <div>
+                                            <i class="fas fa-edit"></i> Edit
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="col p-3 align-items-center justify-content-center bg-warning">
+                                    <form class="itemDeleteBtn" asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
+
+                                        <span id="deleteSpan_@achievement.AchievementId">
+                                            <span onclick="confirmDelete('@achievement.AchievementId', true)">
+                                                <i class="fas fa-trash-alt"></i> Delete
+                                            </span>
+                                        </span>
+
+
+                                        <div id="confirmDeleteSpan_@achievement.AchievementId" style="display:none">
+                                            <p>Are you sure you want to delete?</p>
+                                           
+                                            <div class="row no-gutters d-flex justify-content-between">
+                                               
+                                                <div class="col ">
+                                                    <button class="w-100 h-100 bg-danger" type="submit">Yes</button>
+                                                </div>
+                                                <div class="col bg-primary">
+                                                    <span 
+                                                          onclick="confirmDelete('@achievement.AchievementId', false)">No</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
+
+
+            @*<div class="col mb-3 d-flex justify-content-center">
+                <div class="item ">*@
+
+
+            //var thumbNail = achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath ?? Model.DefaultGalleryImage;
+
+
+            @*<a asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
+                    <img class="imgItemThumbnail" src="@thumbNail" alt="Item thumbnail" asp-append-version="true" />
+                </a>*@
+
+            @*@if (Model.EnableOwnerOptions)
+                {
+                    <div class="itemEditBtn">
+
+                        <a id="editBtn_@achievement.AchievementId" class="btn btn-info" asp-action="EditItem" asp-route-id="@achievement.AchievementId">
+                            Edit Item
+                        </a>
+                    </div>
+
+                    <div class="itemDeleteBtn">
+                        <form asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
+
+                            <span id="deleteSpan_@achievement.AchievementId">
+                                <span class="btn btn-danger"
+                                      onclick="confirmDelete('@achievement.AchievementId', true)">Delete</span>
+                            </span>
+
+
+                            <span id="confirmDeleteSpan_@achievement.AchievementId" style="display:none">
+                                <span>Are you sure you want to delete?</span>
+                                <button type="submit" class="btn btn-danger">Yes</button>
+                                <span class="btn btn-primary"
+                                      onclick="confirmDelete('@achievement.AchievementId', false)">No</span>
+                            </span>
+
+                        </form>
+                    </div>
+                }*@
+
+            @*<div class="itemSummeryFadeIn">
+                    <h3>@achievement.Title</h3>
+                </div>*@
+
+
+            @*<img src="" alt="Alternate Text" />*@
+
+            @*</div>
+                </div>*@
         }
 
     </div>

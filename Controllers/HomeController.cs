@@ -77,6 +77,7 @@ namespace MyResume.WebApp.Controllers
             return View(model);
         }
 
+
         [HttpGet]
         [Authorize]
         public IActionResult EditUserInfo()
@@ -158,9 +159,8 @@ namespace MyResume.WebApp.Controllers
             if (item == null)
             {
                 Response.StatusCode = 404;
-                ViewBag.ErrorTitle = "Can't find item to edit";
-                ViewBag.ErrorMessage = "";
-                return View("Error");
+                ViewBag.ErrorMessage = "Can't find the item you are looking for";
+                return View("PageNotFound");
             }
 
             if (item.UserInformationId != userInfo.UserInformationId)
@@ -180,15 +180,18 @@ namespace MyResume.WebApp.Controllers
                 Title = item.Title,
                 Summary = item.Summary,
                 MainText = item.MainText,
+                OrderPosMaxLimit = _config.GetValue<int>("ItemSettings:MaxLimit"),
                 OrderPosition = item.OrderPosition,
                 EnableComments = item.EnableComments,
                 EnableRating = item.EnableRating,
+               
             };
 
             foreach (var filePathContainer in item.ItemGalleryImageFilePaths)
             {
                 model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath);
             }
+
             return View(model);
         }
 
@@ -197,10 +200,35 @@ namespace MyResume.WebApp.Controllers
         public IActionResult EditItem(Guid id, AchievementViewModel model)
         {
 
+
+            var item = _achievementRepo.Read(id);
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+
+
+            // TODO research better alternatives for handling the errors -----
+
+            if (item == null)
+            {
+                Response.StatusCode = 404;
+                ViewBag.ErrorMessage = "Can't find the item you are looking for";
+                return View("PageNotFound");
+            }
+
+            if (item.UserInformationId != userInfo.UserInformationId)
+            {
+                Response.StatusCode = 403;
+                ViewBag.ErrorTitle = "Wrong user";
+                ViewBag.ErrorMessage = "Please login with the correct user to edit this item";
+                return View("Error");
+            }
+
+            // ----------------------------------------------
+
+
+
             if (ModelState.IsValid)
             {
-                var item = _achievementRepo.Read(id);
-                var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+              
                 model.ImageSrcPaths = new List<string>();
 
                 item.Title = model.Title;
@@ -251,7 +279,7 @@ namespace MyResume.WebApp.Controllers
             // If max limit is reached ----------------------
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
             var maxLimit = _config.GetValue<int>("ItemSettings:MaxLimit");
-           
+
             if (userInfo.AchievementCount >= maxLimit)
             {
                 ViewBag.ErrorTitle = "Item limit reached!";
@@ -260,7 +288,13 @@ namespace MyResume.WebApp.Controllers
             }
             // -----------------------------------------------
 
-            var model = new AchievementViewModel();
+            var model = new AchievementViewModel()
+            {
+                OrderPosMaxLimit = maxLimit,
+                OrderPosition = userInfo.AchievementCount++
+            };
+
+
             return View(model);
         }
 
@@ -322,7 +356,7 @@ namespace MyResume.WebApp.Controllers
                     });
                 }
 
-               model.OrderPosition = userInfo.AchievementCount++;
+                model.OrderPosition = userInfo.AchievementCount++;
 
                 _userInfoRepo.Update(userInfo);
                 _achievementRepo.Create(newItem);
@@ -367,6 +401,25 @@ namespace MyResume.WebApp.Controllers
                 ViewBag.ErrorTitle = "Can't find display item";
                 ViewBag.ErrorMessage = "";
                 return View("Error");
+            }
+
+
+            var model = new AchievementViewModel()
+            {
+                ImageSrcPaths = new List<string>(),
+                Title = item.Title,
+                Summary = item.Summary,
+                MainText = item.MainText,
+                OrderPosMaxLimit = _config.GetValue<int>("ItemSettings:MaxLimit"),
+                OrderPosition = item.OrderPosition,
+                EnableComments = item.EnableComments,
+                EnableRating = item.EnableRating,
+
+            };
+
+            foreach (var filePathContainer in item.ItemGalleryImageFilePaths)
+            {
+                model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath);
             }
 
             return View(item);

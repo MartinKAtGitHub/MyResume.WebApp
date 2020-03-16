@@ -14,23 +14,6 @@
 
             <div asp-validation-summary="All" class="text-danger"></div>
 
-            @*@for (int i = 0; i < Model.GalleryImagesArray.Length; i++)
-        {
-            <div class="custom-file mb-2">
-                <input asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="form-control custom-file-input" accept=".png">
-                <label asp-for="@Model.GalleryImagesArray[i].GalleryImage" class="custom-file-label">Choose file</label>
-
-                @{
-                    var msg = @ViewData["GalleryImage" + i];
-                    if (string.IsNullOrEmpty(msg as string))
-                    {
-                        <h6>@msg</h6>
-                    }
-
-                }
-            </div>
-        }*@
-
             <div class="custom-file mb-2">
                 <input asp-for="@Model.Thumbnail" class="form-control custom-file-input" accept=".png">
                 <label asp-for="@Model.Thumbnail" class="custom-file-label">Choose file</label>
@@ -73,11 +56,14 @@
                 <input asp-for="MainText" class="form-control" />
                 <span asp-validation-for="MainText" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="OrderPosition" class="control-label"></label>
+                <label asp-for="OrderPosition" class="control-label">@Model.OrderPosLbl</label>
+                <span data-toggle="tooltip" data-placement="right" title="Choose the order of your items from position 1 to @Model.OrderPosMaxLimit. Items can have the same value"><i class="fas fa-question-circle"></i></span>
                 <input asp-for="OrderPosition" class="form-control" />
                 <span asp-validation-for="OrderPosition" class="text-danger"></span>
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="EnableComments" /> @Html.DisplayNameFor(model => model.EnableComments)

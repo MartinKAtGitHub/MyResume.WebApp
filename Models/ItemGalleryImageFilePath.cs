@@ -8,7 +8,7 @@ namespace MyResume.WebApp.Models
 {
     public class ItemGalleryImageFilePath
     { 
-        // !!!!!!!!!!!!! >>>>> WARNING THIS IS A DATA BASE CLASS -> DONT CHANGE NAMES OR ADD STUFF WITHOUT UPDATING DB <<<<<  !!!!!!!!!!!
+        // !!!!!!!!!!!!! >>>>> WARNING THIS IS A MODEL CLASS -> DONT CHANGE NAMES OR ADD STUFF WITHOUT UPDATING UPDATE-DB <<<<<  !!!!!!!!!!!
 
         public string Id { get; set; }
         public string GalleryImageFilePath { get; set; }

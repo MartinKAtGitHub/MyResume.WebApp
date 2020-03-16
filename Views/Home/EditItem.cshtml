@@ -79,8 +79,8 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="OrderPosition" class="control-label"></label> 
-                <span data-toggle="tooltip" data-placement="right" title="Choose the order of your items from position 1 to 6. Items can have the same value"><i class="fas fa-question-circle"></i></span>
+                <label asp-for="OrderPosition" class="control-label">@Model.OrderPosLbl</label> 
+                <span data-toggle="tooltip" data-placement="right" title="Choose the order of your items from position 1 to @Model.OrderPosMaxLimit. Items can have the same value"><i class="fas fa-question-circle"></i></span>
                 <input asp-for="OrderPosition" class="form-control" />
                 <span asp-validation-for="OrderPosition" class="text-danger"></span>
             </div>

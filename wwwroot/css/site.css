@@ -3,6 +3,7 @@
     --itemWidth: 300px;
     --itemheight: 300px;
     --avatarCardWidth: 200px;
+    --rgbDefault: rgb(44, 46, 76);
 }
 
 body {
@@ -18,7 +19,9 @@ a {
         color: rgb(169, 250, 223);
         text-decoration: none;
     }
-
+    a.itemEditAnchor {
+        color: var(--rgbDefault);
+    }
 
 
 #renderBody {
@@ -64,7 +67,7 @@ a {
 
 .avatarCard {
     width: var(--avatarCardWidth);
-    background-color: rgb(44, 46, 76);
+    background-color: var(--rgbDefault);
 }
 .avatarCardImg {
     /*width:  198px;
@@ -93,10 +96,17 @@ a {
    
 }
 
+.item {
+    background-color: var(--rgbDefault);
+    position: relative;
+    width: var(--itemWidth);
+    height: var(--itemheight);
+    padding: 0px;
+}
 
 .itemSummeryFadeIn {
     opacity: 0;
-    background-color: rgb(44, 46, 76);
+    background-color: var(--rgbDefault);
     transition: opacity 0.4s ease 0s;
     width: var(--itemWidth);
     height: var(--itemheight);
@@ -117,20 +127,21 @@ a {
 }
 
 .itemDeleteBtn {
-    position: absolute;
+
+    color: var(--rgbDefault);
+
+    /*position: absolute;
     bottom: 0px;
-    left: 1px;
+    left: 1px;*/
     /*width: 100px;
     height: 100px;*/
-    z-index: 1;
+    /*z-index: 1;*/
 }
 
-.item {
-    background-color: rgb(44, 46, 76);
-    position: relative;
-    width: var(--itemWidth);
-    height: var(--itemheight);
-    padding: 0px;
+
+
+.itemFooter{
+    height:50px;
 }
 
 

@@ -8,6 +8,10 @@ namespace MyResume.WebApp.ModelView
     public class AchievementViewModel
     {
 
+        public AchievementViewModel()
+        {
+            
+        }
 
         [Required]
         [MaxLength(35)]
@@ -20,8 +24,6 @@ namespace MyResume.WebApp.ModelView
         [MaxLength(600)]
         public string MainText { get; set; }
 
-
-
         public IFormFile Thumbnail { get; set; }
         public IFormFile GallaryImage_1 { get; set; }
         public IFormFile GallaryImage_2 { get; set; }
@@ -29,13 +31,15 @@ namespace MyResume.WebApp.ModelView
         public IFormFile GallaryImage_4 { get; set; }
         public IFormFile GallaryImage_5 { get; set; }
 
+        public int OrderPosMaxLimit { get; set; }
+        public string OrderPosLbl { get => $"Order position (1 - {OrderPosMaxLimit})"; } //TODO change hard coded range to use config max limit
         [DataType(DataType.Text)]
-        [Display(Name = "Order position (1-6)")]
-        [Range(1, 6, ErrorMessage = "Value for Order position must be between 1 and 6.")]
+        [Range(1, 6, ErrorMessage = "Value out of range.")] 
         public int OrderPosition { get; set; }
         public bool EnableComments { get; set; }
         public bool EnableRating { get; set; }
         public List<string> ImageSrcPaths { get; set; }
+
     }
 
 
