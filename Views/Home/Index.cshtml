@@ -20,12 +20,12 @@
         <div class="input-group">
 
             <div class="input-group-prepend">
-                <span class="input-group-text" ><i class="fas fa-search"></i></span>  
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
             </div>
             <input class="form-control " type="search" placeholder="Search" asp-for="SearchString">
 
             <div class="input-group-append">
-                <button  class="btn btn-primary btn-sm" type="submit">Search</button>
+                <button class="btn btn-primary btn-sm" type="submit">Search</button>
             </div>
         </div>
 
@@ -47,11 +47,13 @@
     <div id="searchResultRow" class="row no-gutters">
         @foreach (var User in Model.UsersResult)
         {
+            var avatarImgPath = string.IsNullOrEmpty( User.AvatarImgPath ) ? Model.DefaultAvatarImg : User.AvatarImgPath ;
+         
             <div class="col mb-4">
                 <div class=" avatar-card card h-100 mx-auto text-center">
 
                     <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">
-                        <img class=" card-img-top avatar-card-img" src="@User.AvatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
+                        <img class=" card-img-top avatar-card-img" src="@avatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
                     </a>
 
                     <div class="card-body">

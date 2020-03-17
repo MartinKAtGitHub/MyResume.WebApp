@@ -44,7 +44,7 @@
         @foreach (var achievement in @Model.Achievements)
         {
 
-            var thumbNail = achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath ?? Model.DefaultGalleryImage;
+            var thumbNail = string.IsNullOrEmpty(achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath) ? Model.DefaultGalleryImage : achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath;
 
 
             <div class="col mb-4">

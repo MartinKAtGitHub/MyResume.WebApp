@@ -10,7 +10,7 @@ namespace MyResume.WebApp.ModelView
     {
         public string SearchString { get; set; }
         public List<UserInformation> UsersResult{ get; set; }
-
+        public string DefaultAvatarImg { get; set; }
 
         public UserSearchViewModel()
         {

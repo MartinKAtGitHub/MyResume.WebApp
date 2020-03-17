@@ -37,8 +37,12 @@ namespace MyResume.WebApp.Controllers
 
         public IActionResult Index(string searchString)
         {
-            var UserSearchResult = new UserSearchViewModel();
-            UserSearchResult.UsersResult = _userInfoRepo.Search(searchString).ToList();
+            var UserSearchResult = new UserSearchViewModel
+            {
+                UsersResult = _userInfoRepo.Search(searchString).ToList(),
+                DefaultAvatarImg = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath")
+
+        };
 
             return View(UserSearchResult);
         }
