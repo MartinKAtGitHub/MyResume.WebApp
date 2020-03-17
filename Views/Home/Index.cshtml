@@ -44,17 +44,14 @@
 
 
 <div id="searchResultContainer" class="mx-auto">
-
     <div id="searchResultRow" class="row no-gutters">
         @foreach (var User in Model.UsersResult)
         {
-
             <div class="col mb-4">
-
-                <div class=" avatarCard card h-100 mx-auto text-center">
+                <div class=" avatar-card card h-100 mx-auto text-center">
 
                     <a asp-controller="Home" asp-action="UserResume" asp-route-id="@User.ApplicationUser.Id">
-                        <img class="avatarCardImg card-img-top" src="@User.AvatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
+                        <img class=" card-img-top avatar-card-img" src="@User.AvatarImgPath" alt="Avatar_@User.ApplicationUser.UserName" asp-append-version="true" />
                     </a>
 
                     <div class="card-body">

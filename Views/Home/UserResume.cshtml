@@ -49,49 +49,49 @@
 
             <div class="col mb-4">
 
-                <div class=" item card h-100 mx-auto text-center">
+                <div class="card h-100 mx-auto text-center item-card">
 
                     <a asp-controller="Home" asp-action="UserResume" asp-route-id="@achievement.AchievementId">
-                        <img class="card-img-top" src="@thumbNail" alt="User item thumbnail" asp-append-version="true" />
+                        <img class="card-img-top item-card-img" src="@thumbNail" alt="User item thumbnail" asp-append-version="true" />
                     </a>
+
                     <div class="card-img-overlay">
-                        FADE SHIT HAPPNINGIN HERE BRUH
+                       
+                        <p id="titleTxt_@achievement.AchievementId" >FADE SHIT HAPPNINGIN HERE BRUH</p> 
+
+                        <div id="confirmTxt_@achievement.AchievementId" class="alert alert-danger item-delete-confirm-txt" role="alert">
+                            Confirm item deletion
+                        </div>
+
                     </div>
 
                     @if (Model.EnableOwnerOptions)
                     {
-                        <div class="card-footer p-0">
-                            <div class="row no-gutters ">
-
-                                <div id="editCol_@achievement.AchievementId" class="col p-3 align-items-center justify-content-center bg-info border-right">
-                                    <a id="editBtn_@achievement.AchievementId" class="itemEditAnchor" asp-action="EditItem" asp-route-id="@achievement.AchievementId">
-                                        <div>
-                                            <i class="fas fa-edit"></i> Edit
-                                        </div>
+                        <div class="card-footer item-card-footer">
+                            <div class="row no-gutters h-100">
+                               
+                                <div id="editCol_@achievement.AchievementId" class="col bg-info border-right">
+                                    <a id="editBtn_@achievement.AchievementId" class="p-3 item-options item-edit-link" asp-action="EditItem" asp-route-id="@achievement.AchievementId">
+                                        <span class="align-middle"> <i class="fas fa-edit"></i> Edit </span>
                                     </a>
                                 </div>
 
-                                <div class="col p-3 align-items-center justify-content-center bg-warning">
-                                    <form class="itemDeleteBtn" asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
+                                <div class="col align-items-center justify-content-center bg-warning">
+                                    <form class="h-100" asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
+                                        <div id="deleteSpan_@achievement.AchievementId" class=" item-options" onclick="confirmDelete('@achievement.AchievementId', true)">
+                                            <div class="p-3">
+                                                <i class="fas fa-trash-alt "></i> Delete
+                                            </div>
+                                        </div>
 
-                                        <span id="deleteSpan_@achievement.AchievementId">
-                                            <span onclick="confirmDelete('@achievement.AchievementId', true)">
-                                                <i class="fas fa-trash-alt"></i> Delete
-                                            </span>
-                                        </span>
+                                        <div id="confirmDeleteSpan_@achievement.AchievementId" class="h-100" style="display:none">
 
-
-                                        <div id="confirmDeleteSpan_@achievement.AchievementId" style="display:none">
-                                            <p>Are you sure you want to delete?</p>
-                                           
-                                            <div class="row no-gutters d-flex justify-content-between">
-                                               
-                                                <div class="col ">
-                                                    <button class="w-100 h-100 bg-danger" type="submit">Yes</button>
+                                            <div class="row no-gutters h-100">
+                                                <div class="col">
+                                                    <button class="bg-danger item-options item-delete-yes-no-btns" type="submit"><i class="fas fa-check-square"></i> Yes</button>
                                                 </div>
-                                                <div class="col bg-primary">
-                                                    <span 
-                                                          onclick="confirmDelete('@achievement.AchievementId', false)">No</span>
+                                                <div class="col" onclick="confirmDelete('@achievement.AchievementId', false)">
+                                                    <button class="bg-primary item-options item-delete-yes-no-btns" type="button"><i class="fas fa-times-circle"></i> No</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -113,7 +113,7 @@
 
 
             @*<a asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
-                    <img class="imgItemThumbnail" src="@thumbNail" alt="Item thumbnail" asp-append-version="true" />
+                    <img class="item-card-img" src="@thumbNail" alt="Item thumbnail" asp-append-version="true" />
                 </a>*@
 
             @*@if (Model.EnableOwnerOptions)

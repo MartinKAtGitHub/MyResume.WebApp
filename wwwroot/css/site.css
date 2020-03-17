@@ -11,17 +11,21 @@ body {
     color: cornsilk;
 }
 
-a {
+/*a {
     color: rgb(51, 164, 199);
+}*/
+
+a:hover {
+    color: rgb(169, 250, 223);
+    text-decoration: none;
 }
 
-    a:hover {
-        color: rgb(169, 250, 223);
-        text-decoration: none;
-    }
-    a.itemEditAnchor {
-        color: var(--rgbDefault);
-    }
+a.item-edit-link {
+    display: block;
+    height: 100%;
+}
+
+
 
 
 #renderBody {
@@ -45,8 +49,8 @@ a {
     /*max-width: 800px;*/
 }
 
-#userResumeSummary{
-    white-space:pre-wrap;
+#userResumeSummary {
+    white-space: pre-wrap;
 }
 
 
@@ -65,11 +69,12 @@ a {
     white-space: pre-wrap;
 }
 
-.avatarCard {
+.avatar-card {
     width: var(--avatarCardWidth);
     background-color: var(--rgbDefault);
 }
-.avatarCardImg {
+
+.avatar-card-img {
     /*width:  198px;
     height: 198px;*/
     width: 100%;
@@ -81,11 +86,10 @@ a {
 }
 
 
-.imgItemThumbnail {
-
+.item-card-img {
     width: var(--itemWidth);
     height: var(--itemheight);
-    position: absolute;
+    /*position: absolute;*/
     object-fit: contain;
 }
 
@@ -93,15 +97,45 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax( var(--itemWidth), 1fr));
     padding: 30px;
-   
 }
 
-.item {
+.item-card {
     background-color: var(--rgbDefault);
     position: relative;
     width: var(--itemWidth);
     height: var(--itemheight);
     padding: 0px;
+}
+
+.item-options {
+    width: 100%;
+    height: 100%;
+    color: var(--rgbDefault);
+    cursor: pointer;
+}
+
+    .item-options:hover {
+        color: rgb(255, 255, 255);
+    }
+
+
+.item-delete-yes-no-btns {
+    border: none;
+    text-decoration: none;
+    padding: 0px;
+}
+
+.item-delete-confirm-txt {
+    /*background-color: var(--danger);*/
+    color: var(--rgbDefault);
+    display: none;
+    font-size: 1.5em;
+    /*padding:5px;*/
+}
+
+.item-card-footer {
+    padding: 0;
+    height: 60px;
 }
 
 .itemSummeryFadeIn {
@@ -126,10 +160,8 @@ a {
     z-index: 1;
 }
 
-.itemDeleteBtn {
-
+.item-form-del {
     color: var(--rgbDefault);
-
     /*position: absolute;
     bottom: 0px;
     left: 1px;*/
@@ -140,9 +172,6 @@ a {
 
 
 
-.itemFooter{
-    height:50px;
+.itemFooter {
+    height: 50px;
 }
-
-
-
