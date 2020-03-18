@@ -25,8 +25,16 @@ a.item-edit-link {
     height: 100%;
 }
 
+/*---------- Bootstrap mods ----------*/
+.card {
+    border: 0px;
+}
 
+.card-img-overlay {
+    pointer-events: none;
+}
 
+/*-----------------------------------*/
 
 #renderBody {
     max-width: 80%;
@@ -86,14 +94,9 @@ a.item-edit-link {
 }
 
 
-.item-card-img {
-    width: var(--itemWidth);
-    height: var(--itemheight);
-    /*position: absolute;*/
-    object-fit: contain;
-}
+/*---------- Item ----------*/
 
-#itemContainer.row {
+#item_container.row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax( var(--itemWidth), 1fr));
     padding: 30px;
@@ -105,6 +108,13 @@ a.item-edit-link {
     width: var(--itemWidth);
     height: var(--itemheight);
     padding: 0px;
+}
+
+.item-card-img {
+    width: var(--itemWidth);
+    height: var(--itemheight);
+    /*position: absolute;*/
+    object-fit: contain;
 }
 
 .item-options {
@@ -138,40 +148,31 @@ a.item-edit-link {
     height: 60px;
 }
 
-.itemSummeryFadeIn {
+.item-fade-In {
     opacity: 0;
-    background-color: var(--rgbDefault);
+    background: rgba(44, 46, 76, 0);
+    transition: background 0.4s ease 0s;
     transition: opacity 0.4s ease 0s;
     width: var(--itemWidth);
     height: var(--itemheight);
+    padding: 10px;
     position: absolute;
-    /*overflow: hidden;*/
+    top: 0px;
+    left: 0px;
 }
 
-    .itemSummeryFadeIn:hover {
-        opacity: 0.7;
+    .item-fade-In:hover {
+        opacity: 1;
+        background: rgba(44, 46, 76, 0.8);
+        transition: background 0.4s ease 0s;
         transition: opacity 0.4s ease 0s;
     }
 
-.itemEditBtn {
+
+    /*.itemEditBtn {
     position: absolute;
     bottom: 0px;
     right: 0px;
     z-index: 1;
-}
-
-.item-form-del {
-    color: var(--rgbDefault);
-    /*position: absolute;
-    bottom: 0px;
-    left: 1px;*/
-    /*width: 100px;
-    height: 100px;*/
-    /*z-index: 1;*/
-}
-
-
-
-.itemFooter {
-    height: 50px;
-}
+}*/
+    /*------------------------------*/

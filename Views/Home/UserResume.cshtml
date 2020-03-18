@@ -7,7 +7,6 @@
 }
 
 <div class="row mb-5">
-
     <div class="col text-md-left text-sm-center align-self-center">
         <h3 class="display-3 text-break nameTitle">@Model.UserInfo.FirstName</h3>
         <h3 class="display-3 text-break nameTitle">@Model.UserInfo.MiddelName</h3>
@@ -39,37 +38,35 @@
 
 @if (@Model.Achievements.ToList().Any())
 {
-    <div id="itemContainer" class=" row border-top">
+    <div id="item_container" class=" row border-top">
 
         @foreach (var achievement in @Model.Achievements)
         {
-
             var thumbNail = string.IsNullOrEmpty(achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath) ? Model.DefaultGalleryImage : achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath;
-
 
             <div class="col mb-4">
 
                 <div class="card h-100 mx-auto text-center item-card">
-
-                    <a asp-controller="Home" asp-action="UserResume" asp-route-id="@achievement.AchievementId">
+                    <a class="display-item-link" asp-controller="Home" asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
                         <img class="card-img-top item-card-img" src="@thumbNail" alt="User item thumbnail" asp-append-version="true" />
                     </a>
 
-                    <div class="card-img-overlay">
-                       
-                        <p id="titleTxt_@achievement.AchievementId" >FADE SHIT HAPPNINGIN HERE BRUH</p> 
+                    <div class="item-fade-In">
+                        <h4 id="titleTxt_@achievement.AchievementId" class="Item-title-txt">@achievement.Title</h4>
+                    </div>
+
+                    <div class="card-img-overlay ">
 
                         <div id="confirmTxt_@achievement.AchievementId" class="alert alert-danger item-delete-confirm-txt" role="alert">
                             Confirm item deletion
                         </div>
-
                     </div>
 
                     @if (Model.EnableOwnerOptions)
                     {
                         <div class="card-footer item-card-footer">
                             <div class="row no-gutters h-100">
-                               
+
                                 <div id="editCol_@achievement.AchievementId" class="col bg-info border-right">
                                     <a id="editBtn_@achievement.AchievementId" class="p-3 item-options item-edit-link" asp-action="EditItem" asp-route-id="@achievement.AchievementId">
                                         <span class="align-middle"> <i class="fas fa-edit"></i> Edit </span>
