@@ -47,13 +47,14 @@
             <div class="col mb-4">
 
                 <div class="card h-100 mx-auto text-center item-card">
-                    <a class="display-item-link" asp-controller="Home" asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
-                        <img class="card-img-top item-card-img" src="@thumbNail" alt="User item thumbnail" asp-append-version="true" />
-                    </a>
 
-                    <div class="item-fade-In">
-                        <h4 id="titleTxt_@achievement.AchievementId" class="Item-title-txt">@achievement.Title</h4>
-                    </div>
+                    <img class="card-img-top item-card-img" src="@thumbNail" alt="User item thumbnail" asp-append-version="true" />
+
+                    <a asp-controller="Home" asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
+                        <div class="item-fade-In">
+                            <h4 id="titleTxt_@achievement.AchievementId" class="Item-title-txt">@achievement.Title</h4>
+                        </div>
+                    </a>
 
                     <div class="card-img-overlay ">
 

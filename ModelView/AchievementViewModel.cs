@@ -40,6 +40,7 @@ namespace MyResume.WebApp.ModelView
         public bool EnableRating { get; set; }
         public List<string> ImageSrcPaths { get; set; }
 
+        
     }
 
 

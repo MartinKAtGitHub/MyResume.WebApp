@@ -42,7 +42,7 @@ namespace MyResume.WebApp.Controllers
                 UsersResult = _userInfoRepo.Search(searchString).ToList(),
                 DefaultAvatarImg = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath")
 
-        };
+            };
 
             return View(UserSearchResult);
         }
@@ -188,7 +188,7 @@ namespace MyResume.WebApp.Controllers
                 OrderPosition = item.OrderPosition,
                 EnableComments = item.EnableComments,
                 EnableRating = item.EnableRating,
-               
+
             };
 
             foreach (var filePathContainer in item.ItemGalleryImageFilePaths)
@@ -232,7 +232,7 @@ namespace MyResume.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-              
+
                 model.ImageSrcPaths = new List<string>();
 
                 item.Title = model.Title;
@@ -423,10 +423,13 @@ namespace MyResume.WebApp.Controllers
 
             foreach (var filePathContainer in item.ItemGalleryImageFilePaths)
             {
-                model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath);
+                if (!string.IsNullOrEmpty(filePathContainer.GalleryImageFilePath))
+                {
+                    model.ImageSrcPaths.Add(filePathContainer.GalleryImageFilePath);
+                }
             }
 
-            return View(item);
+            return View(model);
         }
 
 
