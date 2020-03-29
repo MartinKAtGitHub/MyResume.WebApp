@@ -36,6 +36,34 @@
 
 </div>
 
+
+
+<div class="row experience-main-area">
+
+    <div class="w-100 ">
+        <h3 class="display-3 border-bottom m-0">Experience</h3>
+        <button onclick="CreateExp('Kek')">Add new Exp</button>
+    </div>
+
+    <div id="createExpForm"style="background-color: red; width :500px; height: 500px;">
+        <form>
+            
+
+        </form>
+    </div>
+
+
+    @*<div class="col">
+            <h4>About Me</h4>
+            <div id="mainTextContainer">
+                <p id="mainTextBlock">@Model.UserInfo.MainText</p>
+            </div>
+        </div>*@
+
+</div>
+
+
+
 @if (@Model.Achievements.ToList().Any())
 {
     <div id="item_container" class=" row border-top">
@@ -175,19 +203,12 @@ else
 
 
 
-<div class="row p-4">
-    <div class="col">
-        <h4>About Me</h4>
-        <div id="mainTextContainer">
-            <p id="mainTextBlock">@Model.UserInfo.MainText</p>
-        </div>
-    </div>
-</div>
 
 
 
 @section Scripts {
     <script src="~/js/SiteScripts.js"></script>
+    <script src="~/js/ResumeUserControls.js"></script>
 }
 
 

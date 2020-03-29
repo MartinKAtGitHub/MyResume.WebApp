@@ -28,3 +28,8 @@ function confirmDelete(uniqueId, isDeleteClicked) {
 
     }
 }
+
+function test() {
+    var x = XMLHttpRequest();
+    x.open();
+}

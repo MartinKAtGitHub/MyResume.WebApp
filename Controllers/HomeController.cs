@@ -24,15 +24,17 @@ namespace MyResume.WebApp.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _config;
         private readonly IAchievementRepo _achievementRepo;
+        private readonly IExperienceRepo _experienceRepo;
 
         public HomeController(UserManager<ApplicationUser> userManager, IUserInfoRepo userInfoRepo, IWebHostEnvironment webHostEnvironment,
-            IConfiguration config, IAchievementRepo achievementRepo)
+            IConfiguration config, IAchievementRepo achievementRepo, IExperienceRepo experienceRepo)
         {
             _userManager = userManager;
             _userInfoRepo = userInfoRepo;
             _webHostEnvironment = webHostEnvironment;
             _config = config;
             _achievementRepo = achievementRepo;
+            _experienceRepo = experienceRepo;
         }
 
         public IActionResult Index(string searchString)
@@ -452,7 +454,6 @@ namespace MyResume.WebApp.Controllers
             return RedirectToAction("EditUserInfo");
         }
 
-
         [Authorize]
         [HttpPost]
         public IActionResult RemoveGalleryImg(Guid id, int imageIndex)
@@ -473,6 +474,17 @@ namespace MyResume.WebApp.Controllers
             return RedirectToAction("EditItem", new { id });
         }
 
+        [HttpPost]
+        [Authorize]
+        public UserResumeViewModel CreateNewExperienceGroup(UserResumeViewModel model) // TODO CreateNewExperienceGroup Add validation with Ajax
+        {
+            // Use only client side stuff!
+            if (!ModelState.IsValid)
+            {
+                return model;
+            }
 
+            return model;
+        }
     }
 }

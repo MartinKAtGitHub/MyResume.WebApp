@@ -14,6 +14,8 @@ namespace MyResume.WebApp.Data
         // public DbSet<UserResumePage> UserResumePages { get; set; }
         public DbSet<UserInformation> UserInformation { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<Experience> Experiences { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions) : base(dbContextOptions)
         {
 

@@ -93,9 +93,16 @@ a.item-edit-link {
     display: inline-block;
 }
 
+/*---------- Experience elements ----------*/
 
-/*---------- Item ----------*/
+.experience-main-area{
 
+    min-height: 300px;
+    /*background-color: red;*/
+}
+
+
+/*---------- Item elements ----------*/
 #item_container.row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax( var(--itemWidth), 1fr));
@@ -183,7 +190,7 @@ a.item-edit-link {
 
 #galleryCarousel {
     /*width: 700px;*/
-    height: 700px;
+    height: 500px;
     /*margin:0px auto;*/
 }
 
