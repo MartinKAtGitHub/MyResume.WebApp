@@ -8,10 +8,12 @@ namespace MyResume.WebApp.Models
     public class Experience
     {
         public string Id { get; set; }
-        
-        [Required]
-        public  ApplicationUser User  { get; set; }
-        
+
+        //public ApplicationUser ApplicationUserId { get; set; }
+        //public  ApplicationUser ApplicationUser { get; set; }
+        public Guid UserInformationId { get; set; }
+        public UserInformation UserInformation { get; set; }
+
         [Required]
         [MaxLength(30)]
         public string Title { get; set; }
@@ -19,6 +21,6 @@ namespace MyResume.WebApp.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public List<ExperiencePoint> ExperiencePoint { get; set; }
+        public List<ExperiencePoint> ExperiencePoints { get; set; }
     }
 }

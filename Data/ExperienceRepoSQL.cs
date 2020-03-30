@@ -8,10 +8,19 @@ namespace MyResume.WebApp.Data
 {
     public class ExperienceRepoSQL : IExperienceRepo
     {
+        private readonly AppDbContext _appDbContext;
+
+        public ExperienceRepoSQL(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
 
         public Experience Create(Experience model)
         {
-            throw new NotImplementedException();
+
+            _appDbContext.Experiences.Add(model);
+            _appDbContext.SaveChanges();
+            return model;
         }
 
         public Experience Delete(Experience experienceToDelete)

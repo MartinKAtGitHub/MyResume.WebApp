@@ -1,7 +1,7 @@
 ﻿
 :root {
     --itemWidth: 300px;
-    --itemheight: 300px;
+    --itemHeight: 300px;
     --avatarCardWidth: 200px;
     --rgbDefault: rgb(44, 46, 76);
 }
@@ -34,6 +34,9 @@ a.item-edit-link {
     pointer-events: none;
 }
 
+.modal-content{
+    background-color: var(--rgbDefault);
+}
 /*-----------------------------------*/
 
 #renderBody {
@@ -113,13 +116,13 @@ a.item-edit-link {
     background-color: var(--rgbDefault);
     position: relative;
     width: var(--itemWidth);
-    height: var(--itemheight);
+    height: var(--itemHeight);
     padding: 0px;
 }
 
 .item-card-img {
     width: var(--itemWidth);
-    height: var(--itemheight);
+    height: var(--itemHeight);
     /*position: absolute;*/
     object-fit: contain;
 }
@@ -162,7 +165,7 @@ a.item-edit-link {
     transition: background 0.4s ease 0s;
     transition: opacity 0.4s ease 0s;
     width: var(--itemWidth);
-    height: var(--itemheight);
+    height: var(--itemHeight);
     padding: 10px;
     position: absolute;
     top: 0px;
@@ -205,3 +208,11 @@ a.item-edit-link {
     padding: 20px;
 }
 
+
+
+/*----- Experience Modal ----- */
+
+#newExpFrom input{
+    display: block;
+    width: 100%;
+}

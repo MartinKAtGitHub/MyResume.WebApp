@@ -12,6 +12,7 @@ namespace MyResume.WebApp.Models
         public string Id { get; set; }
 
         [Required]
+        public string ExperienceId { get; set; }
         public Experience Experience { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -20,7 +21,8 @@ namespace MyResume.WebApp.Models
         [Required]
         [MaxLength(30)]
         public string Title { get; set; }
-        [Required]
+      
+
         public List<ExperiencePointDescription> Descriptions { get; set; }
     }
 }

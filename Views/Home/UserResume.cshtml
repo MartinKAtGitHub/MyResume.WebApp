@@ -38,19 +38,88 @@
 
 
 
+
 <div class="row experience-main-area">
 
     <div class="w-100 ">
         <h3 class="display-3 border-bottom m-0">Experience</h3>
-        <button onclick="CreateExp('Kek')">Add new Exp</button>
+
+        @if (Model.EnableOwnerOptions)
+        {
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newExperienceModal">
+                Add new exp
+            </button>
+        }
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="newExperienceModal" tabindex="-1" role="dialog" aria-labelledby="newExperienceModalTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newExperienceModalTitle">
+                        Modal title
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="newExpFrom" asp-action="CreateNewExperienceGroup" asp-route-id="@this.ViewContext.RouteData.Values["id"].ToString()" method="post">
+
+
+                        @*<input type="hidden"  value="RouteData.Values["id"].ToString()" />*@
+
+
+                        <label asp-for="@Model.NewExpGrp.Title">Grp Title</label>
+                        <input asp-for="@Model.NewExpGrp.Title" type="text" value="" />
+                        <span asp-validation-for="@Model.NewExpGrp.Title" class="text-danger"></span>
+
+                        <label asp-for="@Model.NewExpGrp.ExperiencePoints[0].Title">Point 1 Title</label>
+                        <input asp-for="@Model.NewExpGrp.ExperiencePoints[0].Title" type="text" value="" />
+                        <span asp-validation-for="@Model.NewExpGrp.ExperiencePoints[0].Title" class="text-danger"></span>
+
+
+                        <label asp-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[0].Discription"></label>
+                        <input asp-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[0].Discription" type="text" value="" />
+                        <span asp-validation-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[0].Discription" class="text-danger"></span>
+
+                        <label asp-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[1].Discription"></label>
+                        <input asp-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[1].Discription" type="text" value="" />
+                        <span asp-validation-for="@Model.NewExpGrp.ExperiencePoints[1].Descriptions[1].Discription" class="text-danger"></span>
+
+                        <label asp-for="@Model.NewExpGrp.ExperiencePoints[1].Title"> point 2 title</label>
+                        <input asp-for="@Model.NewExpGrp.ExperiencePoints[1].Title" type="text" value="" />
+                        <span asp-validation-for="@Model.NewExpGrp.ExperiencePoints[1].Title" class="text-danger"></span>
+
+
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button onclick="CreateExp()" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="createExpForm"style="background-color: red; width :500px; height: 500px;">
-        <form>
-            
 
-        </form>
-    </div>
+
+    @*<div class="w-100 ">
+            <h3 class="display-3 border-bottom m-0">Experience</h3>
+            <button onclick="CreateExp('Kek')">Add new Exp</button>
+        </div>
+
+        <div id="createExpForm"style="background-color: red; width :500px; height: 500px;">
+            <form>
+
+
+            </form>
+        </div>*@
 
 
     @*<div class="col">
@@ -87,7 +156,9 @@
                     <div class="card-img-overlay ">
 
                         <div id="confirmTxt_@achievement.AchievementId" class="alert alert-danger item-delete-confirm-txt" role="alert">
-                            Confirm item deletion
+
+                            <h3 class="alert-heading">Delete Item</h3>
+                            <p>Are you sure you want to delete this item?</p>
                         </div>
                     </div>
 

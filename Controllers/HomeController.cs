@@ -476,14 +476,36 @@ namespace MyResume.WebApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public UserResumeViewModel CreateNewExperienceGroup(UserResumeViewModel model) // TODO CreateNewExperienceGroup Add validation with Ajax
+        public UserResumeViewModel CreateNewExperienceGroup(string id, UserResumeViewModel model) // TODO CreateNewExperienceGroup Add validation with Ajax
         {
-            // Use only client side stuff!
-            if (!ModelState.IsValid)
+
+            var userID = _userManager.GetUserId(User);
+
+            if (id != userID)
             {
+                Response.StatusCode = 403; // This is sendt to the AJAX and wil cause the ERROR CallbackFunc to run
+                ViewBag.ErrorTitle = "Wrong us er";
+                ViewBag.ErrorMessage = "Please login with the correct user to edit this item";
+
+                return model;
+                //return ("Error");
+            }
+
+
+            if (ModelState.IsValid) // This is breaking because i have  required flags on ID and shit so the model state is checking info it dosent need
+            {
+                var exp = new Experience()
+                {
+                    //Id = Guid.NewGuid().ToString(),
+                    Title = model.NewExpGrp.Title,
+                    ExperiencePoints = model.NewExpGrp.ExperiencePoints,
+
+                };
+                _experienceRepo.Create(exp);
                 return model;
             }
 
+                //Response.StatusCode = 422; we need to cause an error and go back
             return model;
         }
     }
