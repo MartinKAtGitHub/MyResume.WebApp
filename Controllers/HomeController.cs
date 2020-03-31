@@ -476,36 +476,75 @@ namespace MyResume.WebApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public UserResumeViewModel CreateNewExperienceGroup(string id, UserResumeViewModel model) // TODO CreateNewExperienceGroup Add validation with Ajax
+        public UserResumeViewModel CreateNewExperienceGroup(/* string id,*/ UserResumeViewModel model) // TODO CreateNewExperienceGroup Add validation with Ajax
         {
 
-            var userID = _userManager.GetUserId(User);
-
-            if (id != userID)
+            if (ModelState.IsValid) 
             {
-                Response.StatusCode = 403; // This is sendt to the AJAX and wil cause the ERROR CallbackFunc to run
-                ViewBag.ErrorTitle = "Wrong us er";
-                ViewBag.ErrorMessage = "Please login with the correct user to edit this item";
 
-                return model;
-                //return ("Error");
-            }
+                var userID = _userManager.GetUserId(User);
+                var id = model.NewExpGrp.ExpUserInfoID;
+
+                if (id != userID)
+                {
+                    Response.StatusCode = 403; // This is sendt to the AJAX and wil cause the ERROR CallbackFunc to run
+                    ViewBag.ErrorTitle = "Wrong us er";
+                    ViewBag.ErrorMessage = "Please login with the correct user to edit this item";
+
+                    return model;
+                    //return ("Error");
+                }
 
 
-            if (ModelState.IsValid) // This is breaking because i have  required flags on ID and shit so the model state is checking info it dosent need
-            {
+
                 var exp = new Experience()
                 {
-                    //Id = Guid.NewGuid().ToString(),
+                    Id = Guid.NewGuid().ToString(),
                     Title = model.NewExpGrp.Title,
-                    ExperiencePoints = model.NewExpGrp.ExperiencePoints,
-
+                    UserInformationId = _userInfoRepo.Read(userID).UserInformationId,
+                    ExperiencePoints = new List<ExperiencePoint>()
+                   
                 };
+
+
+                foreach (var point in model.NewExpGrp.ExpPoints)
+                {
+
+                    var newPoint = new ExperiencePoint
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Title = point.PointTitle,
+                        Descriptions = new List<ExperiencePointDescription>()
+                    //ExperienceId = auto gen EF core +?
+                };
+                    
+
+                    for (int i = 0; i < point.Descriptions.Count; i++)
+                    {
+                        var desc = new ExperiencePointDescription()
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Discription = point.Descriptions[i].Desc,
+                            //ExperiencePointId = ef core  auto ???
+                        };
+
+                        newPoint.Descriptions.Add(desc);
+                    }
+
+
+                    exp.ExperiencePoints.Add(newPoint);
+                }
+
                 _experienceRepo.Create(exp);
                 return model;
             }
 
-                //Response.StatusCode = 422; we need to cause an error and go back
+
+            var errors = ModelState.Select(x => x.Value.Errors)
+                           .Where(y => y.Count > 0)
+                           .ToList();
+
+            //Response.StatusCode = 422; we need to cause an error and go back
             return model;
         }
     }

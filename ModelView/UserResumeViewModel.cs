@@ -6,18 +6,20 @@ namespace MyResume.WebApp.ModelView
     {
         public UserInformation UserInfo { get; set; }
         public IEnumerable<Achievement> Achievements { get; set; }
-        public IEnumerable<Experience> Experiences { get; set; }
-        public Experience NewExpGrp { get; set; }
+        public IEnumerable<ExpViewModel> Experiences { get; set; }
+        public ExpViewModel NewExpGrp { get; set; }
 
         public bool EnableOwnerOptions { get; set; }
 
         public string DefaultAvatarImage { get; set; }
         public string DefaultGalleryImage { get; set; }
 
+
+
         public UserResumeViewModel()
         {
             Achievements = new List<Achievement>();
-            Experiences = new List<Experience>();
+            Experiences = new List<ExpViewModel>();
         }
 
     }

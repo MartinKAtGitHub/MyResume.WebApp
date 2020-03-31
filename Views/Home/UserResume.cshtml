@@ -54,59 +54,55 @@
 
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="newExperienceModal" tabindex="-1" role="dialog" aria-labelledby="newExperienceModalTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="newExperienceModalTitle">
-                        Modal title
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+    <form id="newExpFrom" asp-action="CreateNewExperienceGroup"  method="post">
+        <div class="modal fade" id="newExperienceModal" tabindex="-1" role="dialog" aria-labelledby="newExperienceModalTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newExperienceModalTitle">
+                            Modal title
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-                <div class="modal-body">
-                    <form id="newExpFrom" asp-action="CreateNewExperienceGroup" asp-route-id="@this.ViewContext.RouteData.Values["id"].ToString()" method="post">
+                    <div class="modal-body">
 
 
-                        @*<input type="hidden"  value="RouteData.Values["id"].ToString()" />*@
+                        <input type="hidden" asp-for="@Model.NewExpGrp.ExpUserInfoID" value="@this.ViewContext.RouteData.Values["id"].ToString()" />
 
 
                         <label asp-for="@Model.NewExpGrp.Title">Grp Title</label>
                         <input asp-for="@Model.NewExpGrp.Title" type="text" value="" />
-                        <span asp-validation-for="@Model.NewExpGrp.Title" class="text-danger"></span>
-
-                        <label asp-for="@Model.NewExpGrp.ExperiencePoints[0].Title">Point 1 Title</label>
-                        <input asp-for="@Model.NewExpGrp.ExperiencePoints[0].Title" type="text" value="" />
-                        <span asp-validation-for="@Model.NewExpGrp.ExperiencePoints[0].Title" class="text-danger"></span>
 
 
-                        <label asp-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[0].Discription"></label>
-                        <input asp-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[0].Discription" type="text" value="" />
-                        <span asp-validation-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[0].Discription" class="text-danger"></span>
+                        <label asp-for="@Model.NewExpGrp.ExpPoints[0].PointTitle">Point 1 Title</label>
+                        <input asp-for="@Model.NewExpGrp.ExpPoints[0].PointTitle" type="text" value="" />
 
-                        <label asp-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[1].Discription"></label>
-                        <input asp-for="@Model.NewExpGrp.ExperiencePoints[0].Descriptions[1].Discription" type="text" value="" />
-                        <span asp-validation-for="@Model.NewExpGrp.ExperiencePoints[1].Descriptions[1].Discription" class="text-danger"></span>
 
-                        <label asp-for="@Model.NewExpGrp.ExperiencePoints[1].Title"> point 2 title</label>
-                        <input asp-for="@Model.NewExpGrp.ExperiencePoints[1].Title" type="text" value="" />
-                        <span asp-validation-for="@Model.NewExpGrp.ExperiencePoints[1].Title" class="text-danger"></span>
+                        <label asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[0].Desc"></label>
+                        <input asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[0].Desc" type="text" value="" />
 
+
+                        <label asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[1].Desc"></label>
+                        <input asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[1].Desc" type="text" value="" />
+
+                        <label asp-for="@Model.NewExpGrp.ExpPoints[1].PointTitle"> point 2 title</label>
+                        <input asp-for="@Model.NewExpGrp.ExpPoints[1].PointTitle" type="text" value="" />
 
                         <div asp-validation-summary="All" class="text-danger"></div>
 
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button onclick="CreateExp()" class="btn btn-primary">Create</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button onclick="CreateExp()" class="btn btn-primary">Create</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+    </form>
 
 
     @*<div class="w-100 ">
