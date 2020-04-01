@@ -1,5 +1,15 @@
 ﻿
 
+function OnSuccsessfulCreateEXP(xhr: XMLHttpRequest) {
+
+    var JSONOBJECT = JSON.parse(xhr.response); // Use this to manipulate the JSON https://www.w3schools.com/js/js_json_parse.asp
+
+    alert("CLOSING MODUAL");
+    $("#newExperienceModal").modal('hide');
+
+}
+
+
 function CreateExp(expId: string): void {
 
     // $("#createExpForm").hide("slow");
@@ -22,6 +32,7 @@ function CreateExp(expId: string): void {
 
         success: function (msg) {
             console.log("SUCCESS" + msg);
+            alert("SUCCSESS !!!!!!!!!!!")
             // Maybe add a SUCCSES message or Icon
 
         },
