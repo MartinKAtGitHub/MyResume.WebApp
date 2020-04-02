@@ -1,8 +1,37 @@
 ﻿
+$(document).ready(() => {
+
+    const addExpPointBtn = $("#addExpPointBtn");
+    let expPointCounter = 0;
+
+    addExpPointBtn.on("click", () => {
+
+        // Add span for validation
+        // Add Label
+
+        let inputHTML = "<input type='text' \
+        value = '' \
+        data-val='true' \
+        data-val-maxlength='The field PointTitle must be a string or array type with a maximum length of 30.' \
+        data-val-maxlength-max='30' data-val-required='The PointTitle field is required.' \
+        id = 'NewExpGrp_ExpPoints_" + expPointCounter + "__PointTitle' \
+        maxlength = '30' \
+        name = 'NewExpGrp.ExpPoints["+ expPointCounter + "].PointTitle' >";
+
+        addExpPointBtn.before("<div class='exp-point-section m-3 p-2'>" + inputHTML + "</div>")
+
+        expPointCounter++;
+    })
+
+});
+
+
+
+
 
 function OnSuccsessfulCreateEXP(xhr: XMLHttpRequest) {
 
-    var JSONOBJECT = JSON.parse(xhr.response); // Use this to manipulate the JSON https://www.w3schools.com/js/js_json_parse.asp
+  //  var JSONOBJECT = JSON.parse(xhr.response); // Use this to manipulate the JSON https://www.w3schools.com/js/js_json_parse.asp
 
     alert("CLOSING MODUAL");
     $("#newExperienceModal").modal('hide');
@@ -17,9 +46,10 @@ function CreateExp(expId: string): void {
     const formData = new FormData(form.get(0) as HTMLFormElement);
     const actionURL = form.prop('action');
 
-    formData.forEach(element => {
-        console.log(element.valueOf());
-    });
+    //formData.forEach(element => {
+    //    console.log(element.valueOf());
+    //});
+
     $.ajax({
 
         type: "POST",
@@ -32,7 +62,7 @@ function CreateExp(expId: string): void {
 
         success: function (msg) {
             console.log("SUCCESS" + msg);
-            alert("SUCCSESS !!!!!!!!!!!")
+            //  alert("SUCCSESS !!!!!!!!!!!");
             // Maybe add a SUCCSES message or Icon
 
         },
@@ -45,11 +75,13 @@ function CreateExp(expId: string): void {
     });
 }
 
-function CreateExpPoint(expId: string): void {
-    // Hide or unHide 
+function AddExpPoint(expId: string): void {
+    //$(".modal-body").
 }
 
-function CreateExpPointDesc(expId: string): void {
+
+
+function AddExpPointDesc(expId: string): void {
     // Hide or unHide 
 }
 

@@ -57,7 +57,7 @@
 
 
     <form id="newExpFrom" asp-action="CreateNewExperienceGroup" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="Callback">
-       
+
         <div class="modal fade" id="newExperienceModal" tabindex="-1" role="dialog" aria-labelledby="newExperienceModalTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -78,28 +78,30 @@
                         <label asp-for="@Model.NewExpGrp.Title">Grp Title</label>
                         <input asp-for="@Model.NewExpGrp.Title" type="text" value="" />
 
+                        <button id="addExpPointBtn" type="button">Add point</button>
 
-                        <label asp-for="@Model.NewExpGrp.ExpPoints[0].PointTitle">Point 1 Title</label>
-                        <input asp-for="@Model.NewExpGrp.ExpPoints[0].PointTitle" type="text" value="" />
+                        @*<div class="exp-point-section m-3 p-2">
+
+                            <label asp-for="@Model.NewExpGrp.ExpPoints[0].PointTitle">Point 1 Title</label>
+                            <input asp-for="@Model.NewExpGrp.ExpPoints[0].PointTitle" type="text" value="" />
 
 
-                        <label asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[0].Desc"></label>
-                        <input asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[0].Desc" type="text" value="" />
+                            <label asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[0].Desc"></label>
+                            <input asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[0].Desc" type="text" value="" />
 
+                            <button type="button">Add Desc</button>
 
-                        <label asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[1].Desc"></label>
-                        <input asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[1].Desc" type="text" value="" />
-
-                        <label asp-for="@Model.NewExpGrp.ExpPoints[1].PointTitle"> point 2 title</label>
-                        <input asp-for="@Model.NewExpGrp.ExpPoints[1].PointTitle" type="text" value="" />
+                            <label asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[1].Desc"></label>
+                            <input asp-for="@Model.NewExpGrp.ExpPoints[0].Descriptions[1].Desc" type="text" value="" />
+                        </div>*@
 
                         <div asp-validation-summary="All" class="text-danger"></div>
 
                     </div>
                     <div class="modal-footer">
-                        
-                   
-                       
+
+
+
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <input type="submit" />
 
