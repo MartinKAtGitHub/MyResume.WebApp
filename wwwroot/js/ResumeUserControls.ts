@@ -2,78 +2,85 @@
 $(document).ready(() => {
 
     const addExpPointBtn = $("#addExpPointBtn");
-    // const addDescriptionBtn = $("#addDescriptionBtn");
-
+    const expFrom = $("#newExpFrom")[0] as HTMLFormElement;
     let expPointCounter = 0;
+
 
     addExpPointBtn.on("click", () => {
 
         // Add span for validation
         // Add Label
-
+        let parentIndex = expPointCounter;
 
         let inputExpPointMaxLength = 30; // Get this from the server MaxLentgth Attribute
         let inputExpPointHTML = "<input type='text' \
-        value = '' \
+        class = 'exp-point-title' \
         data-val='true' \
         data-val-maxlength='The field PointTitle must be a string or array type with a maximum length of "+ inputExpPointMaxLength + ".' \
         data-val-maxlength-max='"+ inputExpPointMaxLength + "' data-val-required='The PointTitle field is required.' \
-        id = 'NewExpGrp_ExpPoints_" + expPointCounter + "__PointTitle' \
+        id = 'NewExpGrp_ExpPoints_" + parentIndex + "__PointTitle' \
         maxlength = '"+ inputExpPointMaxLength + "' \
-        name = 'NewExpGrp.ExpPoints["+ expPointCounter + "].PointTitle' >";
+        name = 'NewExpGrp.ExpPoints["+ parentIndex + "].PointTitle' value>";
 
-        let addDiscriptionBtnHTML = $("<button id='point" + expPointCounter + "DescBtn' type = 'button'> Add Desc </button>");
+
+
+        let spanValidationExpPointTitle = "<span \
+        class='text-danger field-validation-valid' \
+        data-valmsg-for= 'NewExpGrp.ExpPoints["+ parentIndex + "].PointTitle' \
+        data-valmsg-replace='true'></span>";
+
+
+
+
+        let addDiscriptionBtnHTML = $("<button id='point" + parentIndex + "DescBtn' type = 'button'> Add Desc </button>");
         let descCounter = 0;
+
+        let CoreHTML = $("<div id='point-" + parentIndex + "' class='exp-point-section m-3 p-2'></div>");
+        CoreHTML.append(inputExpPointHTML);
+        CoreHTML.append(spanValidationExpPointTitle);
+        CoreHTML.append(addDiscriptionBtnHTML);
+
+        addExpPointBtn.before(CoreHTML);
 
         // DESC BUTTON
         addDiscriptionBtnHTML.on('click', () => {
             let inputDescMaxLength = 60; // Get this from the server MaxLentgth Attribute
 
             var inputDescriptionHTML = " <input type='text' \
-            value = '' \
+            placeholder ='desc ["+ descCounter + "]' \
+            class = 'exp-point-desc' \
             data-val='true' \
             data-val-maxlength='The field Desc must be a string or array type with a maximum length of '"+ inputDescMaxLength + "'.' \
             data-val-maxlength-max='"+ inputDescMaxLength + "' \
             data-val-required='The Desc field is required.' \
-            id = 'NewExpGrp_ExpPoints_"+ expPointCounter + "__Descriptions_" + descCounter + "__Desc' \
+            id = 'NewExpGrp_ExpPoints_"+ parentIndex + "__Descriptions_" + descCounter + "__Desc' \
             maxlength = '"+ inputDescMaxLength + "' \
-            name = 'NewExpGrp.ExpPoints["+ expPointCounter + "].Descriptions[" + descCounter + "].Desc' > ";
+            name = 'NewExpGrp.ExpPoints["+ parentIndex + "].Descriptions[" + descCounter + "].Desc' > ";
 
+            let spanValidationExpPointDesc = "<span \
+            class='text-danger field-validation-valid' \
+            data-valmsg-for= 'NewExpGrp.ExpPoints["+ parentIndex + "].Descriptions[" + descCounter + "].Desc' \
+            data-valmsg-replace='true'></span>";
+
+
+            addDiscriptionBtnHTML.before(inputDescriptionHTML);
+            addDiscriptionBtnHTML.before(spanValidationExpPointDesc);
             descCounter++;
+
+            $(expFrom).removeData("validator")    // Added by jQuery Validate
+                .removeData("unobtrusiveValidation");   // Added by jQuery Unobtrusive Validation
+            $.validator.unobtrusive.parse(expFrom);
 
         });
 
-
-
-        let CoreHTML = $("<div id='point" + expPointCounter + "' class='exp-point-section m-3 p-2'></div>");
-        CoreHTML.append(inputExpPointHTML);
-        CoreHTML.append(addDiscriptionBtnHTML);
-
-
-
-
-        addExpPointBtn.before(CoreHTML);
         expPointCounter++;
+
+        // the JQ unobtrusive only loads in when the page dose, do we need to Re-parse the form so that the dynamicly added HTML can be validated
+        $(expFrom).removeData("validator")    // Added by jQuery Validate
+            .removeData("unobtrusiveValidation");   // Added by jQuery Unobtrusive Validation
+        $.validator.unobtrusive.parse(expFrom);
+
     });
-
-    //addDescriptionBtn.on('click', () => {
-
-    //    let inputDescMaxLength = 60; // Get this from the server MaxLentgth Attribute
-
-    //    var inputDescriptionHTML = " <input type='text' \
-    //    value = '' \
-    //    data-val='true' \
-    //    data-val-maxlength='The field Desc must be a string or array type with a maximum length of '"+ inputDescMaxLength + "'.' \
-    //    data-val-maxlength-max='"+ inputDescMaxLength + "' \
-    //    data-val-required='The Desc field is required.' \
-    //    id = 'NewExpGrp_ExpPoints_"+ expPointCounter + "__Descriptions_" + descCounter + "__Desc' \
-    //    maxlength = '"+ inputDescMaxLength + "' \
-    //    name = 'NewExpGrp.ExpPoints["+ expPointCounter + "].Descriptions[" + descCounter + "].Desc' > ";
-
-    //    descCounter++;
-
-    //});
-
 });
 
 
@@ -85,6 +92,11 @@ function OnSuccsessfulCreateEXP(xhr: XMLHttpRequest) {
     //  var JSONOBJECT = JSON.parse(xhr.response); // Use this to manipulate the JSON https://www.w3schools.com/js/js_json_parse.asp
     //ArrayOfEvents[] . disconnect events
     alert("CLOSING MODUAL");
+    let form = $("#newExpFrom")[0] as HTMLFormElement;
+    form.reset();
+
+    // Remove dynamically crated HTML
+
     $("#newExperienceModal").modal('hide');
 
 }

@@ -544,7 +544,7 @@ namespace MyResume.WebApp.Controllers
                            .Where(y => y.Count > 0)
                            .ToList();
 
-            //Response.StatusCode = 422; we need to cause an error and go back
+            Response.StatusCode = 422;// we need to cause an error and go back
             return model;
         }
     }

@@ -6,7 +6,9 @@
   "dependencies": {},
   "devDependencies": {
     "@types/bootstrap": "^4.3.2",
-    "@types/jquery": "^3.3.34"
+    "@types/jquery": "^3.3.34",
+    "@types/jquery-validation-unobtrusive": "^3.2.32",
+    "@types/jquery.validation": "^1.16.6"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

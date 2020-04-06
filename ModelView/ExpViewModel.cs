@@ -24,9 +24,10 @@ namespace MyResume.WebApp.ModelView
             [Required]
             [MaxLength(30)]
             public string PointTitle { get; set; }
+            
             //Dates
-
-            public List<Descriptions> Descriptions { get; set; } // TODO make class cant requiere this
+            
+            public List<Descriptions> Descriptions { get; set; }
 
         }
 
