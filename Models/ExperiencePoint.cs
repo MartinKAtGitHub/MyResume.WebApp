@@ -22,7 +22,6 @@ namespace MyResume.WebApp.Models
         [MaxLength(30)]
         public string Title { get; set; }
      
-        // TODO ExpPoint --> requires at least 1 description. Currently null desc is , fix it
         public List<ExperiencePointDescription> Descriptions { get; set; }
     }
 }

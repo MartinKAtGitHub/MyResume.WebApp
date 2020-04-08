@@ -479,7 +479,7 @@ namespace MyResume.WebApp.Controllers
         public UserResumeViewModel CreateNewExperienceGroup(/* string id,*/ UserResumeViewModel model) // TODO CreateNewExperienceGroup Add validation with Ajax
         {
 
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
 
                 var userID = _userManager.GetUserId(User);
@@ -487,8 +487,8 @@ namespace MyResume.WebApp.Controllers
 
                 if (id != userID)
                 {
-                    Response.StatusCode = 403; // This is sendt to the AJAX and wil cause the ERROR CallbackFunc to run
-                    ViewBag.ErrorTitle = "Wrong us er";
+                    Response.StatusCode = 403; // This is sendt to the AJAX and will cause the ERROR CallbackFunc to run
+                    ViewBag.ErrorTitle = "Wrong user";
                     ViewBag.ErrorMessage = "Please login with the correct user to edit this item";
 
                     return model;
@@ -507,6 +507,8 @@ namespace MyResume.WebApp.Controllers
                 };
 
 
+
+                // Can add checks in here for the model.NewExpGrp.ExpPoints, but i will try to use the ModelState
                 foreach (var point in model.NewExpGrp.ExpPoints)
                 {
 
@@ -540,11 +542,13 @@ namespace MyResume.WebApp.Controllers
             }
 
 
-            var errors = ModelState.Select(x => x.Value.Errors)
+            var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
                            .Where(y => y.Count > 0)
                            .ToList();
 
-            Response.StatusCode = 422;// we need to cause an error and go back
+            Response.StatusCode = 422;
+            //TODO  Maybe Add error text for when ModelState fails and we throw an error
+
             return model;
         }
     }

@@ -1,13 +1,20 @@
 $(document).ready(function () {
     var addExpPointBtn = $("#addExpPointBtn");
     var expFrom = $("#newExpFrom")[0];
-    var expPointCounter = 0;
+    var expPointCounter = 0; // We spawn in with 1
+    AddExpPointField(expPointCounter, addExpPointBtn, expFrom);
+    expPointCounter++;
     addExpPointBtn.on("click", function () {
-        // Add span for validation
-        // Add Label
-        var parentIndex = expPointCounter;
-        var inputExpPointMaxLength = 30; // Get this from the server MaxLentgth Attribute
-        var inputExpPointHTML = "<input type='text' \
+        AddExpPointField(expPointCounter, addExpPointBtn, expFrom);
+        expPointCounter++;
+    });
+});
+function AddExpPointField(expPointCounter, addExpPointBtn, expFrom) {
+    var parentIndex = expPointCounter;
+    var descCounter = 0;
+    var inputExpPointMaxLength = 30; // Get this from the server MaxLentgth Attribute
+    var inputExpPointHTML = "<input type='text' \
+        placeholder = 'PointTitle[" + parentIndex + "]' \
         class = 'exp-point-title' \
         data-val='true' \
         data-val-maxlength='The field PointTitle must be a string or array type with a maximum length of " + inputExpPointMaxLength + ".' \
@@ -15,21 +22,30 @@ $(document).ready(function () {
         id = 'NewExpGrp_ExpPoints_" + parentIndex + "__PointTitle' \
         maxlength = '" + inputExpPointMaxLength + "' \
         name = 'NewExpGrp.ExpPoints[" + parentIndex + "].PointTitle' value>";
-        var spanValidationExpPointTitle = "<span \
+    var spanValidationExpPointTitle = "<span \
         class='text-danger field-validation-valid' \
         data-valmsg-for= 'NewExpGrp.ExpPoints[" + parentIndex + "].PointTitle' \
         data-valmsg-replace='true'></span>";
-        var addDiscriptionBtnHTML = $("<button id='point" + parentIndex + "DescBtn' type = 'button'> Add Desc </button>");
-        var descCounter = 0;
-        var CoreHTML = $("<div id='point-" + parentIndex + "' class='exp-point-section m-3 p-2'></div>");
-        CoreHTML.append(inputExpPointHTML);
-        CoreHTML.append(spanValidationExpPointTitle);
-        CoreHTML.append(addDiscriptionBtnHTML);
-        addExpPointBtn.before(CoreHTML);
-        // DESC BUTTON
-        addDiscriptionBtnHTML.on('click', function () {
-            var inputDescMaxLength = 60; // Get this from the server MaxLentgth Attribute
-            var inputDescriptionHTML = " <input type='text' \
+    var addDiscriptionBtnHTML = $("<button id='point" + parentIndex + "DescBtn' type = 'button'> Add Desc </button>");
+    var CoreHTML = $("<div id='point-" + parentIndex + "' class='exp-point-section m-3 p-2'></div>");
+    CoreHTML.append(inputExpPointHTML);
+    CoreHTML.append(spanValidationExpPointTitle);
+    CoreHTML.append(addDiscriptionBtnHTML);
+    addExpPointBtn.before(CoreHTML);
+    AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom); //  we crate 1 desc field on spawn as it is an mandatory requirement for a point
+    descCounter++;
+    addDiscriptionBtnHTML.on('click', function () {
+        AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom);
+        descCounter++;
+    });
+    // the JQ unobtrusive only loads in when the page dose, do we need to Re-parse the form so that the dynamicly added HTML can be validated
+    $(expFrom).removeData("validator") // Added by jQuery Validate
+        .removeData("unobtrusiveValidation"); // Added by jQuery Unobtrusive Validation
+    $.validator.unobtrusive.parse(expFrom);
+}
+function AddDescriptionField(descCounter, parentIndex, spawnPosition, expFrom) {
+    var inputDescMaxLength = 60; // Get this from the server MaxLentgth Attribute
+    var inputDescriptionHTML = " <input type='text' \
             placeholder ='desc [" + descCounter + "]' \
             class = 'exp-point-desc' \
             data-val='true' \
@@ -39,32 +55,26 @@ $(document).ready(function () {
             id = 'NewExpGrp_ExpPoints_" + parentIndex + "__Descriptions_" + descCounter + "__Desc' \
             maxlength = '" + inputDescMaxLength + "' \
             name = 'NewExpGrp.ExpPoints[" + parentIndex + "].Descriptions[" + descCounter + "].Desc' > ";
-            var spanValidationExpPointDesc = "<span \
+    var spanValidationExpPointDesc = "<span \
             class='text-danger field-validation-valid' \
             data-valmsg-for= 'NewExpGrp.ExpPoints[" + parentIndex + "].Descriptions[" + descCounter + "].Desc' \
             data-valmsg-replace='true'></span>";
-            addDiscriptionBtnHTML.before(inputDescriptionHTML);
-            addDiscriptionBtnHTML.before(spanValidationExpPointDesc);
-            descCounter++;
-            $(expFrom).removeData("validator") // Added by jQuery Validate
-                .removeData("unobtrusiveValidation"); // Added by jQuery Unobtrusive Validation
-            $.validator.unobtrusive.parse(expFrom);
-        });
-        expPointCounter++;
-        // the JQ unobtrusive only loads in when the page dose, do we need to Re-parse the form so that the dynamicly added HTML can be validated
-        $(expFrom).removeData("validator") // Added by jQuery Validate
-            .removeData("unobtrusiveValidation"); // Added by jQuery Unobtrusive Validation
-        $.validator.unobtrusive.parse(expFrom);
-    });
-});
+    spawnPosition.before(inputDescriptionHTML);
+    spawnPosition.before(spanValidationExpPointDesc);
+    $(expFrom).removeData("validator") // Added by jQuery Validate
+        .removeData("unobtrusiveValidation"); // Added by jQuery Unobtrusive Validation
+    $.validator.unobtrusive.parse(expFrom);
+}
 function OnSuccsessfulCreateEXP(xhr) {
-    //  var JSONOBJECT = JSON.parse(xhr.response); // Use this to manipulate the JSON https://www.w3schools.com/js/js_json_parse.asp
     //ArrayOfEvents[] . disconnect events
     alert("CLOSING MODUAL");
     var form = $("#newExpFrom")[0];
     form.reset();
-    // Remove dynamically crated HTML
+    //// Remove dynamically crated HTML
     $("#newExperienceModal").modal('hide');
+}
+function OnFailureCreateEXP(xhr) {
+    alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
 }
 function CreateExp(expId) {
     // $("#createExpForm").hide("slow");

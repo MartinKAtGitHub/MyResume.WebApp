@@ -7,6 +7,7 @@ namespace MyResume.WebApp.ModelView
         public UserInformation UserInfo { get; set; }
         public IEnumerable<Achievement> Achievements { get; set; }
         public IEnumerable<ExpViewModel> Experiences { get; set; }
+        
         public ExpViewModel NewExpGrp { get; set; }
 
         public bool EnableOwnerOptions { get; set; }
