@@ -219,3 +219,8 @@ a.item-edit-link {
 .exp-point-section {
     background-color: palevioletred;
 }
+
+.exp-grp-modal{
+    background-color:brown;
+    padding:20px;
+}

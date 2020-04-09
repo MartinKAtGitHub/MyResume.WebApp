@@ -1,30 +1,42 @@
 ﻿
+
+
 $(document).ready(() => {
 
     const addExpPointBtn = $("#addExpPointBtn");
     const removeExpPointBtn = $("#removeExpPointBtn");
-    const expFrom = $("#newExpFrom")[0] as HTMLFormElement;
-    let expPointCounter = 0; // We spawn in with 1
+    const formCreateNewExp = $("#newExpFrom")[0] as HTMLFormElement;
+    let expPointCounter = 0;
 
-    AddExpPointField(expPointCounter, addExpPointBtn, expFrom);
+    AddExpPointField(expPointCounter, addExpPointBtn, formCreateNewExp);
     expPointCounter++;
 
     addExpPointBtn.on("click", () => {
 
-        AddExpPointField(expPointCounter, addExpPointBtn, expFrom);
+        AddExpPointField(expPointCounter, addExpPointBtn, formCreateNewExp);
         expPointCounter++;
 
     });
 
     removeExpPointBtn.on("click", () => {
         if (expPointCounter >= 2) {
-            RemoveExpPointField(expFrom);
+            RemoveExpPointField();
             expPointCounter--;
         } else {
-            alert("You need at least 1 highlight with a description | this is a debug window"); // TODO change removeExpPointBtn() from using inline warning rather then an Alert window
+            alert("Cant remove highlight! You need at least 1 highlight with a description to create a experience group | this is a temp window"); // TODO change removeExpPointBtn() from using inline warning rather then an Alert window
+        }
+    });
+
+
+   //use an event ?? OnSuccsess Event ==> expPointCounter = 0
+    $(document).ajaxSuccess(function (event, xhr, settings) {
+        if (settings.url == formCreateNewExp.action) {
+            // OnSuccsessfulCreateEXP() //this is an option now instead of doing it in <script>
+            expPointCounter = 1; // we set this to 1 because 0 index is spawned at the beggning
         }
 
     });
+
 });
 
 
@@ -50,14 +62,16 @@ function AddExpPointField(expPointCounter: number, addExpPointBtn: JQuery<HTMLEl
         data-valmsg-replace='true'></span>";
 
 
-    let addDiscriptionBtnHTML = $("<button id='point" + parentIndex + "DescBtn' type = 'button'> Add Desc </button>");
+    let addDiscriptionBtnHTML = $("<button id='point" + parentIndex + "AddDescBtn' type = 'button'> Add Desc </button>");
+    let removeDiscriptionBtnHTML = $("<button id='point" + parentIndex + "RemoveDescBtn' type = 'button'> Remove Desc </button>");
 
-    let CoreHTML = $("<div id='point-" + parentIndex + "' class='exp-point-section m-3 p-2'></div>");
-    CoreHTML.append(inputExpPointHTML);
-    CoreHTML.append(spanValidationExpPointTitle);
-    CoreHTML.append(addDiscriptionBtnHTML);
+    let expPointDiv = $("<div id='point-" + parentIndex + "' class='exp-point-section m-3 p-2'></div>");
+    expPointDiv.append(inputExpPointHTML);
+    expPointDiv.append(spanValidationExpPointTitle);
+    expPointDiv.append(addDiscriptionBtnHTML);
+    expPointDiv.append(removeDiscriptionBtnHTML);
 
-    addExpPointBtn.before(CoreHTML);
+    addExpPointBtn.before(expPointDiv);
 
     AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom); //  we crate 1 desc field on spawn as it is an mandatory requirement for a point
     descCounter++
@@ -67,6 +81,16 @@ function AddExpPointField(expPointCounter: number, addExpPointBtn: JQuery<HTMLEl
         AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom);
         descCounter++;
     });
+
+    removeDiscriptionBtnHTML.on('click', () => {
+        if (descCounter >= 2) {
+            RemoveDescField(expPointDiv);
+            descCounter--;
+        } else {
+            alert("Cant remove description! You need at least 1 description with a highlight to create a experience group | this is a temp window"); // TODO change removeExpPointBtn() from using inline warning rather then an Alert window
+        }
+    });
+
     ResetFormValidationJQUnobtrusive(expFrom);
 }
 
@@ -100,12 +124,15 @@ function AddDescriptionField(descCounter: number, parentIndex: number, spawnPosi
 }
 
 
-function RemoveExpPointField(expFrom: HTMLFormElement) {
+function RemoveExpPointField() {
 
     let expPointContainers = $(".exp-point-section");
     expPointContainers[expPointContainers.length - 1].remove();
 }
-
+function RemoveDescField(expPoint: JQuery<HTMLElement>) {
+    let descFields = expPoint.children(".exp-point-desc");
+    descFields[descFields.length - 1].remove();
+}
 
 
 function ResetFormValidationJQUnobtrusive(formTag: HTMLFormElement) {
@@ -123,12 +150,16 @@ function ResetFormValidationJQUnobtrusive(formTag: HTMLFormElement) {
 function OnSuccsessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
 
     //ArrayOfEvents[] . disconnect events
-    alert("CLOSING MODUAL");
+    alert("Success");
     let form = $("#newExpFrom")[0] as HTMLFormElement;
     form.reset();
 
-    //// Remove dynamically crated HTML
+    let expPointContainers = $(".exp-point-section");
+    for (var i = expPointContainers.length - 1; i > 0; i--) {
+        expPointContainers[i].remove();
+    }
 
+    // Need to reset the expCounter
     $("#newExperienceModal").modal('hide');
 }
 
@@ -138,41 +169,41 @@ function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type
 }
 
 
-function CreateExp(expId: string): void {
+//function CreateExp(expId: string): void {
 
-    // $("#createExpForm").hide("slow");
-    const form = $('#newExpFrom');
-    const formData = new FormData(form.get(0) as HTMLFormElement);
-    const actionURL = form.prop('action');
+//    // $("#createExpForm").hide("slow");
+//    const form = $('#newExpFrom');
+//    const formData = new FormData(form.get(0) as HTMLFormElement);
+//    const actionURL = form.prop('action');
 
-    //formData.forEach(element => {
-    //    console.log(element.valueOf());
-    //});
+//    //formData.forEach(element => {
+//    //    console.log(element.valueOf());
+//    //});
 
-    $.ajax({
+//    $.ajax({
 
-        type: "POST",
-        url: actionURL,
-        data: formData,
-        dataType: "json",
+//        type: "POST",
+//        url: actionURL,
+//        data: formData,
+//        dataType: "json",
 
-        processData: false,
-        contentType: false,
+//        processData: false,
+//        contentType: false,
 
-        success: function (msg) {
-            console.log("SUCCESS" + msg);
-            //  alert("SUCCSESS !!!!!!!!!!!");
-            // Maybe add a SUCCSES message or Icon
+//        success: function (msg) {
+//            console.log("SUCCESS" + msg);
+//            //  alert("SUCCSESS !!!!!!!!!!!");
+//            // Maybe add a SUCCSES message or Icon
 
-        },
+//        },
 
-        error: function (req, status, error) {
-            alert(error);
+//        error: function (req, status, error) {
+//            alert(error);
 
-            // Maybe add a FAIL message or Icon IN CASE AN  UNAUTHIRZED PERSON TRYS IT
-        }
-    });
-}
+//            // Maybe add a FAIL message or Icon IN CASE AN  UNAUTHIRZED PERSON TRYS IT
+//        }
+//    });
+//}
 
 function AddExpPoint(expId: string): void {
     //$(".modal-body").

@@ -1,21 +1,28 @@
 $(document).ready(function () {
     var addExpPointBtn = $("#addExpPointBtn");
     var removeExpPointBtn = $("#removeExpPointBtn");
-    var expFrom = $("#newExpFrom")[0];
-    var expPointCounter = 0; // We spawn in with 1
-    AddExpPointField(expPointCounter, addExpPointBtn, expFrom);
+    var formCreateNewExp = $("#newExpFrom")[0];
+    var expPointCounter = 0;
+    AddExpPointField(expPointCounter, addExpPointBtn, formCreateNewExp);
     expPointCounter++;
     addExpPointBtn.on("click", function () {
-        AddExpPointField(expPointCounter, addExpPointBtn, expFrom);
+        AddExpPointField(expPointCounter, addExpPointBtn, formCreateNewExp);
         expPointCounter++;
     });
     removeExpPointBtn.on("click", function () {
         if (expPointCounter >= 2) {
-            RemoveExpPointField(expFrom);
+            RemoveExpPointField();
             expPointCounter--;
         }
         else {
-            alert("You need at least 1 highlight with a description | this is a debug window"); // TODO change removeExpPointBtn() from using inline warning rather then an Alert window
+            alert("Cant remove highlight! You need at least 1 highlight with a description to create a experience group | this is a temp window"); // TODO change removeExpPointBtn() from using inline warning rather then an Alert window
+        }
+    });
+    //use an event ?? OnSuccsess Event ==> expPointCounter = 0
+    $(document).ajaxSuccess(function (event, xhr, settings) {
+        if (settings.url == formCreateNewExp.action) {
+            // OnSuccsessfulCreateEXP() //this is an option now instead of doing it in <script>
+            expPointCounter = 1; // we set this to 1 because 0 index is spawned at the beggning
         }
     });
 });
@@ -36,17 +43,28 @@ function AddExpPointField(expPointCounter, addExpPointBtn, expFrom) {
         class='text-danger field-validation-valid' \
         data-valmsg-for= 'NewExpGrp.ExpPoints[" + parentIndex + "].PointTitle' \
         data-valmsg-replace='true'></span>";
-    var addDiscriptionBtnHTML = $("<button id='point" + parentIndex + "DescBtn' type = 'button'> Add Desc </button>");
-    var CoreHTML = $("<div id='point-" + parentIndex + "' class='exp-point-section m-3 p-2'></div>");
-    CoreHTML.append(inputExpPointHTML);
-    CoreHTML.append(spanValidationExpPointTitle);
-    CoreHTML.append(addDiscriptionBtnHTML);
-    addExpPointBtn.before(CoreHTML);
+    var addDiscriptionBtnHTML = $("<button id='point" + parentIndex + "AddDescBtn' type = 'button'> Add Desc </button>");
+    var removeDiscriptionBtnHTML = $("<button id='point" + parentIndex + "RemoveDescBtn' type = 'button'> Remove Desc </button>");
+    var expPointDiv = $("<div id='point-" + parentIndex + "' class='exp-point-section m-3 p-2'></div>");
+    expPointDiv.append(inputExpPointHTML);
+    expPointDiv.append(spanValidationExpPointTitle);
+    expPointDiv.append(addDiscriptionBtnHTML);
+    expPointDiv.append(removeDiscriptionBtnHTML);
+    addExpPointBtn.before(expPointDiv);
     AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom); //  we crate 1 desc field on spawn as it is an mandatory requirement for a point
     descCounter++;
     addDiscriptionBtnHTML.on('click', function () {
         AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom);
         descCounter++;
+    });
+    removeDiscriptionBtnHTML.on('click', function () {
+        if (descCounter >= 2) {
+            RemoveDescField(expPointDiv);
+            descCounter--;
+        }
+        else {
+            alert("Cant remove description! You need at least 1 description with a highlight to create a experience group | this is a temp window"); // TODO change removeExpPointBtn() from using inline warning rather then an Alert window
+        }
     });
     ResetFormValidationJQUnobtrusive(expFrom);
 }
@@ -70,9 +88,13 @@ function AddDescriptionField(descCounter, parentIndex, spawnPosition, expFrom) {
     spawnPosition.before(spanValidationExpPointDesc);
     ResetFormValidationJQUnobtrusive(expFrom);
 }
-function RemoveExpPointField(expFrom) {
+function RemoveExpPointField() {
     var expPointContainers = $(".exp-point-section");
     expPointContainers[expPointContainers.length - 1].remove();
+}
+function RemoveDescField(expPoint) {
+    var descFields = expPoint.children(".exp-point-desc");
+    descFields[descFields.length - 1].remove();
 }
 function ResetFormValidationJQUnobtrusive(formTag) {
     /* The client side validation messages connected bu (JQ unobtrusive) to our DataAnnotations attributes on the server side are only loaded on page load/refresh .
@@ -84,41 +106,45 @@ function ResetFormValidationJQUnobtrusive(formTag) {
 }
 function OnSuccsessfulCreateEXP(xhr) {
     //ArrayOfEvents[] . disconnect events
-    alert("CLOSING MODUAL");
+    alert("Success");
     var form = $("#newExpFrom")[0];
     form.reset();
-    //// Remove dynamically crated HTML
+    var expPointContainers = $(".exp-point-section");
+    for (var i = expPointContainers.length - 1; i > 0; i--) {
+        expPointContainers[i].remove();
+    }
+    // Need to reset the expCounter
     $("#newExperienceModal").modal('hide');
 }
 function OnFailureCreateEXP(xhr) {
     alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
 }
-function CreateExp(expId) {
-    // $("#createExpForm").hide("slow");
-    var form = $('#newExpFrom');
-    var formData = new FormData(form.get(0));
-    var actionURL = form.prop('action');
-    //formData.forEach(element => {
-    //    console.log(element.valueOf());
-    //});
-    $.ajax({
-        type: "POST",
-        url: actionURL,
-        data: formData,
-        dataType: "json",
-        processData: false,
-        contentType: false,
-        success: function (msg) {
-            console.log("SUCCESS" + msg);
-            //  alert("SUCCSESS !!!!!!!!!!!");
-            // Maybe add a SUCCSES message or Icon
-        },
-        error: function (req, status, error) {
-            alert(error);
-            // Maybe add a FAIL message or Icon IN CASE AN  UNAUTHIRZED PERSON TRYS IT
-        }
-    });
-}
+//function CreateExp(expId: string): void {
+//    // $("#createExpForm").hide("slow");
+//    const form = $('#newExpFrom');
+//    const formData = new FormData(form.get(0) as HTMLFormElement);
+//    const actionURL = form.prop('action');
+//    //formData.forEach(element => {
+//    //    console.log(element.valueOf());
+//    //});
+//    $.ajax({
+//        type: "POST",
+//        url: actionURL,
+//        data: formData,
+//        dataType: "json",
+//        processData: false,
+//        contentType: false,
+//        success: function (msg) {
+//            console.log("SUCCESS" + msg);
+//            //  alert("SUCCSESS !!!!!!!!!!!");
+//            // Maybe add a SUCCSES message or Icon
+//        },
+//        error: function (req, status, error) {
+//            alert(error);
+//            // Maybe add a FAIL message or Icon IN CASE AN  UNAUTHIRZED PERSON TRYS IT
+//        }
+//    });
+//}
 function AddExpPoint(expId) {
     //$(".modal-body").
 }
