@@ -496,7 +496,6 @@ namespace MyResume.WebApp.Controllers
                 }
 
 
-
                 var exp = new Experience()
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -527,7 +526,6 @@ namespace MyResume.WebApp.Controllers
                         {
                             Id = Guid.NewGuid().ToString(),
                             Discription = point.Descriptions[i].Desc,
-                            //ExperiencePointId = ef core  auto ???
                         };
 
                         newPoint.Descriptions.Add(desc);

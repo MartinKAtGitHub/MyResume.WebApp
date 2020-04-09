@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var addExpPointBtn = $("#addExpPointBtn");
+    var removeExpPointBtn = $("#removeExpPointBtn");
     var expFrom = $("#newExpFrom")[0];
     var expPointCounter = 0; // We spawn in with 1
     AddExpPointField(expPointCounter, addExpPointBtn, expFrom);
@@ -7,6 +8,15 @@ $(document).ready(function () {
     addExpPointBtn.on("click", function () {
         AddExpPointField(expPointCounter, addExpPointBtn, expFrom);
         expPointCounter++;
+    });
+    removeExpPointBtn.on("click", function () {
+        if (expPointCounter >= 2) {
+            RemoveExpPointField(expFrom);
+            expPointCounter--;
+        }
+        else {
+            alert("You need at least 1 highlight with a description | this is a debug window"); // TODO change removeExpPointBtn() from using inline warning rather then an Alert window
+        }
     });
 });
 function AddExpPointField(expPointCounter, addExpPointBtn, expFrom) {
@@ -38,10 +48,7 @@ function AddExpPointField(expPointCounter, addExpPointBtn, expFrom) {
         AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom);
         descCounter++;
     });
-    // the JQ unobtrusive only loads in when the page dose, do we need to Re-parse the form so that the dynamicly added HTML can be validated
-    $(expFrom).removeData("validator") // Added by jQuery Validate
-        .removeData("unobtrusiveValidation"); // Added by jQuery Unobtrusive Validation
-    $.validator.unobtrusive.parse(expFrom);
+    ResetFormValidationJQUnobtrusive(expFrom);
 }
 function AddDescriptionField(descCounter, parentIndex, spawnPosition, expFrom) {
     var inputDescMaxLength = 60; // Get this from the server MaxLentgth Attribute
@@ -61,9 +68,19 @@ function AddDescriptionField(descCounter, parentIndex, spawnPosition, expFrom) {
             data-valmsg-replace='true'></span>";
     spawnPosition.before(inputDescriptionHTML);
     spawnPosition.before(spanValidationExpPointDesc);
-    $(expFrom).removeData("validator") // Added by jQuery Validate
-        .removeData("unobtrusiveValidation"); // Added by jQuery Unobtrusive Validation
-    $.validator.unobtrusive.parse(expFrom);
+    ResetFormValidationJQUnobtrusive(expFrom);
+}
+function RemoveExpPointField(expFrom) {
+    var expPointContainers = $(".exp-point-section");
+    expPointContainers[expPointContainers.length - 1].remove();
+}
+function ResetFormValidationJQUnobtrusive(formTag) {
+    /* The client side validation messages connected bu (JQ unobtrusive) to our DataAnnotations attributes on the server side are only loaded on page load/refresh .
+     * So they won't work on AJAX requests, unless we force a reset on the form.
+     */
+    $(formTag).removeData("validator")
+        .removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse(formTag);
 }
 function OnSuccsessfulCreateEXP(xhr) {
     //ArrayOfEvents[] . disconnect events
