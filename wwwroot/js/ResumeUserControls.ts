@@ -28,11 +28,12 @@ $(document).ready(() => {
     });
 
 
-   //use an event ?? OnSuccsess Event ==> expPointCounter = 0
-    $(document).ajaxSuccess(function (event, xhr, settings) {
+    $(document).ajaxSuccess(function (event, xhr, settings) { // Because of AJAX unobtrusive finding success even it uses it impossible we need to use this global event on ajax success and filter out witch one succeeded
         if (settings.url == formCreateNewExp.action) {
-            // OnSuccsessfulCreateEXP() //this is an option now instead of doing it in <script>
-            expPointCounter = 1; // we set this to 1 because 0 index is spawned at the beggning
+            alert(xhr.responseText);
+            console.log(`Global Success with filer for => ${formCreateNewExp.action}`);
+            // OnSuccsessfulCreateEXP() //this is an option now instead of doing it in  the <script> tag. see line 260 UserResume.cshtml
+            expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
 
     });
@@ -64,8 +65,8 @@ function AddExpPointField(expPointCounter: number, addExpPointBtn: JQuery<HTMLEl
 
     let addDiscriptionBtnHTML = $("<button id='point" + parentIndex + "AddDescBtn' type = 'button'> Add Desc </button>");
     let removeDiscriptionBtnHTML = $("<button id='point" + parentIndex + "RemoveDescBtn' type = 'button'> Remove Desc </button>");
-
     let expPointDiv = $("<div id='point-" + parentIndex + "' class='exp-point-section m-3 p-2'></div>");
+
     expPointDiv.append(inputExpPointHTML);
     expPointDiv.append(spanValidationExpPointTitle);
     expPointDiv.append(addDiscriptionBtnHTML);
@@ -114,10 +115,11 @@ function AddDescriptionField(descCounter: number, parentIndex: number, spawnPosi
             data-valmsg-for= 'NewExpGrp.ExpPoints["+ parentIndex + "].Descriptions[" + descCounter + "].Desc' \
             data-valmsg-replace='true'></span>";
 
+    let descContainer = $("<div id='desc-container-" + descCounter +"' class='desc-container m-1 p-1'></div>")
 
-    spawnPosition.before(inputDescriptionHTML);
-    spawnPosition.before(spanValidationExpPointDesc);
-
+    spawnPosition.before(descContainer);
+    descContainer.append(inputDescriptionHTML);
+    descContainer.append(spanValidationExpPointDesc);
 
     ResetFormValidationJQUnobtrusive(expFrom);
 
@@ -130,7 +132,7 @@ function RemoveExpPointField() {
     expPointContainers[expPointContainers.length - 1].remove();
 }
 function RemoveDescField(expPoint: JQuery<HTMLElement>) {
-    let descFields = expPoint.children(".exp-point-desc");
+    let descFields = expPoint.children(".desc-container");
     descFields[descFields.length - 1].remove();
 }
 
@@ -150,16 +152,21 @@ function ResetFormValidationJQUnobtrusive(formTag: HTMLFormElement) {
 function OnSuccsessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
 
     //ArrayOfEvents[] . disconnect events
-    alert("Success");
+
+    alert("Success OnSuccsessfulCreateEXP -> " + xhr.status);
     let form = $("#newExpFrom")[0] as HTMLFormElement;
     form.reset();
+
+    
+    //let expGrp = $("#exp-grp-modal").get(0);
+    //let expGrpContainer = $("#exp-grp-container").get(0);
+    //expGrpContainer.append(expGrp);
 
     let expPointContainers = $(".exp-point-section");
     for (var i = expPointContainers.length - 1; i > 0; i--) {
         expPointContainers[i].remove();
     }
 
-    // Need to reset the expCounter
     $("#newExperienceModal").modal('hide');
 }
 

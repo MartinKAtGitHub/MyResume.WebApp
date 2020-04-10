@@ -18,11 +18,12 @@ $(document).ready(function () {
             alert("Cant remove highlight! You need at least 1 highlight with a description to create a experience group | this is a temp window"); // TODO change removeExpPointBtn() from using inline warning rather then an Alert window
         }
     });
-    //use an event ?? OnSuccsess Event ==> expPointCounter = 0
     $(document).ajaxSuccess(function (event, xhr, settings) {
         if (settings.url == formCreateNewExp.action) {
-            // OnSuccsessfulCreateEXP() //this is an option now instead of doing it in <script>
-            expPointCounter = 1; // we set this to 1 because 0 index is spawned at the beggning
+            alert(xhr.responseText);
+            console.log("Global Success with filer for => " + formCreateNewExp.action);
+            // OnSuccsessfulCreateEXP() //this is an option now instead of doing it in  the <script> tag. see line 260 UserResume.cshtml
+            expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
     });
 });
@@ -84,8 +85,10 @@ function AddDescriptionField(descCounter, parentIndex, spawnPosition, expFrom) {
             class='text-danger field-validation-valid' \
             data-valmsg-for= 'NewExpGrp.ExpPoints[" + parentIndex + "].Descriptions[" + descCounter + "].Desc' \
             data-valmsg-replace='true'></span>";
-    spawnPosition.before(inputDescriptionHTML);
-    spawnPosition.before(spanValidationExpPointDesc);
+    var descContainer = $("<div id='desc-container-" + descCounter + "' class='desc-container m-1 p-1'></div>");
+    spawnPosition.before(descContainer);
+    descContainer.append(inputDescriptionHTML);
+    descContainer.append(spanValidationExpPointDesc);
     ResetFormValidationJQUnobtrusive(expFrom);
 }
 function RemoveExpPointField() {
@@ -93,7 +96,7 @@ function RemoveExpPointField() {
     expPointContainers[expPointContainers.length - 1].remove();
 }
 function RemoveDescField(expPoint) {
-    var descFields = expPoint.children(".exp-point-desc");
+    var descFields = expPoint.children(".desc-container");
     descFields[descFields.length - 1].remove();
 }
 function ResetFormValidationJQUnobtrusive(formTag) {
@@ -106,14 +109,16 @@ function ResetFormValidationJQUnobtrusive(formTag) {
 }
 function OnSuccsessfulCreateEXP(xhr) {
     //ArrayOfEvents[] . disconnect events
-    alert("Success");
+    alert("Success OnSuccsessfulCreateEXP -> " + xhr.status);
     var form = $("#newExpFrom")[0];
     form.reset();
+    //let expGrp = $("#exp-grp-modal").get(0);
+    //let expGrpContainer = $("#exp-grp-container").get(0);
+    //expGrpContainer.append(expGrp);
     var expPointContainers = $(".exp-point-section");
     for (var i = expPointContainers.length - 1; i > 0; i--) {
         expPointContainers[i].remove();
     }
-    // Need to reset the expCounter
     $("#newExperienceModal").modal('hide');
 }
 function OnFailureCreateEXP(xhr) {

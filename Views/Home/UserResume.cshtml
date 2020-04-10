@@ -39,7 +39,7 @@
 
 
 
-<div class="row experience-main-area">
+<div class="row exp-main-area">
 
     <div class="w-100 ">
         <h3 class="display-3 border-bottom m-0">Experience</h3>
@@ -47,15 +47,18 @@
         @if (Model.EnableOwnerOptions)
         {
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newExperienceModal">
-                Add new exp
-            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newExperienceModal">Add new exp</button>     
         }
 
     </div>
+    <div id="exp-grp-container">
+        
+
+    </div>
+
+
+
     <!-- Modal -->
-
-
     <form id="newExpFrom" asp-action="CreateNewExperienceGroup" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="Success" data-ajax-failure ="Failure">
 
         <div class="modal fade" id="newExperienceModal" tabindex="-1" role="dialog" aria-labelledby="newExperienceModalTitle" aria-hidden="true">
@@ -71,7 +74,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <div class="exp-grp-modal">
+                        <div id="exp-grp-modal">
                             <input type="hidden" asp-for="@Model.NewExpGrp.ExpUserInfoID" value="@this.ViewContext.RouteData.Values["id"].ToString()" />
 
                             <label asp-for="@Model.NewExpGrp.Title">Grp Title</label>
@@ -101,7 +104,6 @@
         </div>
 
     </form>
-
 </div>
 
 
