@@ -1,6 +1,4 @@
 ﻿
-
-
 $(document).ready(() => {
 
     const addExpPointBtn = $("#addExpPointBtn");
@@ -30,16 +28,28 @@ $(document).ready(() => {
 
     $(document).ajaxSuccess(function (event, xhr, settings) { // Because of AJAX unobtrusive finding success even it uses it impossible we need to use this global event on ajax success and filter out witch one succeeded
         if (settings.url == formCreateNewExp.action) {
-            alert(xhr.responseText);
-            console.log(`Global Success with filer for => ${formCreateNewExp.action}`);
-            // OnSuccsessfulCreateEXP() //this is an option now instead of doing it in  the <script> tag. see line 260 UserResume.cshtml
+            GenerateMainPageHTML(xhr);
+
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
-
     });
 
 });
 
+
+function GenerateMainPageHTML(xhr?: JQuery.jqXHR<any>) {
+    if (xhr != undefined) {// or Null ?
+
+        // we need to crate a class for the newExpGrpObject or else it will be an any type
+        let newExpGrpObject = xhr.responseJSON.newExpGrp; // this works LEL
+        console.log(newExpGrpObject);
+    } else {
+
+        // AJAX Get JSON From SEVER
+    }
+
+
+}
 
 function AddExpPointField(expPointCounter: number, addExpPointBtn: JQuery<HTMLElement>, expFrom: HTMLFormElement) {
 
@@ -131,6 +141,7 @@ function RemoveExpPointField() {
     let expPointContainers = $(".exp-point-section");
     expPointContainers[expPointContainers.length - 1].remove();
 }
+
 function RemoveDescField(expPoint: JQuery<HTMLElement>) {
     let descFields = expPoint.children(".desc-container");
     descFields[descFields.length - 1].remove();
@@ -153,7 +164,7 @@ function OnSuccsessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
 
     //ArrayOfEvents[] . disconnect events
 
-    alert("Success OnSuccsessfulCreateEXP -> " + xhr.status);
+    //alert("Success ");
     let form = $("#newExpFrom")[0] as HTMLFormElement;
     form.reset();
 

@@ -20,13 +20,21 @@ $(document).ready(function () {
     });
     $(document).ajaxSuccess(function (event, xhr, settings) {
         if (settings.url == formCreateNewExp.action) {
-            alert(xhr.responseText);
-            console.log("Global Success with filer for => " + formCreateNewExp.action);
-            // OnSuccsessfulCreateEXP() //this is an option now instead of doing it in  the <script> tag. see line 260 UserResume.cshtml
+            GenerateMainPageHTML(xhr);
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
     });
 });
+function GenerateMainPageHTML(xhr) {
+    if (xhr != undefined) { // or Null ?
+        // we need to crate a class for the newExpGrpObject or else it will be an any type
+        var newExpGrpObject = xhr.responseJSON.newExpGrp; // this works LEL
+        console.log(newExpGrpObject);
+    }
+    else {
+        // AJAX Get JSON From SEVER
+    }
+}
 function AddExpPointField(expPointCounter, addExpPointBtn, expFrom) {
     var parentIndex = expPointCounter;
     var descCounter = 0;
@@ -109,7 +117,7 @@ function ResetFormValidationJQUnobtrusive(formTag) {
 }
 function OnSuccsessfulCreateEXP(xhr) {
     //ArrayOfEvents[] . disconnect events
-    alert("Success OnSuccsessfulCreateEXP -> " + xhr.status);
+    //alert("Success ");
     var form = $("#newExpFrom")[0];
     form.reset();
     //let expGrp = $("#exp-grp-modal").get(0);
