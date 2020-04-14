@@ -27,6 +27,7 @@ $(document).ready(function () {
 });
 function GenerateMainPageHTML(xhr) {
     if (xhr != undefined) { // or Null ?
+        // Why cant i save this
         // we need to crate a class for the newExpGrpObject or else it will be an any type
         var newExpGrpObject = xhr.responseJSON.newExpGrp; // this works LEL
         console.log(newExpGrpObject);

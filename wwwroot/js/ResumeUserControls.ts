@@ -40,6 +40,8 @@ $(document).ready(() => {
 function GenerateMainPageHTML(xhr?: JQuery.jqXHR<any>) {
     if (xhr != undefined) {// or Null ?
 
+        // Why cant i save this
+
         // we need to crate a class for the newExpGrpObject or else it will be an any type
         let newExpGrpObject = xhr.responseJSON.newExpGrp; // this works LEL
         console.log(newExpGrpObject);
