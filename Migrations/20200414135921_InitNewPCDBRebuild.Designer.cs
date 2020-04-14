@@ -10,8 +10,8 @@ using MyResume.WebApp.Data;
 namespace MyResume.WebApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200228152351_AddedThumbnailPathToItems")]
-    partial class AddedThumbnailPathToItems
+    [Migration("20200414135921_InitNewPCDBRebuild")]
+    partial class InitNewPCDBRebuild
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -176,12 +176,10 @@ namespace MyResume.WebApp.Migrations
                         .HasColumnType("nvarchar(380)")
                         .HasMaxLength(380);
 
-                    b.Property<string>("ThumbnailImgPath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(40)")
-                        .HasMaxLength(40);
+                        .IsRequired()
+                        .HasColumnType("nvarchar(35)")
+                        .HasMaxLength(35);
 
                     b.Property<Guid>("UserInformationId")
                         .HasColumnType("uniqueidentifier");
@@ -256,6 +254,101 @@ namespace MyResume.WebApp.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("MyResume.WebApp.Models.Experience", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<Guid>("UserInformationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserInformationId");
+
+                    b.ToTable("Experiences");
+                });
+
+            modelBuilder.Entity("MyResume.WebApp.Models.ExperiencePoint", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ExperienceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExperienceId");
+
+                    b.ToTable("ExperiencePoint");
+                });
+
+            modelBuilder.Entity("MyResume.WebApp.Models.ExperiencePointDescription", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Discription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.Property<string>("ExperiencePointId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExperiencePointId");
+
+                    b.ToTable("ExperiencePointDescription");
+                });
+
+            modelBuilder.Entity("MyResume.WebApp.Models.ItemGalleryImageFilePath", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("AchievementId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GalleryImageFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GalleryIndex")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AchievementId");
+
+                    b.ToTable("ItemGalleryImageFilePath");
                 });
 
             modelBuilder.Entity("MyResume.WebApp.Models.UserInformation", b =>
@@ -364,6 +457,42 @@ namespace MyResume.WebApp.Migrations
                     b.HasOne("MyResume.WebApp.Models.UserInformation", "UserInformation")
                         .WithMany("Achievements")
                         .HasForeignKey("UserInformationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyResume.WebApp.Models.Experience", b =>
+                {
+                    b.HasOne("MyResume.WebApp.Models.UserInformation", "UserInformation")
+                        .WithMany()
+                        .HasForeignKey("UserInformationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyResume.WebApp.Models.ExperiencePoint", b =>
+                {
+                    b.HasOne("MyResume.WebApp.Models.Experience", "Experience")
+                        .WithMany("ExperiencePoints")
+                        .HasForeignKey("ExperienceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyResume.WebApp.Models.ExperiencePointDescription", b =>
+                {
+                    b.HasOne("MyResume.WebApp.Models.ExperiencePoint", "ExperiencePoint")
+                        .WithMany("Descriptions")
+                        .HasForeignKey("ExperiencePointId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyResume.WebApp.Models.ItemGalleryImageFilePath", b =>
+                {
+                    b.HasOne("MyResume.WebApp.Models.Achievement", "Achievement")
+                        .WithMany("ItemGalleryImageFilePaths")
+                        .HasForeignKey("AchievementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

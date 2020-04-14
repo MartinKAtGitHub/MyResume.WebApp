@@ -7,31 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200130165150_ChangesStringsToGuidTypes.cs" />
-    <Compile Remove="Migrations\20200130165150_ChangesStringsToGuidTypes.Designer.cs" />
-    <Compile Remove="Migrations\20200130174846_TestPoint.cs" />
-    <Compile Remove="Migrations\20200130174846_TestPoint.Designer.cs" />
-    <Compile Remove="Migrations\20200203200439_AddInfoAndAchivToAppUser.cs" />
-    <Compile Remove="Migrations\20200203200439_AddInfoAndAchivToAppUser.Designer.cs" />
-    <Compile Remove="Migrations\20200203201516_UpdatedNameInfoId.cs" />
-    <Compile Remove="Migrations\20200203201516_UpdatedNameInfoId.Designer.cs" />
-    <Compile Remove="Migrations\20200207194953_AddingRelationshipUserAndUserInfo.cs" />
-    <Compile Remove="Migrations\20200207194953_AddingRelationshipUserAndUserInfo.Designer.cs" />
-    <Compile Remove="Migrations\20200207200549_AddingRelationshipUserAndUserInfo.cs" />
-    <Compile Remove="Migrations\20200207200549_AddingRelationshipUserAndUserInfo.Designer.cs" />
-    <Compile Remove="Migrations\20200225164041_UpdateTablesInfoAndAchi.cs" />
-    <Compile Remove="Migrations\20200225164041_UpdateTablesInfoAndAchi.Designer.cs" />
-    <Compile Remove="Migrations\20200305182350_AddingGalleryImagePathTbl.cs" />
-    <Compile Remove="Migrations\20200305182350_AddingGalleryImagePathTbl.Designer.cs" />
-    <Compile Remove="Migrations\20200315151406_AddedRangeLimitOnOrderPos.cs" />
-    <Compile Remove="Migrations\20200315151406_AddedRangeLimitOnOrderPos.Designer.cs" />
-    <Compile Remove="Migrations\20200330194448_UpdatingReqForEXP.cs" />
-    <Compile Remove="Migrations\20200330194448_UpdatingReqForEXP.Designer.cs" />
-    <Compile Remove="Migrations\20200330195750_UpdatingReqForEXP.cs" />
-    <Compile Remove="Migrations\20200330195750_UpdatingReqForEXP.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="wwwroot\js\ResumeUserControls.ts" />
   </ItemGroup>
 
@@ -57,6 +32,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\ItemThumbnails\" />
+    <Folder Include="wwwroot\images\AvatarImages\" />
   </ItemGroup>
 
 </Project>
