@@ -478,7 +478,7 @@ namespace MyResume.WebApp.Controllers
         [Authorize]
         public UserResumeViewModel CreateNewExperienceGroup(/* string id,*/ UserResumeViewModel model) // TODO CreateNewExperienceGroup Add validation with Ajax
         {
-
+            // This is change
             if (ModelState.IsValid)
             {
 
