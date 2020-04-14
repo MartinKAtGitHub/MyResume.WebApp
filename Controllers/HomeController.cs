@@ -478,10 +478,9 @@ namespace MyResume.WebApp.Controllers
         [Authorize]
         public UserResumeViewModel CreateNewExperienceGroup(/* string id,*/ UserResumeViewModel model) // TODO CreateNewExperienceGroup Add validation with Ajax
         {
-            // This is change
+            //Going to use partial view maybe
             if (ModelState.IsValid)
             {
-
                 var userID = _userManager.GetUserId(User);
                 var id = model.NewExpGrp.ExpUserInfoID;
 
