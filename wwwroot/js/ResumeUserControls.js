@@ -20,20 +20,25 @@ $(document).ready(function () {
     });
     $(document).ajaxSuccess(function (event, xhr, settings) {
         if (settings.url == formCreateNewExp.action) {
-            GenerateMainPageHTML(xhr);
+            $("#exp-grp-container").load("/Home/CallViewComp", function () { return alert("GET VIEW"); });
+            // GenerateMainPageHTML(xhr);
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
     });
 });
 function GenerateMainPageHTML(xhr) {
     if (xhr != undefined) { // or Null ?
-        // Why cant i save this
         // we need to crate a class for the newExpGrpObject or else it will be an any type
         var newExpGrpObject = xhr.responseJSON.newExpGrp; // this works LEL
-        console.log(newExpGrpObject);
+        //console.log(newExpGrpObject);
+        // Use json object (newExpGrpObject)
+        // dynamic html construction
+        // ajax into partial view ?
+        // generate fields using data (newExpGrpObject) pass this as model
     }
     else {
         // AJAX Get JSON From SEVER
+        // use json for dynamic html construction
     }
 }
 function AddExpPointField(expPointCounter, addExpPointBtn, expFrom) {

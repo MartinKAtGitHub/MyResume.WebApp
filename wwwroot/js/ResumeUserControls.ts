@@ -28,8 +28,10 @@ $(document).ready(() => {
 
     $(document).ajaxSuccess(function (event, xhr, settings) { // Because of AJAX unobtrusive finding success even it uses it impossible we need to use this global event on ajax success and filter out witch one succeeded
         if (settings.url == formCreateNewExp.action) {
-            GenerateMainPageHTML(xhr);
+            
+            $("#exp-grp-container").load("/Home/CallViewComp", () => alert("GET VIEW"));
 
+            // GenerateMainPageHTML(xhr);
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
     });
@@ -40,14 +42,20 @@ $(document).ready(() => {
 function GenerateMainPageHTML(xhr?: JQuery.jqXHR<any>) {
     if (xhr != undefined) {// or Null ?
 
-        // Why cant i save this
-
         // we need to crate a class for the newExpGrpObject or else it will be an any type
         let newExpGrpObject = xhr.responseJSON.newExpGrp; // this works LEL
-        console.log(newExpGrpObject);
+        //console.log(newExpGrpObject);
+
+        // Use json object (newExpGrpObject)
+            // dynamic html construction
+
+
+        // ajax into partial view ?
+            // generate fields using data (newExpGrpObject) pass this as model
     } else {
 
         // AJAX Get JSON From SEVER
+            // use json for dynamic html construction
     }
 
 

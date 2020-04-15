@@ -35,7 +35,9 @@ namespace MyResume.WebApp.Data
 
         public IEnumerable<Experience> ReadAll(Guid userId)
         {
-            throw new NotImplementedException();
+            var result = _appDbContext.Experiences.Where(x => x.UserInformationId == userId);
+            return result;
+            //throw new NotImplementedException();
         }
 
         public Experience Update(Experience newAchievement)

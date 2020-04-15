@@ -484,11 +484,11 @@ namespace MyResume.WebApp.Controllers
                 var userID = _userManager.GetUserId(User);
                 var id = model.NewExpGrp.ExpUserInfoID;
 
-                if (id != userID)
+                if (id != userID) // we pass a ID with the form, if this dose not match with the user editing it we kick them out
                 {
                     Response.StatusCode = 403; // This is sendt to the AJAX and will cause the ERROR CallbackFunc to run
                     ViewBag.ErrorTitle = "Wrong user";
-                    ViewBag.ErrorMessage = "Please login with the correct user to edit this item";
+                    ViewBag.ErrorMessage = "Please login with the correct user to create this experience section";
 
                     return model;
                     //return ("Error");
@@ -547,6 +547,12 @@ namespace MyResume.WebApp.Controllers
             //TODO  Maybe Add error text for when ModelState fails and we throw an error
 
             return model;
+        }
+
+
+        public IActionResult CallViewComp()
+        {
+            return ViewComponent("ExperienceDisplay");
         }
     }
 }
