@@ -29,7 +29,7 @@ $(document).ready(() => {
     $(document).ajaxSuccess(function (event, xhr, settings) { // Because of AJAX unobtrusive finding success even it uses it impossible we need to use this global event on ajax success and filter out witch one succeeded
         if (settings.url == formCreateNewExp.action) {
             
-            $("#exp-grp-container").load("/Home/CallViewComp", () => alert("GET VIEW"));
+            $("#exp-grp-container").load("/Home/GetExperiencView", () => alert("Refreshing view comp"));
 
             // GenerateMainPageHTML(xhr);
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page

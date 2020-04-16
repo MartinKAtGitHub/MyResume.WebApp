@@ -1,4 +1,5 @@
-﻿using MyResume.WebApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MyResume.WebApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace MyResume.WebApp.Data
 
         public IEnumerable<Experience> ReadAll(Guid userId)
         {
-            var result = _appDbContext.Experiences.Where(x => x.UserInformationId == userId);
+            var result = _appDbContext.Experiences.Include(x => x.ExperiencePoints).ThenInclude(x => x.Descriptions).Where(x => x.UserInformationId == userId);
             return result;
             //throw new NotImplementedException();
         }

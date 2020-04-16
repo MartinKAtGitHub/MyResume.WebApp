@@ -1,8 +1,29 @@
 ﻿@model List<Experience>
 
-@foreach (var expGrp in Model)
+
+@if (Model.Any())
+{
+    @foreach (var expGrp in Model)
+    {
+        <div>
+            <h3>@expGrp.Title</h3>
+            @foreach (var expPoint in expGrp.ExperiencePoints)
+            {
+                <h4>@expPoint.Title</h4>
+                <ul>
+                    @foreach (var desc in expPoint.Descriptions)
+                    {
+                        <li>@desc</li>
+                    }
+
+                </ul>
+            }
+        </div>
+    }
+}
+else
 {
     <div>
-        <h3>@expGrp.Title</h3>
-    </div>   
+        <h1>User mismatch, you are not authorized to do edits</h1>
+    </div>
 }

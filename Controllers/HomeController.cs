@@ -550,7 +550,7 @@ namespace MyResume.WebApp.Controllers
         }
 
 
-        public IActionResult CallViewComp()
+        public IActionResult GetExperiencView()
         {
             return ViewComponent("ExperienceDisplay");
         }

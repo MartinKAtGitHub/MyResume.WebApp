@@ -20,7 +20,7 @@ $(document).ready(function () {
     });
     $(document).ajaxSuccess(function (event, xhr, settings) {
         if (settings.url == formCreateNewExp.action) {
-            $("#exp-grp-container").load("/Home/CallViewComp", function () { return alert("GET VIEW"); });
+            $("#exp-grp-container").load("/Home/GetExperiencView", function () { return alert("Refreshing view comp"); });
             // GenerateMainPageHTML(xhr);
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
