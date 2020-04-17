@@ -3,27 +3,52 @@
 
 @if (Model.Any())
 {
-    @foreach (var expGrp in Model)
-    {
-        <div>
-            <h3>@expGrp.Title</h3>
-            @foreach (var expPoint in expGrp.ExperiencePoints)
-            {
-                <h4>@expPoint.Title</h4>
-                <ul>
-                    @foreach (var desc in expPoint.Descriptions)
+    @*<form asp-controller="Home" asp-action="UpdateExperiences" method="post">*@
+    <form id="editExpFrom" asp-action="UpdateExperiences" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="EditSuccess" data-ajax-failure="EditFailure">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <div class="m-3 bg-info">
+
+                <input asp-for="@Model[i].Id" hidden type="text" />
+
+                <input asp-for="@Model[i].Title" type="text" value="@Model[i].Title" />
+
+                @for (int j = 0; j < Model[i].ExperiencePoints.Count; j++)
+                {
+                    <input asp-for="@Model[i].ExperiencePoints[j].Title" type="text" value="@Model[i].ExperiencePoints[j].Title" />
+
+
+                    @for (int k = 0; k < Model[i].ExperiencePoints[j].Descriptions.Count; k++)
                     {
-                        <li>@desc</li>
+                        <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" type="text" value="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" />
                     }
 
-                </ul>
-            }
-        </div>
-    }
+                }
+            </div>
+        }
+
+        <button type="submit"> submit</button>
+
+    </form>
+
 }
 else
 {
     <div>
-        <h1>User mismatch, you are not authorized to do edits</h1>
+        <h1 class="text-danger">User mismatch Or you don't have any experience, need to differentiate the 2 cases (line 4 default ExpDisplay VC)</h1>
     </div>
 }
+
+@*@section Scripts {
+
+
+    <script>
+
+        EditSuccess = OnSuccessfulEditEXP;
+        EditFailure = OnFailureEditEXP;
+
+    </script>
+
+}*@

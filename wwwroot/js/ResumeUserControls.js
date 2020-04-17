@@ -20,7 +20,15 @@ $(document).ready(function () {
     });
     $(document).ajaxSuccess(function (event, xhr, settings) {
         if (settings.url == formCreateNewExp.action) {
-            $("#exp-grp-container").load("/Home/GetExperiencView", function () { return alert("Refreshing view comp"); });
+            $("#exp-grp-container").load("/Home/GetExperienceView", function () {
+                if (status == "error") {
+                    var msg = "Sorry but there was an error: ";
+                    alert(msg + xhr.status + " " + xhr.statusText);
+                }
+                if (status == "success") {
+                    alert("Crate an pop-up to indicate the creation was successful");
+                }
+            });
             // GenerateMainPageHTML(xhr);
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
@@ -121,7 +129,7 @@ function ResetFormValidationJQUnobtrusive(formTag) {
         .removeData("unobtrusiveValidation");
     $.validator.unobtrusive.parse(formTag);
 }
-function OnSuccsessfulCreateEXP(xhr) {
+function OnSuccessfulCreateEXP(xhr) {
     //ArrayOfEvents[] . disconnect events
     //alert("Success ");
     var form = $("#newExpFrom")[0];
@@ -134,6 +142,12 @@ function OnSuccsessfulCreateEXP(xhr) {
         expPointContainers[i].remove();
     }
     $("#newExperienceModal").modal('hide');
+}
+function OnSuccessfulEditEXP() {
+    alert("TEMP Make Pop-up to indicate successful edit");
+}
+function OnFailureEditEXP(xhr) {
+    alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
 }
 function OnFailureCreateEXP(xhr) {
     alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller

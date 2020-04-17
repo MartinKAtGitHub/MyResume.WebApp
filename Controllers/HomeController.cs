@@ -114,8 +114,6 @@ namespace MyResume.WebApp.Controllers
 
             if (ModelState.IsValid)
             {
-                //model.AvatarImgPath = ProccessUploadedFile(model.AvatarImage, userInfo, _userManager.GetUserName(User), "images/AvatarImages");
-
                 var result = FileProcessing.UploadAvatarPng(model.AvatarImage, _userManager.GetUserName(User), this, _config, _webHostEnvironment);
 
                 if (result != null)
@@ -501,7 +499,7 @@ namespace MyResume.WebApp.Controllers
                     Title = model.NewExpGrp.Title,
                     UserInformationId = _userInfoRepo.Read(userID).UserInformationId,
                     ExperiencePoints = new List<ExperiencePoint>()
-                   
+
                 };
 
 
@@ -515,9 +513,9 @@ namespace MyResume.WebApp.Controllers
                         Id = Guid.NewGuid().ToString(),
                         Title = point.PointTitle,
                         Descriptions = new List<ExperiencePointDescription>()
-                    //ExperienceId = auto gen EF core +?
-                };
-                    
+                        //ExperienceId = auto gen EF core +?
+                    };
+
 
                     for (int i = 0; i < point.Descriptions.Count; i++)
                     {
@@ -550,9 +548,68 @@ namespace MyResume.WebApp.Controllers
         }
 
 
-        public IActionResult GetExperiencView()
+        public IActionResult GetExperienceView()//Ajax call
         {
-            return ViewComponent("ExperienceDisplay");
+            var activeUserId = _userManager.GetUserId(User);
+
+            return ViewComponent("ExperienceDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
+        }
+
+        public IActionResult UpdateExperiences(List<Experience> model) // 
+        {
+            var userInfoId = _userInfoRepo.Read(_userManager.GetUserId(User)).UserInformationId;
+            var updatedExpGrps = new List<Experience>();
+
+            foreach (var modelExpGrp in model)
+            {
+                var expGrp = _experienceRepo.Read(modelExpGrp.Id); // If the user pampers with the id, the returned value will not belong to th active user
+
+                if (expGrp == null)
+                {
+                    Response.StatusCode = 404;
+                    ViewBag.ErrorMessage = "Can't find the experience section you are looking for, pleas contact the administration";
+                    return View("PageNotFound");
+                }
+
+                if (expGrp.UserInformation.UserInformationId != userInfoId)
+                {
+                    Response.StatusCode = 403;
+                    ViewBag.ErrorTitle = "Wrong user";
+                    ViewBag.ErrorMessage = "Unauthorized edit attempt was made";
+                    return View("Error");
+
+                }
+
+                expGrp.Title = modelExpGrp.Title;
+
+
+                /*if we want to add we need to loop the model not the db value
+                 
+                for(modelExpGrp.ExperiencePoints.count)
+                    if(expGrp.ExperiencePoints[i] == null)
+                    expGrp.ExperiencePoint.add(new ExperiencePoints (
+                    
+                    title = modelExpGrp.ExperiencePoint[i].title
+                    etc
+                ))
+                 
+                 */
+
+                for (int i = 0; i < expGrp.ExperiencePoints.Count; i++)
+                {
+                    expGrp.ExperiencePoints[i].Title = modelExpGrp.ExperiencePoints[i].Title;
+                    for (int j = 0; j < expGrp.ExperiencePoints[i].Descriptions.Count; j++)
+                    {
+                        expGrp.ExperiencePoints[i].Descriptions[j].Discription = modelExpGrp.ExperiencePoints[i].Descriptions[j].Discription;
+                    }
+                }
+
+
+                updatedExpGrps.Add(expGrp);
+            }
+
+            _experienceRepo.UpdateAll(updatedExpGrps);
+            return ViewComponent("ExperienceDisplay" ,new { userInfoId = userInfoId });
         }
     }
 }

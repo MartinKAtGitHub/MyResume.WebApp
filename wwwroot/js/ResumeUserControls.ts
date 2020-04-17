@@ -29,7 +29,17 @@ $(document).ready(() => {
     $(document).ajaxSuccess(function (event, xhr, settings) { // Because of AJAX unobtrusive finding success even it uses it impossible we need to use this global event on ajax success and filter out witch one succeeded
         if (settings.url == formCreateNewExp.action) {
             
-            $("#exp-grp-container").load("/Home/GetExperiencView", () => alert("Refreshing view comp"));
+            $("#exp-grp-container").load("/Home/GetExperienceView", () => {
+
+                if (status == "error") {
+                    let msg = "Sorry but there was an error: ";
+                    alert(msg + xhr.status + " " + xhr.statusText);
+                }
+
+                if (status == "success") {
+                    alert("Crate an pop-up to indicate the creation was successful")
+                }
+            });
 
             // GenerateMainPageHTML(xhr);
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
@@ -170,7 +180,7 @@ function ResetFormValidationJQUnobtrusive(formTag: HTMLFormElement) {
 }
 
 
-function OnSuccsessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
+function OnSuccessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
 
     //ArrayOfEvents[] . disconnect events
 
@@ -191,6 +201,15 @@ function OnSuccsessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
     $("#newExperienceModal").modal('hide');
 }
 
+function OnSuccessfulEditEXP() { // Successful
+    alert( "TEMP Make Pop-up to indicate successful edit");
+
+}
+
+function OnFailureEditEXP(xhr: XMLHttpRequest) {
+    alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
+
+}
 
 function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?
     alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller

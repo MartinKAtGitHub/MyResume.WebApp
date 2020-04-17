@@ -22,12 +22,12 @@ namespace MyResume.WebApp.ViewComponents
             _userManager = userManager;
         }
 
-        public IViewComponentResult Invoke(Guid userId)
+        public IViewComponentResult Invoke(Guid userInfoId)
         {
             var activeUserId = _userManager.GetUserId(UserClaimsPrincipal);
 
 
-            if ( _userInfoRepo.Read(activeUserId).UserInformationId != userId) // TODO ExperienceDisplayViewComponent i am making an extra trip to the DB because i use userinfoId instead of appuserId 
+            if ( _userInfoRepo.Read(activeUserId).UserInformationId != userInfoId) // TODO ExperienceDisplayViewComponent i am making an extra trip to the DB because i use userinfoId instead of appuserId 
             {
                // Response.StatusCode = 403;
                 //ViewBag.ErrorTitle = "Wrong user";
@@ -38,7 +38,7 @@ namespace MyResume.WebApp.ViewComponents
             }
 
 
-            var result = _experienceRepo.ReadAll(userId).ToList();
+            var result = _experienceRepo.ReadAll(userInfoId).ToList();
             //result.Add(new Models.Experience { Title = message});
             return View(result);
         }

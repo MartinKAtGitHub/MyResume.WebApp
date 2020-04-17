@@ -50,7 +50,7 @@
 
     </div>
     <div id="exp-grp-container">
-        @await Component.InvokeAsync("ExperienceDisplay", new { userId = Model.UserInfo.UserInformationId}) @*Because this renders 1 time i can then call it with ajax later using controllers*@
+        @await Component.InvokeAsync("ExperienceDisplay", new { userInfoId = Model.UserInfo.UserInformationId}) @*Because this renders 1 time i can then call it with ajax later using controllers*@
     </div>
 
 
@@ -254,8 +254,12 @@ else
     <script src="~/js/ResumeUserControls.js"></script>
 
     <script>
-        Success = OnSuccsessfulCreateEXP;
+        Success = OnSuccessfulCreateEXP;
         Failure = OnFailureCreateEXP;
+        
+        EditSuccess = OnSuccessfulEditEXP;
+        EditFailure = OnFailureEditEXP;
+
     </script>
 
 }

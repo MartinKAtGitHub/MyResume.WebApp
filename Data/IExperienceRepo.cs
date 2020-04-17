@@ -11,7 +11,7 @@ namespace MyResume.WebApp.Data
         // CRUD
         Experience Create(Experience model);
         Experience Read(string id);
-        Experience Update(Experience newAchievement);
+        List<Experience> UpdateAll(List<Experience> updatedExperiences);
         Experience Delete(Experience experienceToDelete);
        
         IEnumerable<Experience> ReadAll(Guid userId);

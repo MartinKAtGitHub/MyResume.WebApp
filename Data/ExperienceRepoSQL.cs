@@ -31,7 +31,8 @@ namespace MyResume.WebApp.Data
 
         public Experience Read(string id)
         {
-            throw new NotImplementedException();
+            var result = _appDbContext.Experiences.Include(x => x.ExperiencePoints).ThenInclude(x => x.Descriptions).FirstOrDefault(x => x.Id == id);
+            return result;
         }
 
         public IEnumerable<Experience> ReadAll(Guid userId)
@@ -41,9 +42,12 @@ namespace MyResume.WebApp.Data
             //throw new NotImplementedException();
         }
 
-        public Experience Update(Experience newAchievement)
+        public List<Experience> UpdateAll(List<Experience> updatedExperiences)
         {
-            throw new NotImplementedException();
+
+            _appDbContext.Experiences.UpdateRange(updatedExperiences);
+            _appDbContext.SaveChanges();
+            return updatedExperiences;
         }
     }
 }
