@@ -28,8 +28,6 @@ $(document).ready(() => {
 
     $(document).ajaxSuccess(function (event, xhr, settings) { // Because of AJAX unobtrusive finding success even it uses it impossible we need to use this global event on ajax success and filter out witch one succeeded
 
-        alert("AJAX SUCCESS. from = " + settings.url);
-
         if (settings.url == formCreateNewExp.action) {
             $("#exp-grp-container").load("/Home/GetExperienceView", () => {
                 if (status == "error") {
@@ -38,13 +36,14 @@ $(document).ready(() => {
                 }
 
                 if (status == "success") {
-                    alert("Crate an pop-up to indicate the creation was successful")
+                    alert("Crate an pop-up to indicate the creation was successful");
                 }
             });
 
             // GenerateMainPageHTML(xhr);
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
+    
     });
 
 });
@@ -202,20 +201,19 @@ function OnSuccessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
 
 function OnSuccessfulEditEXP() { // Successful
 
-    //$("#exp-grp-container").load("/Home/GetExperienceView", (event, xhr, settings) => {
+    $("#exp-grp-container").load("/Home/GetExperienceView", (event, xhr, settings) => {
 
-    //    alert("REFRESING VC");
-    //    if (status == "error") {
+        if (status == "error") {
           
-    //        alert("Failed to update");
-    //    }
+            alert("Failed to update");
+        }
 
-    //    if (status == "success") {
-    //        alert("Delted successful")
-    //    }
-    //});
+        if (status == "success") {
+            alert("Delted successful")
+        }
+    });
 
-    alert( "TEMP XX Make Pop-up to indicate successful edit");
+    alert( "TEMP Make Pop-up to indicate successful edit");
 }
 
 function OnFailureEditEXP(xhr: XMLHttpRequest) {

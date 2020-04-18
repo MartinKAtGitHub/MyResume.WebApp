@@ -583,6 +583,7 @@ namespace MyResume.WebApp.Controllers
                 if (modelExpGrp.MarkForDeletion)
                 {
                     _experienceRepo.DeleteExp(expGrp);
+                    continue;
                 }
 
 

@@ -19,7 +19,6 @@ $(document).ready(function () {
         }
     });
     $(document).ajaxSuccess(function (event, xhr, settings) {
-        alert("AJAX SUCCESS. from = " + settings.url);
         if (settings.url == formCreateNewExp.action) {
             $("#exp-grp-container").load("/Home/GetExperienceView", function () {
                 if (status == "error") {
@@ -143,16 +142,15 @@ function OnSuccessfulCreateEXP(xhr) {
     $("#newExperienceModal").modal('hide');
 }
 function OnSuccessfulEditEXP() {
-    //$("#exp-grp-container").load("/Home/GetExperienceView", (event, xhr, settings) => {
-    //    alert("REFRESING VC");
-    //    if (status == "error") {
-    //        alert("Failed to update");
-    //    }
-    //    if (status == "success") {
-    //        alert("Delted successful")
-    //    }
-    //});
-    alert("TEMP XX Make Pop-up to indicate successful edit");
+    $("#exp-grp-container").load("/Home/GetExperienceView", function (event, xhr, settings) {
+        if (status == "error") {
+            alert("Failed to update");
+        }
+        if (status == "success") {
+            alert("Delted successful");
+        }
+    });
+    alert("TEMP Make Pop-up to indicate successful edit");
 }
 function OnFailureEditEXP(xhr) {
     alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
