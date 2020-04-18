@@ -27,10 +27,11 @@ $(document).ready(() => {
 
 
     $(document).ajaxSuccess(function (event, xhr, settings) { // Because of AJAX unobtrusive finding success even it uses it impossible we need to use this global event on ajax success and filter out witch one succeeded
-        if (settings.url == formCreateNewExp.action) {
-            
-            $("#exp-grp-container").load("/Home/GetExperienceView", () => {
 
+        alert("AJAX SUCCESS. from = " + settings.url);
+
+        if (settings.url == formCreateNewExp.action) {
+            $("#exp-grp-container").load("/Home/GetExperienceView", () => {
                 if (status == "error") {
                     let msg = "Sorry but there was an error: ";
                     alert(msg + xhr.status + " " + xhr.statusText);
@@ -181,10 +182,8 @@ function ResetFormValidationJQUnobtrusive(formTag: HTMLFormElement) {
 
 
 function OnSuccessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
+ 
 
-    //ArrayOfEvents[] . disconnect events
-
-    //alert("Success ");
     let form = $("#newExpFrom")[0] as HTMLFormElement;
     form.reset();
 
@@ -202,17 +201,30 @@ function OnSuccessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
 }
 
 function OnSuccessfulEditEXP() { // Successful
-    alert( "TEMP Make Pop-up to indicate successful edit");
 
+    //$("#exp-grp-container").load("/Home/GetExperienceView", (event, xhr, settings) => {
+
+    //    alert("REFRESING VC");
+    //    if (status == "error") {
+          
+    //        alert("Failed to update");
+    //    }
+
+    //    if (status == "success") {
+    //        alert("Delted successful")
+    //    }
+    //});
+
+    alert( "TEMP XX Make Pop-up to indicate successful edit");
 }
 
 function OnFailureEditEXP(xhr: XMLHttpRequest) {
-    alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
+    alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
 
 }
 
 function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?
-    alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
+    alert("On Create something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
 }
 
 

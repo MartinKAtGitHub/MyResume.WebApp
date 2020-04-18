@@ -580,6 +580,12 @@ namespace MyResume.WebApp.Controllers
 
                 }
 
+                if (modelExpGrp.MarkForDeletion)
+                {
+                    _experienceRepo.DeleteExp(expGrp);
+                }
+
+
                 expGrp.Title = modelExpGrp.Title;
 
 
@@ -597,9 +603,22 @@ namespace MyResume.WebApp.Controllers
 
                 for (int i = 0; i < expGrp.ExperiencePoints.Count; i++)
                 {
+                    if (modelExpGrp.ExperiencePoints[i].MarkForDeletion)
+                    {
+                        _experienceRepo.DeleteExpPoint(expGrp.ExperiencePoints[i]);
+                        continue;
+                    }
+
                     expGrp.ExperiencePoints[i].Title = modelExpGrp.ExperiencePoints[i].Title;
+
                     for (int j = 0; j < expGrp.ExperiencePoints[i].Descriptions.Count; j++)
                     {
+                        if (modelExpGrp.ExperiencePoints[i].Descriptions[j].MarkForDeletion)
+                        {
+                            _experienceRepo.DeleteExpPointDesc(expGrp.ExperiencePoints[i].Descriptions[j]);
+                            continue;
+                        }
+
                         expGrp.ExperiencePoints[i].Descriptions[j].Discription = modelExpGrp.ExperiencePoints[i].Descriptions[j].Discription;
                     }
                 }

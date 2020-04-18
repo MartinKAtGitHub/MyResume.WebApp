@@ -12,8 +12,12 @@ namespace MyResume.WebApp.Data
         Experience Create(Experience model);
         Experience Read(string id);
         List<Experience> UpdateAll(List<Experience> updatedExperiences);
-        Experience Delete(Experience experienceToDelete);
-       
+        Experience DeleteExp(Experience experienceToDelete);
+        ExperiencePoint DeleteExpPoint(ExperiencePoint experiencePointToDelete);
+        ExperiencePointDescription DeleteExpPointDesc(ExperiencePointDescription experiencePointDescToDelete);
+
+
+
         IEnumerable<Experience> ReadAll(Guid userId);
 
     }

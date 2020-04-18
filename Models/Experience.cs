@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyResume.WebApp.Models
 {
@@ -23,6 +23,8 @@ namespace MyResume.WebApp.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
+        [NotMapped]
+        public bool MarkForDeletion { get; set; }
         public List<ExperiencePoint> ExperiencePoints { get; set; }
     }
 }

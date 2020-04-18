@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200418153354_TestMig.cs" />
+    <Compile Remove="Migrations\20200418153354_TestMig.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\js\ResumeUserControls.ts" />
   </ItemGroup>
 

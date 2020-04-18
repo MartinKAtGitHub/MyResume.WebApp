@@ -19,6 +19,7 @@ $(document).ready(function () {
         }
     });
     $(document).ajaxSuccess(function (event, xhr, settings) {
+        alert("AJAX SUCCESS. from = " + settings.url);
         if (settings.url == formCreateNewExp.action) {
             $("#exp-grp-container").load("/Home/GetExperienceView", function () {
                 if (status == "error") {
@@ -130,8 +131,6 @@ function ResetFormValidationJQUnobtrusive(formTag) {
     $.validator.unobtrusive.parse(formTag);
 }
 function OnSuccessfulCreateEXP(xhr) {
-    //ArrayOfEvents[] . disconnect events
-    //alert("Success ");
     var form = $("#newExpFrom")[0];
     form.reset();
     //let expGrp = $("#exp-grp-modal").get(0);
@@ -144,13 +143,22 @@ function OnSuccessfulCreateEXP(xhr) {
     $("#newExperienceModal").modal('hide');
 }
 function OnSuccessfulEditEXP() {
-    alert("TEMP Make Pop-up to indicate successful edit");
+    //$("#exp-grp-container").load("/Home/GetExperienceView", (event, xhr, settings) => {
+    //    alert("REFRESING VC");
+    //    if (status == "error") {
+    //        alert("Failed to update");
+    //    }
+    //    if (status == "success") {
+    //        alert("Delted successful")
+    //    }
+    //});
+    alert("TEMP XX Make Pop-up to indicate successful edit");
 }
 function OnFailureEditEXP(xhr) {
-    alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
+    alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
 }
 function OnFailureCreateEXP(xhr) {
-    alert("Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
+    alert("On Create something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
 }
 //function CreateExp(expId: string): void {
 //    // $("#createExpForm").hide("slow");

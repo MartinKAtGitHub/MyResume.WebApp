@@ -24,10 +24,30 @@ namespace MyResume.WebApp.Data
             return model;
         }
 
-        public Experience Delete(Experience experienceToDelete)
+        public Experience DeleteExp(Experience experienceToDelete)
         {
-            throw new NotImplementedException();
+
+            _appDbContext.Remove(experienceToDelete);
+            _appDbContext.SaveChanges();
+            return experienceToDelete;
         }
+
+        public ExperiencePoint DeleteExpPoint(ExperiencePoint experiencePointToDelete)
+        {
+
+            _appDbContext.Remove(experiencePointToDelete);
+            _appDbContext.SaveChanges();
+            return experiencePointToDelete;
+        }
+
+        public ExperiencePointDescription DeleteExpPointDesc(ExperiencePointDescription experiencePointDescToDelete)
+        {
+
+            _appDbContext.Remove(experiencePointDescToDelete);
+            _appDbContext.SaveChanges();
+            return experiencePointDescToDelete;
+        }
+
 
         public Experience Read(string id)
         {

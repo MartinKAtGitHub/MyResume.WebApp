@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyResume.WebApp.Models
 {
@@ -21,7 +22,9 @@ namespace MyResume.WebApp.Models
         [Required]
         [MaxLength(30)]
         public string Title { get; set; }
-     
+
+        [NotMapped]
+        public bool MarkForDeletion { get; set; }
         public List<ExperiencePointDescription> Descriptions { get; set; }
     }
 }
