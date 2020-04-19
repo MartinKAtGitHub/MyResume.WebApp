@@ -188,6 +188,7 @@ function OnCompleteCreateEXP() {
     let inputBtn = $("#expCreateSubmitBtn").get(0) as HTMLInputElement // // This should be cached but in global?
     inputBtn.disabled = false;
 }
+
 function OnSuccessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
  
 

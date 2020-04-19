@@ -552,7 +552,7 @@ namespace MyResume.WebApp.Controllers
         {
             var activeUserId = _userManager.GetUserId(User);
 
-            return ViewComponent("ExperienceDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
+            return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
         }
 
         public IActionResult UpdateExperiences(List<Experience> model) // 
@@ -629,7 +629,7 @@ namespace MyResume.WebApp.Controllers
             }
 
             _experienceRepo.UpdateAll(updatedExpGrps);
-            return ViewComponent("ExperienceDisplay" ,new { userInfoId = userInfoId });
+            return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
         }
     }
 }

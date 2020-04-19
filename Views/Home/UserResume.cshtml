@@ -52,7 +52,7 @@
     <div id="exp-grp-container">
         @if (Model.EnableOwnerOptions)
         {
-            @await Component.InvokeAsync("ExperienceDisplay", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
+            @await Component.InvokeAsync("ExperienceEditDisplay", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
         }
         else
         {
