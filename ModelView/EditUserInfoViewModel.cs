@@ -30,5 +30,6 @@ namespace MyResume.WebApp.ModelView
         public string Summary { get; set; }
         public string MainText { get; set; }
         public bool AvailableForContact { get; set; }
+        public string DefaultAvatarPath { get; set; }
     }
 }

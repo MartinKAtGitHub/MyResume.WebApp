@@ -2,20 +2,22 @@
 @{
     ViewBag.Title = "My information";
 
-    //var avatarImgPath = "~/images/AvatarImages/" + (Model.AvatarImgPath ?? "../MyResumeDefaultAvatar.png");
+    var avatarImgPath = Model.AvatarImgPath ?? Model.DefaultAvatarPath;
 }
 
 
-<div>
-    <img class="mb-3" src="@Model.AvatarImgPath" asp-append-version="true" />
-    
-    <h6>Max file size is 5Kb</h6>
-  
-    @if(ViewBag.FileSuccessMessage != null)
-    {
-        <div class=" alert alert-success"> @ViewBag.FileSuccessMessage</div>   
-    }
-</div>
+    <div>
+        @*<img class="mb-3 img-fluid" src="@Model.AvatarImgPath" asp-append-version="true" />*@
+
+        <img class="mb-3 img-fluid" src="@avatarImgPath" asp-append-version="true" />
+
+        <h6>Max file size is 5Kb</h6>
+
+        @if (ViewBag.FileSuccessMessage != null)
+        {
+            <div class=" alert alert-success"> @ViewBag.FileSuccessMessage</div>
+        }
+    </div>
 
 <form method="post" asp-action="RemoveAvatarImg">
     <div>

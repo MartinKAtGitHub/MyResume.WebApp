@@ -12,14 +12,14 @@ namespace MyResume.WebApp.ViewComponents
     public class ExperienceEditDisplayViewComponent : ViewComponent // Experience Edit
     {
         private readonly IExperienceRepo _experienceRepo;
-        private readonly IUserInfoRepo _userInfoRepo;
-        private readonly UserManager<ApplicationUser> _userManager;
+        // private readonly IUserInfoRepo _userInfoRepo;
+        //  private readonly UserManager<ApplicationUser> _userManager;
 
-        public ExperienceEditDisplayViewComponent(IExperienceRepo experienceRepo, IUserInfoRepo userInfoRepo, UserManager<ApplicationUser> userManager)
+        public ExperienceEditDisplayViewComponent(IExperienceRepo experienceRepo /*, IUserInfoRepo userInfoRepo, UserManager<ApplicationUser> userManager*/)
         {
             _experienceRepo = experienceRepo;
-            _userInfoRepo = userInfoRepo;
-            _userManager = userManager;
+            //  _userInfoRepo = userInfoRepo;
+            // _userManager = userManager;
         }
 
         public IViewComponentResult Invoke(Guid userInfoId)

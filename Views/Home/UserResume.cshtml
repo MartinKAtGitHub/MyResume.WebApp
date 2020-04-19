@@ -56,7 +56,7 @@
         }
         else
         {
-            @await Component.InvokeAsync("ExperienceDisplayAnon", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
+            @await Component.InvokeAsync("ExperienceDataDisplay", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
         }
     </div>
 

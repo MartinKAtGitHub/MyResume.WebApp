@@ -101,6 +101,7 @@ namespace MyResume.WebApp.Controllers
                 MainText = userInfo.MainText,
                 AvailableForContact = userInfo.AvailableForContact
             };
+            model.DefaultAvatarPath = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath");
 
             return View(model);
         }

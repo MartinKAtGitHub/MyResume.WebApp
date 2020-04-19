@@ -1,0 +1,33 @@
+﻿@model List<Experience>
+
+@if (Model.Any())
+{
+
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="m-3 bg-dark">
+            <h3>@Model[i].Title</h3>
+            <br />
+
+            @for (int j = 0; j < Model[i].ExperiencePoints.Count; j++)
+            {
+                <h4>@Model[i].ExperiencePoints[j].Title</h4>
+                <br />
+
+                @for (int k = 0; k < Model[i].ExperiencePoints[j].Descriptions.Count; k++)
+                {
+
+                    <h5>@Model[i].ExperiencePoints[j].Descriptions[k].Discription</h5>
+                    <br />
+                }
+            }
+        </div>
+    }
+}
+else
+{
+    <div>
+        <h1 class="text-danger">No experience sections was found.</h1>
+    </div>
+}
