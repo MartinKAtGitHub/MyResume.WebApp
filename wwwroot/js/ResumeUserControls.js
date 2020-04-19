@@ -129,6 +129,14 @@ function ResetFormValidationJQUnobtrusive(formTag) {
         .removeData("unobtrusiveValidation");
     $.validator.unobtrusive.parse(formTag);
 }
+function OnBeginCreateEXP() {
+    var inputBtn = $("#expCreateSubmitBtn").get(0); // This should be cached but in global?
+    inputBtn.disabled = true;
+}
+function OnCompleteCreateEXP() {
+    var inputBtn = $("#expCreateSubmitBtn").get(0); // // This should be cached but in global?
+    inputBtn.disabled = false;
+}
 function OnSuccessfulCreateEXP(xhr) {
     var form = $("#newExpFrom")[0];
     form.reset();

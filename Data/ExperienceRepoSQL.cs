@@ -59,7 +59,7 @@ namespace MyResume.WebApp.Data
         {
             var result = _appDbContext.Experiences.Include(x => x.ExperiencePoints).ThenInclude(x => x.Descriptions).Where(x => x.UserInformationId == userId);
             return result;
-            //throw new NotImplementedException();
+         
         }
 
         public List<Experience> UpdateAll(List<Experience> updatedExperiences)

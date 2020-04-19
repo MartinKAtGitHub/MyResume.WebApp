@@ -50,12 +50,27 @@
 
     </div>
     <div id="exp-grp-container">
-        @await Component.InvokeAsync("ExperienceDisplay", new { userInfoId = Model.UserInfo.UserInformationId}) @*Because this renders 1 time i can then call it with ajax later using controllers*@
+        @if (Model.EnableOwnerOptions)
+        {
+            @await Component.InvokeAsync("ExperienceDisplay", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
+        }
+        else
+        {
+            @await Component.InvokeAsync("ExperienceDisplayAnon", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
+        }
     </div>
 
 
     <!-- Modal -->
-    <form id="newExpFrom" asp-action="CreateNewExperienceGroup" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="Success" data-ajax-failure ="Failure">
+    <form id="newExpFrom" asp-action="CreateNewExperienceGroup"
+          method="post"
+          data-ajax="true"
+          data-ajax-method="post" 
+          data-ajax-begin="CreateBegin"
+          data-ajax-success="CreateSuccess" 
+          data-ajax-failure ="CreateFailure"
+          data-ajax-complete ="CreateComplete"
+          data-ajax-loading="#spinner">
 
         <div class="modal fade" id="newExperienceModal" tabindex="-1" role="dialog" aria-labelledby="newExperienceModalTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -91,7 +106,8 @@
 
 
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input type="submit" />
+                        <input id="expCreateSubmitBtn" type="submit" />
+                        <span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
 
                         @*<button onclick="CreateExp()" class="btn btn-primary">Create</button>*@
                     </div>
@@ -251,8 +267,10 @@ else
     <script src="~/js/ResumeUserControls.js"></script>
 
     <script>
-        Success = OnSuccessfulCreateEXP;
-        Failure = OnFailureCreateEXP;
+        CreateBegin = OnBeginCreateEXP;
+        CreateSuccess = OnSuccessfulCreateEXP;
+        CreateFailure = OnFailureCreateEXP;
+        CreateComplete = OnCompleteCreateEXP;
         
         EditSuccess = OnSuccessfulEditEXP;
         EditFailure = OnFailureEditEXP;

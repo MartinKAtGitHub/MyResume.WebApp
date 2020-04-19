@@ -15,7 +15,7 @@ namespace MyResume.WebApp.ViewComponents
         private readonly IUserInfoRepo _userInfoRepo;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ExperienceDisplayViewComponent (IExperienceRepo experienceRepo,IUserInfoRepo userInfoRepo ,UserManager<ApplicationUser> userManager)
+        public ExperienceDisplayViewComponent(IExperienceRepo experienceRepo, IUserInfoRepo userInfoRepo, UserManager<ApplicationUser> userManager)
         {
             _experienceRepo = experienceRepo;
             _userInfoRepo = userInfoRepo;
@@ -27,19 +27,18 @@ namespace MyResume.WebApp.ViewComponents
             var activeUserId = _userManager.GetUserId(UserClaimsPrincipal);
 
 
-            if ( _userInfoRepo.Read(activeUserId).UserInformationId != userInfoId) // TODO ExperienceDisplayViewComponent i am making an extra trip to the DB because i use userinfoId instead of appuserId 
+            if (_userInfoRepo.Read(activeUserId).UserInformationId != userInfoId) // TODO ExperienceDisplayViewComponent i am making an extra trip to the DB because i use userinfoId instead of appuserId 
             {
-               // Response.StatusCode = 403;
+                // Response.StatusCode = 403;
                 //ViewBag.ErrorTitle = "Wrong user";
                 //ViewBag.ErrorMessage = "Please login with the correct user to create this experience section";
-                 // Ideally i would redirect them but i am not sure if it is the correct way considering this is a view comp
+                // Ideally i would redirect them but i am not sure if it is the correct way considering this is a view comp
 
                 return View(new List<Experience>());
             }
 
 
             var result = _experienceRepo.ReadAll(userInfoId).ToList();
-            //result.Add(new Models.Experience { Title = message});
             return View(result);
         }
     }
