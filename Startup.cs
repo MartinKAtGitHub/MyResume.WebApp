@@ -57,7 +57,7 @@ namespace MyResume.WebApp
 
                 options.SignIn.RequireConfirmedEmail = true;
 
-                options.Lockout.MaxFailedAccessAttempts = 2;
+                options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3); // default is 5 min
 
 

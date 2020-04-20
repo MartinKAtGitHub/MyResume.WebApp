@@ -50,8 +50,8 @@
 
 
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                crossorigin="anonymous"></script>
 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
                 integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
@@ -82,24 +82,48 @@
                 @if (signInManager.IsSignedIn(User))
                 {
 
-                    <li class="nav-item active form-inline">
-                        <form  method="post" asp-controller="Account" asp-action="logout">
-                            <button type="submit" class="nav-link btn btn-link py-0" style="width:auto;">
+
+
+                    <li class="nav-item  form-inline">
+                        <form method="post" asp-controller="Account" asp-action="logout">
+                            <button type="submit" class="nav-link active btn btn-link py-0" style="width:auto;">
                                 Logout @User.Identity.Name
                             </button>
                         </form>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-controller="Account"
-                           asp-action="ChangePassword">
-                            Password
-                        </a>
-                    </li>
+
+                    @*<li class="nav-item active">
+                            <a class="nav-link" asp-controller="Account"
+                               asp-action="ChangePassword">
+                                Password
+                            </a>
+                        </li>*@
+
                     <li class="nav-item active">
                         <a class="nav-link" asp-controller="Home"
                            asp-action="UserResume" asp-route-id="@signInManager.UserManager.GetUserId(User)">
                             My Resume Page
                         </a>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Manage Account
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                            <a class="dropdown-item" asp-controller="Home"
+                               asp-action="EditUserInfo">Edit User Info</a>
+
+                            <a class="dropdown-item" asp-controller="Account"
+                               asp-action="ChangePassword">Change Password</a>
+
+                            <a class="dropdown-item" asp-controller="Account"
+                               asp-action="DeleteAccountConfirmation">Delete Account</a>
+
+                        </div>
                     </li>
 
                 }

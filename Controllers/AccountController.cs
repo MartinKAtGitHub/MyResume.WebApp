@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using MyResume.WebApp.Data;
 using MyResume.WebApp.Models;
 using MyResume.WebApp.ModelView;
+using MyResume.WebApp.Utilities;
 using Portfolio_Website_Core.Utilities.MailService;
 using System;
 using System.Collections.Generic;
@@ -21,16 +23,66 @@ namespace MyResume.WebApp.Controllers
         private readonly IMessageService _messageService;
         private readonly IUserInfoRepo _userInfoRepo;
         private readonly IWebHostEnvironment _env;
+        private readonly IConfiguration _config;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IAchievementRepo _achievementRepo;
 
         public AccountController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager, IMessageService messageService, IUserInfoRepo userInfoRepo,
-            IWebHostEnvironment env)
+            IWebHostEnvironment env, IConfiguration config, IWebHostEnvironment webHostEnvironment, IAchievementRepo achievementRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _messageService = messageService;
             _userInfoRepo = userInfoRepo;
             _env = env;
+            _config = config;
+            _webHostEnvironment = webHostEnvironment;
+            _achievementRepo = achievementRepo;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult DeleteAccountConfirmation()//Confirmation 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> DeleteAccount(string id)//Confirmation 
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"user with Id = {id} cannot be found";
+                return View("PageNotFound");
+            }
+            else
+            {
+                var items = _achievementRepo.ReadAll(_userInfoRepo.Read(id).UserInformationId);
+                var result = await _userManager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                {
+                    FileProcessing.DeleteAvatarImage(user.UserName, _config, _webHostEnvironment);
+
+                    foreach (var item in items)
+                    {
+                        FileProcessing.DeleteAllGalleryImages(user.UserName, item, _config, _webHostEnvironment);
+                    }
+
+                    await _signInManager.SignOutAsync();
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
         }
 
 
@@ -227,19 +279,19 @@ namespace MyResume.WebApp.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
 
-                if(user == null)
+                if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid Login Attempt, make sure your email and password is correct");
                     return View(model);
                 }
-            
+
                 if (user != null && !user.EmailConfirmed && (await _userManager.CheckPasswordAsync(user, model.Password)))
                 {
                     ModelState.AddModelError(string.Empty, "Email not confirmed yet");
                     return View(model);
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, true); // Enable lockout is set to true
 
                 if (result.Succeeded)
                 {
@@ -318,8 +370,8 @@ namespace MyResume.WebApp.Controllers
 
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
-                   
-                    if(!_env.IsDevelopment())
+
+                    if (!_env.IsDevelopment()) // ! in development mode we dont want to be sending Email confirmation mails all the time.
                     {
                         await _messageService.SendEmailAsync(user.UserName, user.Email, "Email confirmation",
                             $"Click the link to confirm your Email : {confirmationLink}");
@@ -328,9 +380,9 @@ namespace MyResume.WebApp.Controllers
                     {
                         _userInfoRepo.CreateDefault(user);
                         user.EmailConfirmed = true;
-                        
+
                         await _userManager.UpdateAsync(user);
-                        
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return RedirectToAction("index", "home");
                         //   return RedirectToAction("EmailConfirmDevView", "account" , new { confirmLink  = confirmationLink});
@@ -353,11 +405,13 @@ namespace MyResume.WebApp.Controllers
             return View(model);
         }
 
-        //public IActionResult EmailConfirmDevView(string confirmLink) // This is a really bad idea
-        //{
-        //    ViewBag.DEVConfirmLink = confirmLink;
-        //    return View();
-        //}
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
     }
-    
+
 }
