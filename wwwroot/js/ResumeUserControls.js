@@ -34,6 +34,8 @@ $(document).ready(function () {
         }
     });
 });
+function myfunction() {
+}
 function GenerateMainPageHTML(xhr) {
     if (xhr != undefined) { // or Null ?
         // we need to crate a class for the newExpGrpObject or else it will be an any type

@@ -48,6 +48,10 @@ $(document).ready(() => {
 
 });
 
+function myfunction() {
+
+}
+
 
 function GenerateMainPageHTML(xhr?: JQuery.jqXHR<any>) {
     if (xhr != undefined) {// or Null ?

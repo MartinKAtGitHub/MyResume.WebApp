@@ -3,41 +3,57 @@
 
 @if (Model.Any())
 {
-    @*<form asp-controller="Home" asp-action="UpdateExperiences" method="post">*@
-    <form id="editExpFrom" asp-action="UpdateExperiences" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="EditSuccess" data-ajax-failure="EditFailure"> @*data-ajax-update="#exp-grp-container" < this works like $load but i get validation warnings *@
-        <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="col">
+        <form id="editExpFrom" asp-action="UpdateExperiences" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="EditSuccess" data-ajax-failure="EditFailure">
+            @*data-ajax-update="#exp-grp-container" < this works like $load but i get validation warnings *@
+            <div asp-validation-summary="All" class="text-danger"></div>
 
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            <div class="m-3 bg-info">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class=" m-3 p-2 bg-info">
 
-                <input asp-for="@Model[i].Id" hidden type="text" />
+                    <input asp-for="@Model[i].Id" hidden type="text" />
 
-                <input asp-for="@Model[i].Title" type="text" value="@Model[i].Title" />
-                <input asp-for="@Model[i].MarkForDeletion" />
-                <br />
+                    <div class="mb-1">
+                        <input asp-for="@Model[i].Title" type="text" value="@Model[i].Title" />
+                        <input asp-for="@Model[i].MarkForDeletion" />
 
-                @for (int j = 0; j < Model[i].ExperiencePoints.Count; j++)
-                {
-                    <input asp-for="@Model[i].ExperiencePoints[j].Title" type="text" value="@Model[i].ExperiencePoints[j].Title" />
-                    <input asp-for="@Model[i].ExperiencePoints[j].MarkForDeletion" />
+                        @{ var assPointID = $"addPoint_{i}"; } @*we only want 1 btn per grp*@
+                        <button id="@assPointID" class="btn btn-warning" type="button">add point </button>
+                    </div>
 
-                    <br />
-
-                    @for (int k = 0; k < Model[i].ExperiencePoints[j].Descriptions.Count; k++)
+                    @for (int j = 0; j < Model[i].ExperiencePoints.Count; j++)
                     {
-                        <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" type="text" value="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" />
-                        <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].MarkForDeletion" />
+                <div class="point-holder m-2 p-2 bg-dark">
+                    <div class="mb-1">
+                        <input asp-for="@Model[i].ExperiencePoints[j].Title" type="text" value="@Model[i].ExperiencePoints[j].Title" />
+                        <input asp-for="@Model[i].ExperiencePoints[j].MarkForDeletion" />
+                    </div>
 
-                        <br />
+                    <div class="desc-holder p-2 bg-success">
+                        @for (int k = 0; k < Model[i].ExperiencePoints[j].Descriptions.Count; k++)
+                        {
+                            <div>
+                                <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" type="text" value="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" />
+                                <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].MarkForDeletion" />
+                            </div>
+                        }
+                    </div>
+                    @{
+                        var id = $"addDesc_{i}_{j}"; @*we only want 1 btn per point*@
                     }
-                }
-            </div>
-        }
+                    <button id="@id" class="btn btn-outline-danger" type="button">add desc </button>
+                </div>
+                    }
+                </div>
+            }
 
-        <button type="submit"> submit</button>
+            <button type="submit"> submit</button>
 
-    </form>
+        </form>
+
+
+    </div>
 
 }
 else

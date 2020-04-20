@@ -598,7 +598,12 @@ namespace MyResume.WebApp.Controllers
                     expGrp.ExperiencePoint.add(new ExperiencePoints (
                     
                     title = modelExpGrp.ExperiencePoint[i].title
-                    etc
+                    
+                    _exp.createXp()
+                    _exp.createXpPOINT
+                    _exp.createPointDsc
+                    like you do delete
+                etc
                 ))
                  
                  */
