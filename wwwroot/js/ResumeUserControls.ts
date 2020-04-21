@@ -46,41 +46,76 @@ $(document).ready(() => {
 
     });
 
-    AddExpPointFieldMainDisplay();
+    ConnectAddExpPointBtn();
 
 
 
 });
 
-function AddExpPointFieldMainDisplay() {
+//function ConnectAddDescBtn() { 
+//    let pointSections = $(".point-section");
+
+//    for (var i = 0; i < pointSections.length; i++) {
+//        console.log("Points = " +i)
+//    }
+//}
+
+function ConnectAddExpPointBtn() {
 
     let expGrps = $(".experience-section");
-
     for (var i = 0; i < expGrps.length; i++) {
 
-        let addBtn = $("#addPoint_" + i + "");
+        let addPointBtn = $("#addPoint_" + i + "");
         let sectionID = $("#experienceSectionID_" + i + "").get(0) as HTMLInputElement;
-        console.log("IDS =" + sectionID.value);
-        addEventListenerToAddExpPointBtn(addBtn, $("#experienceSection_" + i + ""), sectionID.value);
+        let expSection = $("#experienceSection_" + i + "");
+        UpdateWithNewPointField(addPointBtn, sectionID.value);
+
+        let points = expSection.children(".point-section");
+        for (var j = 0; j < points.length; j++) {
+
+            let desc = points.children(".desc-section");
+            let addDescBtn = $("#addDesc_" + i + "_" + j + "");
+
+            UpdateWithNewDescField(addDescBtn, sectionID.value, j);
+            //for (var k = 0; k < desc.length; k++) {
+            //    //let addDescBtn = $("#addDesc_" + j + "_" + k + "");
+            //    //UpdateWithNewDescField(addDescBtn, sectionID.value, j);
+            //}
+        }
     }
 
 }
 
-function addEventListenerToAddExpPointBtn(addPointbtn: JQuery<HTMLElement>, grpDiv: JQuery<HTMLElement>, sectionID: string) {
-    addPointbtn.on("click", () => {
-
-        $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expID: sectionID }, (responseText, textStatus,  jqXHR) => {
-
-            console.log("textStatus = " + textStatus);
-            console.log("Respons = " + responseText);
+function UpdateWithNewDescField(addDescbtn: JQuery<HTMLElement>, sectionID: string, pointIndex: number) {
+    addDescbtn.on("click", () => {
+        console.log(addDescbtn.get(0).id);
+        $("#exp-grp-container").load("/Home/AddDescFieldToExperienceView", { expID: sectionID, pointIndex: pointIndex }, (responseText, textStatus, jqXHR) => {
 
             if (textStatus == "error") {
-                AddExpPointFieldMainDisplay();
+                ConnectAddExpPointBtn();
                 alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
 
             if (textStatus == "success") {
-                AddExpPointFieldMainDisplay();
+                ConnectAddExpPointBtn();
+            }
+        });
+
+    });
+}
+
+
+function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: string) {
+    addPointbtn.on("click", () => {
+        $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expID: sectionID }, (responseText, textStatus, jqXHR) => {
+
+            if (textStatus == "error") {
+                ConnectAddExpPointBtn();
+                alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+
+            if (textStatus == "success") {
+                ConnectAddExpPointBtn();
             }
         });
 
@@ -233,11 +268,6 @@ function OnSuccessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
     let form = $("#newExpFrom")[0] as HTMLFormElement;
     form.reset();
 
-
-    //let expGrp = $("#exp-grp-modal").get(0);
-    //let expGrpContainer = $("#exp-grp-container").get(0);
-    //expGrpContainer.append(expGrp);
-
     let expPointContainers = $(".exp-point-section");
     for (var i = expPointContainers.length - 1; i > 0; i--) {
         expPointContainers[i].remove();
@@ -251,12 +281,12 @@ function OnSuccessfulEditEXP() { // Successful
     $("#exp-grp-container").load("/Home/GetExperienceView", (responseText, textStatus, jqXHR) => {
 
         if (textStatus == "error") {
-            AddExpPointFieldMainDisplay();
+            ConnectAddExpPointBtn();
             alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
         }
 
         if (textStatus == "success") {
-            AddExpPointFieldMainDisplay();
+            ConnectAddExpPointBtn();
         }
     });
 

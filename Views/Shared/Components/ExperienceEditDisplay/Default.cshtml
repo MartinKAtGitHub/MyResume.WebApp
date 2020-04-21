@@ -1,6 +1,4 @@
 ﻿@model List<Experience>
-
-
 @*EDIT VIEW Component*@
 
 @if (Model.Any())
@@ -26,21 +24,21 @@
 
                     @for (int j = 0; j < Model[i].ExperiencePoints.Count; j++)
                     {
-                        <div class="point-holder m-2 p-2 bg-dark">
+                        <div class="point-section m-2 p-2 bg-dark">
                             <div class="mb-1">
                                 <input asp-for="@Model[i].ExperiencePoints[j].Title" type="text" value="@Model[i].ExperiencePoints[j].Title" />
                                 <input asp-for="@Model[i].ExperiencePoints[j].MarkForDeletion" />
                             </div>
 
-                            <div class="desc-holder p-2 bg-success">
-                                @for (int k = 0; k < Model[i].ExperiencePoints[j].Descriptions.Count; k++)
-                                {
-                                    <div>
-                                        <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" type="text" value="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" />
-                                        <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].MarkForDeletion" />
-                                    </div>
-                                }
-                            </div>
+                            @for (int k = 0; k < Model[i].ExperiencePoints[j].Descriptions.Count; k++)
+                            {
+                                <div class="desc-section p-2 bg-success">
+
+                                    <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" type="text" value="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" />
+                                    <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].MarkForDeletion" />
+
+                                </div>
+                            }
                             @{
                                 var id = $"addDesc_{i}_{j}"; @*we only want 1 btn per point*@
                             }
@@ -48,7 +46,7 @@
                         </div>
                     }
 
-              
+
 
                 </div>
             }

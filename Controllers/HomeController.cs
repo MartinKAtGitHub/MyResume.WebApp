@@ -571,6 +571,20 @@ namespace MyResume.WebApp.Controllers
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
         }
 
+        public IActionResult AddDescFieldToExperienceView(string expID, int pointIndex)
+        {
+            var activeUserId = _userManager.GetUserId(User);
+
+            var exp = _experienceRepo.Read(expID);
+            
+            //exp.ExperiencePoints[pointIndex].Descriptions = new List<ExperiencePointDescription>();
+            exp.ExperiencePoints[pointIndex].Descriptions.Add(new ExperiencePointDescription { Id = Guid.NewGuid().ToString(), Discription = "Please enter a description" });
+
+            _experienceRepo.Update(exp);
+
+            return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
+        }
+
 
         public IActionResult UpdateExperiences(List<Experience> model) // 
         {
@@ -625,31 +639,6 @@ namespace MyResume.WebApp.Controllers
                  */
 
 
-
-
-
-                //for (int i = 0; i < expGrp.ExperiencePoints.Count; i++)
-                //{
-                //    if (modelExpGrp.ExperiencePoints[i].MarkForDeletion)
-                //    {
-                //        _experienceRepo.DeleteExpPoint(expGrp.ExperiencePoints[i]);
-                //        continue;
-                //    }
-
-                //    expGrp.ExperiencePoints[i].Title = modelExpGrp.ExperiencePoints[i].Title;
-
-                //    for (int j = 0; j < expGrp.ExperiencePoints[i].Descriptions.Count; j++)
-                //    {
-                //        if (modelExpGrp.ExperiencePoints[i].Descriptions[j].MarkForDeletion)
-                //        {
-                //            _experienceRepo.DeleteExpPointDesc(expGrp.ExperiencePoints[i].Descriptions[j]);
-                //            continue;
-                //        }
-
-                //        expGrp.ExperiencePoints[i].Descriptions[j].Discription = modelExpGrp.ExperiencePoints[i].Descriptions[j].Discription;
-                //    }
-                //}
-
                 var pointDeletionList = new List<ExperiencePoint>();
                 var descDeletionList = new List<ExperiencePointDescription>();
 
@@ -660,6 +649,7 @@ namespace MyResume.WebApp.Controllers
                     {
                         // _experienceRepo.DeleteExpPoint(point);
                         pointDeletionList.Add(point);
+                        count++;
                         continue;
                     }
 
@@ -675,6 +665,7 @@ namespace MyResume.WebApp.Controllers
                         {
                             descDeletionList.Add(desc);
                             // _experienceRepo.DeleteExpPointDesc(desc);
+                            descCount++;
                             continue;
                         }
 
