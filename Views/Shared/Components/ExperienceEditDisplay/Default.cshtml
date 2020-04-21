@@ -1,6 +1,8 @@
 ﻿@model List<Experience>
 
 
+@*EDIT VIEW Component*@
+
 @if (Model.Any())
 {
     <div class="col">
@@ -12,7 +14,7 @@
             {
                 <div id="experienceSection_@i" class=" experience-section m-3 p-2 bg-info">
 
-                    <input asp-for="@Model[i].Id" hidden type="text" />
+                    <input id="experienceSectionID_@i" asp-for="@Model[i].Id" hidden type="text" />
 
                     <div class="mb-1">
                         <input class="experience-section-title" asp-for="@Model[i].Title" type="text" value="@Model[i].Title" />

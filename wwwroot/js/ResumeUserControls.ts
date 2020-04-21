@@ -53,30 +53,37 @@ $(document).ready(() => {
 });
 
 function AddExpPointFieldMainDisplay() {
-    // let expGrps = $(".experience-section").find(".experience-section-title").toArray();
+
     let expGrps = $(".experience-section");
-
-    //for (var i = 0; i < expGrps.length; i++) {
-    //    // let section = expGrps[i] as unknown as JQuery<HTMLElement>;
-    //    let test  = expGrps[i] as HTMLInputElement;
-    //    console.log(test.value);
-    //}
-
-
 
     for (var i = 0; i < expGrps.length; i++) {
 
         let addBtn = $("#addPoint_" + i + "");
-
-        addEventListenerToAddExpPointBtn(addBtn, $("#experienceSection_"+i+""));
+        let sectionID = $("#experienceSectionID_" + i + "").get(0) as HTMLInputElement;
+        console.log("IDS =" + sectionID.value);
+        addEventListenerToAddExpPointBtn(addBtn, $("#experienceSection_" + i + ""), sectionID.value);
     }
 
 }
 
-function addEventListenerToAddExpPointBtn(addPointbtn: JQuery<HTMLElement>, grpDiv:JQuery<HTMLElement>) { /*grpDiv: HTMLElement*/
+function addEventListenerToAddExpPointBtn(addPointbtn: JQuery<HTMLElement>, grpDiv: JQuery<HTMLElement>, sectionID: string) {
     addPointbtn.on("click", () => {
-        let html = "<div class='p-4 bg-danger'> test </div>"
-        grpDiv.append(html);
+
+        $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expID: sectionID }, (responseText, textStatus,  jqXHR) => {
+
+            console.log("textStatus = " + textStatus);
+            console.log("Respons = " + responseText);
+
+            if (textStatus == "error") {
+                AddExpPointFieldMainDisplay();
+                alert("Somthing went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+
+            if (textStatus == "success") {
+                AddExpPointFieldMainDisplay();
+                alert("We coo");
+            }
+        });
 
     });
 }

@@ -533,7 +533,7 @@ namespace MyResume.WebApp.Controllers
                     exp.ExperiencePoints.Add(newPoint);
                 }
 
-                _experienceRepo.Create(exp);
+                _experienceRepo.CreateExp(exp);
                 return model;
             }
 
@@ -555,6 +555,22 @@ namespace MyResume.WebApp.Controllers
 
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
         }
+
+        public IActionResult AddpointFieldToExperienceView(string expID)
+        {
+            var activeUserId = _userManager.GetUserId(User);
+
+            var exp = _experienceRepo.Read(expID);
+            var newExpPoint = new ExperiencePoint { Id = Guid.NewGuid().ToString(), Title = "Please enter a highlight title" };
+            newExpPoint.Descriptions = new List<ExperiencePointDescription>();
+            newExpPoint.Descriptions.Add(new ExperiencePointDescription { Id = Guid.NewGuid().ToString(), Discription = "Please enter a description" });
+
+            exp.ExperiencePoints.Add(newExpPoint);
+            _experienceRepo.Update(exp);
+           
+            return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
+        }
+
 
         public IActionResult UpdateExperiences(List<Experience> model) // 
         {

@@ -9,8 +9,11 @@ namespace MyResume.WebApp.Data
     public interface IExperienceRepo
     {
         // CRUD
-        Experience Create(Experience model);
+        Experience CreateExp(Experience model);
+        ExperiencePoint CreateExpPoint(ExperiencePoint newExpPoint);
+        ExperiencePointDescription CreateExpPointDesc(ExperiencePointDescription newExpPointDesc);
         Experience Read(string id);
+        Experience Update(Experience updatedExperience);
         List<Experience> UpdateAll(List<Experience> updatedExperiences);
         Experience DeleteExp(Experience experienceToDelete);
         ExperiencePoint DeleteExpPoint(ExperiencePoint experiencePointToDelete);

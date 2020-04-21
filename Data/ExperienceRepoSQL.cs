@@ -16,13 +16,30 @@ namespace MyResume.WebApp.Data
             _appDbContext = appDbContext;
         }
 
-        public Experience Create(Experience model)
+        public Experience CreateExp(Experience model)
         {
 
             _appDbContext.Experiences.Add(model);
             _appDbContext.SaveChanges();
             return model;
         }
+
+        public ExperiencePoint CreateExpPoint(ExperiencePoint newExpPoint)
+        {
+
+            _appDbContext.Add(newExpPoint);
+            _appDbContext.SaveChanges();
+            return newExpPoint;
+        }
+
+        public ExperiencePointDescription CreateExpPointDesc(ExperiencePointDescription newExpPointDesc)
+        {
+
+            _appDbContext.Add(newExpPointDesc);
+            _appDbContext.SaveChanges();
+            return newExpPointDesc;
+        }
+
 
         public Experience DeleteExp(Experience experienceToDelete)
         {
@@ -60,6 +77,14 @@ namespace MyResume.WebApp.Data
             var result = _appDbContext.Experiences.Include(x => x.ExperiencePoints).ThenInclude(x => x.Descriptions).Where(x => x.UserInformationId == userId);
             return result;
          
+        }
+
+        public Experience Update(Experience updatedExperience)
+        {
+
+            _appDbContext.Experiences.Update(updatedExperience);
+            _appDbContext.SaveChanges();
+            return updatedExperience;
         }
 
         public List<Experience> UpdateAll(List<Experience> updatedExperiences)
