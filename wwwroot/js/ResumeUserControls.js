@@ -51,11 +51,10 @@ function addEventListenerToAddExpPointBtn(addPointbtn, grpDiv, sectionID) {
             console.log("Respons = " + responseText);
             if (textStatus == "error") {
                 AddExpPointFieldMainDisplay();
-                alert("Somthing went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
+                alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
             if (textStatus == "success") {
                 AddExpPointFieldMainDisplay();
-                alert("We coo");
             }
         });
     });
@@ -176,12 +175,13 @@ function OnSuccessfulCreateEXP(xhr) {
     $("#newExperienceModal").modal('hide');
 }
 function OnSuccessfulEditEXP() {
-    $("#exp-grp-container").load("/Home/GetExperienceView", function (event, xhr, settings) {
-        if (status == "error") {
-            alert("Failed to update");
+    $("#exp-grp-container").load("/Home/GetExperienceView", function (responseText, textStatus, jqXHR) {
+        if (textStatus == "error") {
+            AddExpPointFieldMainDisplay();
+            alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
         }
-        if (status == "success") {
-            alert("Delted successful");
+        if (textStatus == "success") {
+            AddExpPointFieldMainDisplay();
         }
     });
     alert("TEMP Make Pop-up to indicate successful edit");

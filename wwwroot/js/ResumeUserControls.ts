@@ -76,12 +76,11 @@ function addEventListenerToAddExpPointBtn(addPointbtn: JQuery<HTMLElement>, grpD
 
             if (textStatus == "error") {
                 AddExpPointFieldMainDisplay();
-                alert("Somthing went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
+                alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
 
             if (textStatus == "success") {
                 AddExpPointFieldMainDisplay();
-                alert("We coo");
             }
         });
 
@@ -249,15 +248,15 @@ function OnSuccessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
 
 function OnSuccessfulEditEXP() { // Successful
 
-    $("#exp-grp-container").load("/Home/GetExperienceView", (event, xhr, settings) => {
+    $("#exp-grp-container").load("/Home/GetExperienceView", (responseText, textStatus, jqXHR) => {
 
-        if (status == "error") {
-
-            alert("Failed to update");
+        if (textStatus == "error") {
+            AddExpPointFieldMainDisplay();
+            alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
         }
 
-        if (status == "success") {
-            alert("Delted successful")
+        if (textStatus == "success") {
+            AddExpPointFieldMainDisplay();
         }
     });
 

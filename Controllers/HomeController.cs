@@ -567,7 +567,7 @@ namespace MyResume.WebApp.Controllers
 
             exp.ExperiencePoints.Add(newExpPoint);
             _experienceRepo.Update(exp);
-           
+
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
         }
 
@@ -579,7 +579,7 @@ namespace MyResume.WebApp.Controllers
 
             foreach (var modelExpGrp in model)
             {
-                var expGrp = _experienceRepo.Read(modelExpGrp.Id); // If the user pampers with the id, the returned value will not belong to th active user
+                Experience expGrp =  _experienceRepo.Read(modelExpGrp.Id); // If the user pampers with the id, the returned value will not belong to th active user
 
                 if (expGrp == null)
                 {
@@ -624,28 +624,75 @@ namespace MyResume.WebApp.Controllers
                  
                  */
 
-                for (int i = 0; i < expGrp.ExperiencePoints.Count; i++)
+
+
+
+
+                //for (int i = 0; i < expGrp.ExperiencePoints.Count; i++)
+                //{
+                //    if (modelExpGrp.ExperiencePoints[i].MarkForDeletion)
+                //    {
+                //        _experienceRepo.DeleteExpPoint(expGrp.ExperiencePoints[i]);
+                //        continue;
+                //    }
+
+                //    expGrp.ExperiencePoints[i].Title = modelExpGrp.ExperiencePoints[i].Title;
+
+                //    for (int j = 0; j < expGrp.ExperiencePoints[i].Descriptions.Count; j++)
+                //    {
+                //        if (modelExpGrp.ExperiencePoints[i].Descriptions[j].MarkForDeletion)
+                //        {
+                //            _experienceRepo.DeleteExpPointDesc(expGrp.ExperiencePoints[i].Descriptions[j]);
+                //            continue;
+                //        }
+
+                //        expGrp.ExperiencePoints[i].Descriptions[j].Discription = modelExpGrp.ExperiencePoints[i].Descriptions[j].Discription;
+                //    }
+                //}
+
+                var pointDeletionList = new List<ExperiencePoint>();
+                var descDeletionList = new List<ExperiencePointDescription>();
+
+                int count = 0;
+                foreach (var point in expGrp.ExperiencePoints)
                 {
-                    if (modelExpGrp.ExperiencePoints[i].MarkForDeletion)
+                    if (modelExpGrp.ExperiencePoints[count].MarkForDeletion)
                     {
-                        _experienceRepo.DeleteExpPoint(expGrp.ExperiencePoints[i]);
+                        // _experienceRepo.DeleteExpPoint(point);
+                        pointDeletionList.Add(point);
                         continue;
                     }
 
-                    expGrp.ExperiencePoints[i].Title = modelExpGrp.ExperiencePoints[i].Title;
+                    point.Title = modelExpGrp.ExperiencePoints[count].Title;
+                   
+                    int descCount = 0;
+                   
 
-                    for (int j = 0; j < expGrp.ExperiencePoints[i].Descriptions.Count; j++)
+                    foreach (var desc in point.Descriptions)
                     {
-                        if (modelExpGrp.ExperiencePoints[i].Descriptions[j].MarkForDeletion)
+
+                        if (modelExpGrp.ExperiencePoints[count].Descriptions[descCount].MarkForDeletion)
                         {
-                            _experienceRepo.DeleteExpPointDesc(expGrp.ExperiencePoints[i].Descriptions[j]);
+                            descDeletionList.Add(desc);
+                            // _experienceRepo.DeleteExpPointDesc(desc);
                             continue;
                         }
 
-                        expGrp.ExperiencePoints[i].Descriptions[j].Discription = modelExpGrp.ExperiencePoints[i].Descriptions[j].Discription;
+                        desc.Discription = modelExpGrp.ExperiencePoints[count].Descriptions[descCount].Discription;
+                        descCount++;
                     }
+                    count++;
                 }
 
+                foreach (var point in pointDeletionList)
+                {
+                    _experienceRepo.DeleteExpPoint(point);
+                }
+
+                foreach (var desc in descDeletionList)
+                {
+                     _experienceRepo.DeleteExpPointDesc(desc);
+                }
 
                 updatedExpGrps.Add(expGrp);
             }
