@@ -3,10 +3,10 @@ $(document).ready(function () {
     var removeExpPointBtn = $("#removeExpPointBtn");
     var formCreateNewExp = $("#newExpFrom")[0];
     var expPointCounter = 0;
-    AddExpPointField(expPointCounter, addExpPointBtn, formCreateNewExp);
+    AddExpPointFieldModal(expPointCounter, addExpPointBtn, formCreateNewExp);
     expPointCounter++;
     addExpPointBtn.on("click", function () {
-        AddExpPointField(expPointCounter, addExpPointBtn, formCreateNewExp);
+        AddExpPointFieldModal(expPointCounter, addExpPointBtn, formCreateNewExp);
         expPointCounter++;
     });
     removeExpPointBtn.on("click", function () {
@@ -33,8 +33,26 @@ $(document).ready(function () {
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
     });
+    AddExpPointFieldMainDisplay();
 });
-function myfunction() {
+function AddExpPointFieldMainDisplay() {
+    // let expGrps = $(".experience-section").find(".experience-section-title").toArray();
+    var expGrps = $(".experience-section");
+    //for (var i = 0; i < expGrps.length; i++) {
+    //    // let section = expGrps[i] as unknown as JQuery<HTMLElement>;
+    //    let test  = expGrps[i] as HTMLInputElement;
+    //    console.log(test.value);
+    //}
+    for (var i = 0; i < expGrps.length; i++) {
+        var addBtn = $("#addPoint_" + i + "");
+        addEventListenerToAddExpPointBtn(addBtn, $("#experienceSection_" + i + ""));
+    }
+}
+function addEventListenerToAddExpPointBtn(addPointbtn, grpDiv) {
+    addPointbtn.on("click", function () {
+        var html = "<div class='p-4 bg-danger'> test </div>";
+        grpDiv.append(html);
+    });
 }
 function GenerateMainPageHTML(xhr) {
     if (xhr != undefined) { // or Null ?
@@ -51,7 +69,7 @@ function GenerateMainPageHTML(xhr) {
         // use json for dynamic html construction
     }
 }
-function AddExpPointField(expPointCounter, addExpPointBtn, expFrom) {
+function AddExpPointFieldModal(expPointCounter, addExpPointBtn, expFrom) {
     var parentIndex = expPointCounter;
     var descCounter = 0;
     var inputExpPointMaxLength = 30; // Get this from the server MaxLentgth Attribute
@@ -76,10 +94,10 @@ function AddExpPointField(expPointCounter, addExpPointBtn, expFrom) {
     expPointDiv.append(addDiscriptionBtnHTML);
     expPointDiv.append(removeDiscriptionBtnHTML);
     addExpPointBtn.before(expPointDiv);
-    AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom); //  we crate 1 desc field on spawn as it is an mandatory requirement for a point
+    AddDescriptionFieldModal(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom); //  we crate 1 desc field on spawn as it is an mandatory requirement for a point
     descCounter++;
     addDiscriptionBtnHTML.on('click', function () {
-        AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom);
+        AddDescriptionFieldModal(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom);
         descCounter++;
     });
     removeDiscriptionBtnHTML.on('click', function () {
@@ -93,7 +111,7 @@ function AddExpPointField(expPointCounter, addExpPointBtn, expFrom) {
     });
     ResetFormValidationJQUnobtrusive(expFrom);
 }
-function AddDescriptionField(descCounter, parentIndex, spawnPosition, expFrom) {
+function AddDescriptionFieldModal(descCounter, parentIndex, spawnPosition, expFrom) {
     var inputDescMaxLength = 60; // Get this from the server MaxLentgth Attribute
     var inputDescriptionHTML = " <input type='text' \
             placeholder ='desc [" + descCounter + "]' \

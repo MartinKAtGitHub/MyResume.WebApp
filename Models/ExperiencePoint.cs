@@ -19,7 +19,7 @@ namespace MyResume.WebApp.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Experience highlight title is required")]
         [MaxLength(30)]
         public string Title { get; set; }
 

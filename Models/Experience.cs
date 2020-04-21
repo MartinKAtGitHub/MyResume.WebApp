@@ -16,7 +16,7 @@ namespace MyResume.WebApp.Models
         public Guid UserInformationId { get; set; }
         public UserInformation UserInformation { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Experience title is required")]
         [MaxLength(30)]
         public string Title { get; set; }
         

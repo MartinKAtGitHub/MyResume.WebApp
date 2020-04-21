@@ -6,12 +6,12 @@ $(document).ready(() => {
     const formCreateNewExp = $("#newExpFrom")[0] as HTMLFormElement;
     let expPointCounter = 0;
 
-    AddExpPointField(expPointCounter, addExpPointBtn, formCreateNewExp);
+    AddExpPointFieldModal(expPointCounter, addExpPointBtn, formCreateNewExp);
     expPointCounter++;
 
     addExpPointBtn.on("click", () => {
 
-        AddExpPointField(expPointCounter, addExpPointBtn, formCreateNewExp);
+        AddExpPointFieldModal(expPointCounter, addExpPointBtn, formCreateNewExp);
         expPointCounter++;
 
     });
@@ -43,15 +43,43 @@ $(document).ready(() => {
             // GenerateMainPageHTML(xhr);
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
-    
+
     });
+
+    AddExpPointFieldMainDisplay();
+
+
 
 });
 
-function myfunction() {
+function AddExpPointFieldMainDisplay() {
+    // let expGrps = $(".experience-section").find(".experience-section-title").toArray();
+    let expGrps = $(".experience-section");
+
+    //for (var i = 0; i < expGrps.length; i++) {
+    //    // let section = expGrps[i] as unknown as JQuery<HTMLElement>;
+    //    let test  = expGrps[i] as HTMLInputElement;
+    //    console.log(test.value);
+    //}
+
+
+
+    for (var i = 0; i < expGrps.length; i++) {
+
+        let addBtn = $("#addPoint_" + i + "");
+
+        addEventListenerToAddExpPointBtn(addBtn, $("#experienceSection_"+i+""));
+    }
 
 }
 
+function addEventListenerToAddExpPointBtn(addPointbtn: JQuery<HTMLElement>, grpDiv:JQuery<HTMLElement>) { /*grpDiv: HTMLElement*/
+    addPointbtn.on("click", () => {
+        let html = "<div class='p-4 bg-danger'> test </div>"
+        grpDiv.append(html);
+
+    });
+}
 
 function GenerateMainPageHTML(xhr?: JQuery.jqXHR<any>) {
     if (xhr != undefined) {// or Null ?
@@ -61,21 +89,21 @@ function GenerateMainPageHTML(xhr?: JQuery.jqXHR<any>) {
         //console.log(newExpGrpObject);
 
         // Use json object (newExpGrpObject)
-            // dynamic html construction
+        // dynamic html construction
 
 
         // ajax into partial view ?
-            // generate fields using data (newExpGrpObject) pass this as model
+        // generate fields using data (newExpGrpObject) pass this as model
     } else {
 
         // AJAX Get JSON From SEVER
-            // use json for dynamic html construction
+        // use json for dynamic html construction
     }
 
 
 }
 
-function AddExpPointField(expPointCounter: number, addExpPointBtn: JQuery<HTMLElement>, expFrom: HTMLFormElement) {
+function AddExpPointFieldModal(expPointCounter: number, addExpPointBtn: JQuery<HTMLElement>, expFrom: HTMLFormElement) {
 
     let parentIndex = expPointCounter;
     let descCounter = 0;
@@ -108,12 +136,12 @@ function AddExpPointField(expPointCounter: number, addExpPointBtn: JQuery<HTMLEl
 
     addExpPointBtn.before(expPointDiv);
 
-    AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom); //  we crate 1 desc field on spawn as it is an mandatory requirement for a point
+    AddDescriptionFieldModal(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom); //  we crate 1 desc field on spawn as it is an mandatory requirement for a point
     descCounter++
 
     addDiscriptionBtnHTML.on('click', () => {
 
-        AddDescriptionField(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom);
+        AddDescriptionFieldModal(descCounter, parentIndex, addDiscriptionBtnHTML, expFrom);
         descCounter++;
     });
 
@@ -130,7 +158,7 @@ function AddExpPointField(expPointCounter: number, addExpPointBtn: JQuery<HTMLEl
 }
 
 
-function AddDescriptionField(descCounter: number, parentIndex: number, spawnPosition: JQuery<HTMLElement>, expFrom: HTMLFormElement) {
+function AddDescriptionFieldModal(descCounter: number, parentIndex: number, spawnPosition: JQuery<HTMLElement>, expFrom: HTMLFormElement) {
     let inputDescMaxLength = 60; // Get this from the server MaxLentgth Attribute
 
     var inputDescriptionHTML = " <input type='text' \
@@ -149,7 +177,7 @@ function AddDescriptionField(descCounter: number, parentIndex: number, spawnPosi
             data-valmsg-for= 'NewExpGrp.ExpPoints["+ parentIndex + "].Descriptions[" + descCounter + "].Desc' \
             data-valmsg-replace='true'></span>";
 
-    let descContainer = $("<div id='desc-container-" + descCounter +"' class='desc-container m-1 p-1'></div>")
+    let descContainer = $("<div id='desc-container-" + descCounter + "' class='desc-container m-1 p-1'></div>")
 
     spawnPosition.before(descContainer);
     descContainer.append(inputDescriptionHTML);
@@ -194,12 +222,12 @@ function OnCompleteCreateEXP() {
 }
 
 function OnSuccessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
- 
+
 
     let form = $("#newExpFrom")[0] as HTMLFormElement;
     form.reset();
 
-    
+
     //let expGrp = $("#exp-grp-modal").get(0);
     //let expGrpContainer = $("#exp-grp-container").get(0);
     //expGrpContainer.append(expGrp);
@@ -217,7 +245,7 @@ function OnSuccessfulEditEXP() { // Successful
     $("#exp-grp-container").load("/Home/GetExperienceView", (event, xhr, settings) => {
 
         if (status == "error") {
-          
+
             alert("Failed to update");
         }
 
@@ -226,7 +254,7 @@ function OnSuccessfulEditEXP() { // Successful
         }
     });
 
-    alert( "TEMP Make Pop-up to indicate successful edit");
+    alert("TEMP Make Pop-up to indicate successful edit");
 }
 
 function OnFailureEditEXP(xhr: XMLHttpRequest) {

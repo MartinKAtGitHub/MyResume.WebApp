@@ -14,21 +14,21 @@ namespace MyResume.WebApp.ModelView
         [Required]
         public string ExpUserInfoID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Experience title is required")]
         [MaxLength(30)]
         public string Title { get; set; }
 
         [MinLength(1, ErrorMessage ="You need at least 1 highlight in your experience")] // expViewModel 21 -> TODO need error ErrorMessage to display in the validation summery 
         public List<ExpPoint> ExpPoints { get; set; }
 
-        public class ExpPoint // Because i am calling this a DESC is beeing called as welleven thought i don tmake feild for it
+        public class ExpPoint 
         {
             public ExpPoint()
             {
                 Descriptions = new List<Descriptions>();
             }
             
-            [Required]
+            [Required(ErrorMessage = "Experience highlight title is required")]
             [MaxLength(30)]
             public string PointTitle { get; set; }
             
@@ -40,7 +40,7 @@ namespace MyResume.WebApp.ModelView
 
         public class Descriptions
         {
-            [Required]
+            [Required(ErrorMessage ="Description is required")]
             [MaxLength(60)]
             public string Desc { get; set; }
         }

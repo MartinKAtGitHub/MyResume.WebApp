@@ -17,8 +17,8 @@ namespace MyResume.WebApp.Models
         [Required]
         public string ExperiencePointId { get; set; }
         public ExperiencePoint ExperiencePoint { get; set; }
-        
-        [Required]
+
+        [Required(ErrorMessage = "Description is required")]
         [MaxLength(60)]
         public string Discription { get; set; }
 
