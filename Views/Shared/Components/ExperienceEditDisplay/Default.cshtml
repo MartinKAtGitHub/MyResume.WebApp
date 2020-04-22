@@ -1,4 +1,4 @@
-﻿@*@model List<Experience>*@
+﻿
 @model List<ExpViewModel>
 @*EDIT VIEW Component*@
 
@@ -13,46 +13,43 @@
             {
                 <div id="experienceSection_@i" class=" experience-section m-3 p-2 bg-info">
 
-                    @*<input id="experienceSectionID_@i" asp-for="@Model[i].Id" hidden type="text" />*@
                     <input id="experienceSectionID_@i" asp-for="@Model[i].Id" hidden type="text" />
 
                     <div class="mb-1">
                         <input class="experience-section-title" asp-for="@Model[i].Title" type="text" value="@Model[i].Title" />
+                        <span asp-validation-for="@Model[i].Title" class="text-danger"></span>
                         <input asp-for="@Model[i].MarkForDeletion" />
 
                         @{ var assPointID = $"addPoint_{i}"; } @*we only want 1 btn per grp*@
                         <button id="@assPointID" class="btn btn-warning" type="button">add point </button>
                     </div>
 
-                    @*@for (int j = 0; j < Model[i].ExperiencePoints.Count; j++)*@
                     @for (int j = 0; j < Model[i].ExpPoints.Count; j++)
                     {
                         <div class="point-section m-2 p-2 bg-dark">
                             <div class="mb-1">
                                 @{ var pointSectionID = $"pointSectionID_{i}_{j}";}
-                                @*<input id="@pointSectionID" asp-for="@Model[i].ExperiencePoints[j].Id" hidden type="text" />*@
+
                                 <input id="@pointSectionID" asp-for="@Model[i].ExpPoints[j].Id" hidden type="text" />
 
-                                @*<input asp-for="@Model[i].ExperiencePoints[j].Title" type="text" value="@Model[i].ExperiencePoints[j].Title" />
-                                    <input asp-for="@Model[i].ExperiencePoints[j].MarkForDeletion" />*@
+
 
                                 <input asp-for="@Model[i].ExpPoints[j].PointTitle" type="text" value="@Model[i].ExpPoints[j].PointTitle" />
+                                <span asp-validation-for="@Model[i].ExpPoints[j].PointTitle" class="text-danger"></span>
+
                                 <input asp-for="@Model[i].ExpPoints[j].MarkForDeletion" />
                             </div>
 
-                            @*@for (int k = 0; k < Model[i].ExperiencePoints[j].Descriptions.Count; k++)*@
                             @for (int k = 0; k < Model[i].ExpPoints[j].Descriptions.Count; k++)
                             {
-                                <div class="desc-section p-2 bg-success">
+                        <div class="desc-section p-2 bg-success">
 
-                                    @*<input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" type="text" value="@Model[i].ExperiencePoints[j].Descriptions[k].Discription" />
-                                        <input asp-for="@Model[i].ExperiencePoints[j].Descriptions[k].MarkForDeletion" />*@
+                            <input asp-for="@Model[i].ExpPoints[j].Descriptions[k].Desc" type="text" value="@Model[i].ExpPoints[j].Descriptions[k].Desc" />
+                            <span asp-validation-for="@Model[i].ExpPoints[j].Descriptions[k].Desc" class="text-danger"></span>
 
+                            <input asp-for="@Model[i].ExpPoints[j].Descriptions[k].MarkForDeletion" />
 
-                                    <input asp-for="@Model[i].ExpPoints[j].Descriptions[k].Desc" type="text" value="@Model[i].ExpPoints[j].Descriptions[k].Desc" />
-                                    <input asp-for="@Model[i].ExpPoints[j].Descriptions[k].MarkForDeletion" />
-
-                                </div>
+                        </div>
                             }
                             @{
                                 var id = $"addDesc_{i}_{j}"; @*we only want 1 btn per point*@
@@ -61,18 +58,12 @@
                         </div>
                     }
 
-
-
                 </div>
             }
 
             <button type="submit"> submit</button>
-
         </form>
-
-
     </div>
-
 }
 else
 {

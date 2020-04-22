@@ -473,100 +473,102 @@ namespace MyResume.WebApp.Controllers
             return RedirectToAction("EditItem", new { id });
         }
 
-        [HttpPost]
-        [Authorize]
-        public UserResumeViewModel CreateNewExperienceGroup(/* string id,*/ UserResumeViewModel model) // TODO CreateNewExperienceGroup can be removed
-        {
-            if (ModelState.IsValid)
-            {
-                var userID = _userManager.GetUserId(User);
-                var id = model.NewExpGrp.UserId;
+        // MODAL Create EXP OutDated
+        //[HttpPost]
+        //[Authorize]
+        //public UserResumeViewModel CreateNewExperienceGroup(/* string id,*/ UserResumeViewModel model) // TODO CreateNewExperienceGroup can be removed
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var userID = _userManager.GetUserId(User);
+        //        var id = model.NewExpGrp.UserId;
 
-                if (id != userID) // we pass a ID with the form, if this dose not match with the user editing it we kick them out
-                {
-                    Response.StatusCode = 403; // This is sendt to the AJAX and will cause the ERROR CallbackFunc to run
-                    ViewBag.ErrorTitle = "Wrong user";
-                    ViewBag.ErrorMessage = "Please login with the correct user to create this experience section";
+        //        if (id != userID) // we pass a ID with the form, if this dose not match with the user editing it we kick them out
+        //        {
+        //            Response.StatusCode = 403; // This is sendt to the AJAX and will cause the ERROR CallbackFunc to run
+        //            ViewBag.ErrorTitle = "Wrong user";
+        //            ViewBag.ErrorMessage = "Please login with the correct user to create this experience section";
 
-                    return model;
-                    //return ("Error");
-                }
+        //            return model;
+        //            //return ("Error");
+        //        }
 
-                var expCount = _experienceRepo.GetExperienceCount(_userInfoRepo.Read(userID).UserInformationId);
-                var expMaxLimit = _config.GetValue<int>("ExperienceDBLimits:ExperienceSectionsMaxLimit");
-                if (expCount >= expMaxLimit)
-                {
-                    Response.StatusCode = 400;
-                    ModelState.AddModelError("", $"You have exceeded the maximum({expMaxLimit}) amount of experience sections you can make.");
-                    return model;
-                }
+        //        var expCount = _experienceRepo.GetExperienceCount(_userInfoRepo.Read(userID).UserInformationId);
+        //        var expMaxLimit = _config.GetValue<int>("ExperienceDBLimits:ExperienceSectionsMaxLimit");
+        //        if (expCount >= expMaxLimit)
+        //        {
+        //            Response.StatusCode = 400;
+        //            ModelState.AddModelError("", $"You have exceeded the maximum({expMaxLimit}) amount of experience sections you can make.");
+        //            return model;
+        //        }
 
-                var expPointCount = model.NewExpGrp.ExpPoints.Count;
-                var expPointMaxLimit = _config.GetValue<int>("ExperienceDBLimits:ExperienceHighLightMaxLimit");
+        //        var expPointCount = model.NewExpGrp.ExpPoints.Count;
+        //        var expPointMaxLimit = _config.GetValue<int>("ExperienceDBLimits:ExperienceHighLightMaxLimit");
 
-                if (expPointCount >= expPointMaxLimit)
-                {
-                    Response.StatusCode = 400;
-                    ModelState.AddModelError("", $"You have exceeded the maximum({expMaxLimit}) amount of experience highligh sections you can make.");
-                    return model;
-                }
+        //        if (expPointCount >= expPointMaxLimit)
+        //        {
+        //            Response.StatusCode = 400;
+        //            ModelState.AddModelError("", $"You have exceeded the maximum({expMaxLimit}) amount of experience highligh sections you can make.");
+        //            return model;
+        //        }
 
-                var exp = new Experience()
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Title = model.NewExpGrp.Title,
-                    UserInformationId = _userInfoRepo.Read(userID).UserInformationId,
-                    ExperiencePoints = new List<ExperiencePoint>()
-                };
+        //        var exp = new Experience()
+        //        {
+        //            Id = Guid.NewGuid().ToString(),
+        //            Title = model.NewExpGrp.Title,
+        //            UserInformationId = _userInfoRepo.Read(userID).UserInformationId,
+        //            ExperiencePoints = new List<ExperiencePoint>()
+        //        };
 
 
-                foreach (var point in model.NewExpGrp.ExpPoints)
-                {
+        //        foreach (var point in model.NewExpGrp.ExpPoints)
+        //        {
 
-                    var descCount = point.Descriptions.Count;
-                    var descMaxLimit = _config.GetValue<int>("ExperienceDBLimits:ExperienceHighLightDescriptionMaxLimit");
+        //            var descCount = point.Descriptions.Count;
+        //            var descMaxLimit = _config.GetValue<int>("ExperienceDBLimits:ExperienceHighLightDescriptionMaxLimit");
 
-                    if (descCount >= descMaxLimit)
-                    {
-                        Response.StatusCode = 400;
-                        ModelState.AddModelError("", $"You have exceeded the maximum({descMaxLimit}) amount of experience highlight description in section {point.PointTitle} you can make.");
-                        return model;
-                    }
+        //            if (descCount >= descMaxLimit)
+        //            {
+        //                Response.StatusCode = 400;
+        //                ModelState.AddModelError("", $"You have exceeded the maximum({descMaxLimit}) amount of experience highlight description in section {point.PointTitle} you can make.");
+        //                return model;
+        //            }
 
-                    var newPoint = new ExperiencePoint
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Title = point.PointTitle,
-                        Descriptions = new List<ExperiencePointDescription>()
-                        //ExperienceId = auto gen EF core +?
-                    };
+        //            var newPoint = new ExperiencePoint
+        //            {
+        //                Id = Guid.NewGuid().ToString(),
+        //                Title = point.PointTitle,
+        //                Descriptions = new List<ExperiencePointDescription>()
+        //                //ExperienceId = auto gen EF core +?
+        //            };
 
-                    for (int i = 0; i < point.Descriptions.Count; i++)
-                    {
-                        var desc = new ExperiencePointDescription()
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Discription = point.Descriptions[i].Desc,
-                        };
+        //            for (int i = 0; i < point.Descriptions.Count; i++)
+        //            {
+        //                var desc = new ExperiencePointDescription()
+        //                {
+        //                    Id = Guid.NewGuid().ToString(),
+        //                    Discription = point.Descriptions[i].Desc,
+        //                };
 
-                        newPoint.Descriptions.Add(desc);
-                    }
+        //                newPoint.Descriptions.Add(desc);
+        //            }
 
-                    exp.ExperiencePoints.Add(newPoint);
-                }
+        //            exp.ExperiencePoints.Add(newPoint);
+        //        }
 
-                _experienceRepo.CreateExp(exp);
-                return model;
-            }
+        //        _experienceRepo.CreateExp(exp);
+        //        return model;
+        //    }
 
-            //var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
-            //               .Where(y => y.Count > 0)
-            //               .ToList();
+        //    //var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
+        //    //               .Where(y => y.Count > 0)
+        //    //               .ToList();
 
-            Response.StatusCode = 422;
-            //TODO  Maybe Add error text for when ModelState fails and we throw an error
-            return model;
-        }
+        //    Response.StatusCode = 422;
+        //    //TODO  Maybe Add error text for when ModelState fails and we throw an error
+        //    return model;
+        //}
+
 
         public IActionResult AddEXP()
         {
@@ -579,7 +581,6 @@ namespace MyResume.WebApp.Controllers
                 ModelState.AddModelError("", $"You have exceeded the maximum({expMaxLimit}) amount of experience sections you can make.");
                 return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
             }
-
 
             var exp = new Experience()
             {
@@ -691,7 +692,8 @@ namespace MyResume.WebApp.Controllers
         }
 
 
-       // public IActionResult UpdateExperiences(List<Experience> model)
+        [HttpPost]
+        [Authorize]
         public IActionResult UpdateExperiences(List<ExpViewModel> model)
         {
 
@@ -701,7 +703,7 @@ namespace MyResume.WebApp.Controllers
             //               .Where(y => y.Count > 0)
             //               .ToList();
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid) // TODO UpdateExperiences() validation will fire off before you delete the field and block your attempt which might be an issue.
             {
                 return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
             }
@@ -736,27 +738,11 @@ namespace MyResume.WebApp.Controllers
 
                 expGrp.Title = modelExpGrp.Title;
 
-                /*if we want to add we need to loop the model not the db value
-                 
-                for(modelExpGrp.ExperiencePoints.count)
-                    if(expGrp.ExperiencePoints[i] == null)
-                    expGrp.ExperiencePoint.add(new ExperiencePoints (
-                    
-                    title = modelExpGrp.ExperiencePoint[i].title
-                    
-                    _exp.createXp()
-                    _exp.createXpPOINT
-                    _exp.createPointDsc
-                    like you do delete
-                etc
-                ))
-                 
-                 */
-
                 var pointDeletionList = new List<ExperiencePoint>();
                 var descDeletionList = new List<ExperiencePointDescription>();
 
                 int count = 0;
+
                 foreach (var point in expGrp.ExperiencePoints)
                 {
                     //if (modelExpGrp.ExperiencePoints[count].MarkForDeletion)
@@ -803,11 +789,6 @@ namespace MyResume.WebApp.Controllers
 
                 updatedExpGrps.Add(expGrp);
             }
-
-            //if (ModelState.ErrorCount > 0)
-            //{
-            //    return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
-            //}
             
             //var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
             //               .Where(y => y.Count > 0)

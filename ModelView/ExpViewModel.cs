@@ -34,7 +34,7 @@ namespace MyResume.WebApp.ModelView
                 Descriptions = new List<Descriptions>();
             }
             
-           // [Required(ErrorMessage = "Experience highlight title is required")]
+          //  [Required(ErrorMessage = "Experience highlight title is required")]
             [MaxLength(30)]
             public string PointTitle { get; set; }
             
@@ -49,7 +49,7 @@ namespace MyResume.WebApp.ModelView
 
         public class Descriptions
         {
-           // [Required(ErrorMessage ="Description is required")]
+            //[Required(ErrorMessage ="Description is required")]
             [MaxLength(60)]
             public string Desc { get; set; }
 
