@@ -475,7 +475,7 @@ namespace MyResume.WebApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public UserResumeViewModel CreateNewExperienceGroup(/* string id,*/ UserResumeViewModel model) // TODO CreateNewExperienceGroup Add validation with Ajax
+        public UserResumeViewModel CreateNewExperienceGroup(/* string id,*/ UserResumeViewModel model) // TODO CreateNewExperienceGroup can be removed
         {
             if (ModelState.IsValid)
             {
@@ -572,7 +572,15 @@ namespace MyResume.WebApp.Controllers
         {
             var activeUserId = _userManager.GetUserId(User);
 
-            //TODO add MaxLimitCheks
+            var expCount = _experienceRepo.GetExperienceCount(_userInfoRepo.Read(activeUserId).UserInformationId);
+            var expMaxLimit = _config.GetValue<int>("ExperienceDBLimits:ExperienceSectionsMaxLimit");
+            if (expCount >= expMaxLimit)
+            {
+                ModelState.AddModelError("", $"You have exceeded the maximum({expMaxLimit}) amount of experience sections you can make.");
+                return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
+            }
+
+
             var exp = new Experience()
             {
                 Id = Guid.NewGuid().ToString(),
@@ -683,9 +691,21 @@ namespace MyResume.WebApp.Controllers
         }
 
 
-        public IActionResult UpdateExperiences(List<Experience> model)
+       // public IActionResult UpdateExperiences(List<Experience> model)
+        public IActionResult UpdateExperiences(List<ExpViewModel> model)
         {
+
             var userInfoId = _userInfoRepo.Read(_userManager.GetUserId(User)).UserInformationId;
+
+            //var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
+            //               .Where(y => y.Count > 0)
+            //               .ToList();
+
+            if (!ModelState.IsValid)
+            {
+                return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
+            }
+
             var updatedExpGrps = new List<Experience>();
 
             foreach (var modelExpGrp in model)
@@ -739,14 +759,16 @@ namespace MyResume.WebApp.Controllers
                 int count = 0;
                 foreach (var point in expGrp.ExperiencePoints)
                 {
-                    if (modelExpGrp.ExperiencePoints[count].MarkForDeletion)
-                    {
+                    //if (modelExpGrp.ExperiencePoints[count].MarkForDeletion)
+                        if (modelExpGrp.ExpPoints[count].MarkForDeletion)
+                        {
                         pointDeletionList.Add(point);
                         count++;
                         continue;
                     }
 
-                    point.Title = modelExpGrp.ExperiencePoints[count].Title;
+                   // point.Title = modelExpGrp.ExperiencePoints[count].Title;
+                    point.Title = modelExpGrp.ExpPoints[count].PointTitle;
 
                     int descCount = 0;
 
@@ -754,14 +776,16 @@ namespace MyResume.WebApp.Controllers
                     foreach (var desc in point.Descriptions)
                     {
 
-                        if (modelExpGrp.ExperiencePoints[count].Descriptions[descCount].MarkForDeletion)
+                       // if (modelExpGrp.ExperiencePoints[count].Descriptions[descCount].MarkForDeletion)
+                            if (modelExpGrp.ExpPoints[count].Descriptions[descCount].MarkForDeletion)
                         {
                             descDeletionList.Add(desc);
                             descCount++;
                             continue;
                         }
 
-                        desc.Discription = modelExpGrp.ExperiencePoints[count].Descriptions[descCount].Discription;
+                        //desc.Discription = modelExpGrp.ExperiencePoints[count].Descriptions[descCount].Discription;
+                        desc.Discription = modelExpGrp.ExpPoints[count].Descriptions[descCount].Desc;
                         descCount++;
                     }
                     count++;
@@ -785,9 +809,9 @@ namespace MyResume.WebApp.Controllers
             //    return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
             //}
             
-            var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
-                           .Where(y => y.Count > 0)
-                           .ToList();
+            //var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
+            //               .Where(y => y.Count > 0)
+            //               .ToList();
 
             _experienceRepo.UpdateAll(updatedExpGrps);
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
