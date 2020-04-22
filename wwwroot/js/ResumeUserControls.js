@@ -20,12 +20,15 @@ $(document).ready(function () {
     });
     $(document).ajaxSuccess(function (event, xhr, settings) {
         if (settings.url == formCreateNewExp.action) {
-            $("#exp-grp-container").load("/Home/GetExperienceView", function () {
-                if (status == "error") {
+            console.log("Creating new Grp");
+            $("#exp-grp-container").load("/Home/GetExperienceView", function (responseText, textStatus, jqXHR) {
+                if (textStatus == "error") {
                     var msg = "Sorry but there was an error: ";
-                    alert(msg + xhr.status + " " + xhr.statusText);
+                    ConnectAddFieldsBtns();
+                    alert(msg + jqXHR.status + " " + jqXHR.statusText);
                 }
-                if (status == "success") {
+                if (textStatus == "success") {
+                    ConnectAddFieldsBtns();
                     alert("Crate an pop-up to indicate the creation was successful");
                 }
             });
@@ -33,7 +36,7 @@ $(document).ready(function () {
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
     });
-    ConnectAddExpPointBtn();
+    ConnectAddFieldsBtns();
 });
 //function ConnectAddDescBtn() { 
 //    let pointSections = $(".point-section");
@@ -41,7 +44,7 @@ $(document).ready(function () {
 //        console.log("Points = " +i)
 //    }
 //}
-function ConnectAddExpPointBtn() {
+function ConnectAddFieldsBtns() {
     var expGrps = $(".experience-section");
     for (var i = 0; i < expGrps.length; i++) {
         var addPointBtn = $("#addPoint_" + i + "");
@@ -52,37 +55,46 @@ function ConnectAddExpPointBtn() {
         for (var j = 0; j < points.length; j++) {
             var desc = points.children(".desc-section");
             var addDescBtn = $("#addDesc_" + i + "_" + j + "");
-            UpdateWithNewDescField(addDescBtn, sectionID.value, j);
-            //for (var k = 0; k < desc.length; k++) {
-            //    //let addDescBtn = $("#addDesc_" + j + "_" + k + "");
-            //    //UpdateWithNewDescField(addDescBtn, sectionID.value, j);
-            //}
+            var pointSectionID = $("#pointSectionID_" + i + "_" + j + "").get(0);
+            UpdateWithNewDescField(addDescBtn, sectionID.value, pointSectionID.value);
         }
     }
 }
-function UpdateWithNewDescField(addDescbtn, sectionID, pointIndex) {
+function UpdateWithNewDescField(addDescbtn, sectionID, pointSectionId) {
+    if (sectionID == undefined) {
+        alert("Error: Cant find every experience section, pleas try to refresh or contact admins");
+        return;
+    }
+    if (pointSectionId == undefined) {
+        alert("Error: Cant find every experience highlight section, pleas try to refresh or contact admins");
+        return;
+    }
     addDescbtn.on("click", function () {
-        console.log(addDescbtn.get(0).id);
-        $("#exp-grp-container").load("/Home/AddDescFieldToExperienceView", { expID: sectionID, pointIndex: pointIndex }, function (responseText, textStatus, jqXHR) {
+        // console.log(`section = ${sectionID} point = ${pointSectionId}`);
+        $("#exp-grp-container").load("/Home/AddDescFieldToExperienceView", { expGrpId: sectionID, pointId: pointSectionId }, function (responseText, textStatus, jqXHR) {
             if (textStatus == "error") {
-                ConnectAddExpPointBtn();
+                ConnectAddFieldsBtns();
                 alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
             if (textStatus == "success") {
-                ConnectAddExpPointBtn();
+                ConnectAddFieldsBtns();
             }
         });
     });
 }
 function UpdateWithNewPointField(addPointbtn, sectionID) {
+    if (sectionID == undefined) {
+        alert("Error: Cant find every experience section, pleas try to refresh or contact admins");
+        return;
+    }
     addPointbtn.on("click", function () {
-        $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expID: sectionID }, function (responseText, textStatus, jqXHR) {
+        $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expGrpId: sectionID }, function (responseText, textStatus, jqXHR) {
             if (textStatus == "error") {
-                ConnectAddExpPointBtn();
+                ConnectAddFieldsBtns();
                 alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
             if (textStatus == "success") {
-                ConnectAddExpPointBtn();
+                ConnectAddFieldsBtns();
             }
         });
     });
@@ -202,14 +214,14 @@ function OnSuccessfulCreateEXP(xhr) {
 function OnSuccessfulEditEXP() {
     $("#exp-grp-container").load("/Home/GetExperienceView", function (responseText, textStatus, jqXHR) {
         if (textStatus == "error") {
-            ConnectAddExpPointBtn();
+            ConnectAddFieldsBtns();
             alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
         }
         if (textStatus == "success") {
-            ConnectAddExpPointBtn();
+            ConnectAddFieldsBtns();
         }
     });
-    alert("TEMP Make Pop-up to indicate successful edit");
+    alert("TEMP successful edit");
 }
 function OnFailureEditEXP(xhr) {
     alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller

@@ -556,11 +556,21 @@ namespace MyResume.WebApp.Controllers
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
         }
 
-        public IActionResult AddpointFieldToExperienceView(string expID)
+        public IActionResult AddpointFieldToExperienceView(string expGrpId)
         {
             var activeUserId = _userManager.GetUserId(User);
+            var exp = _experienceRepo.Read(expGrpId);
+            var userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId;
+            
+            if(exp.UserInformationId != userInfoId)
+            {
+                Response.StatusCode = 403;
+                ViewBag.ErrorTitle = "Wrong user";
+                ViewBag.ErrorMessage = "Unauthorized edit attempt was made";
+                return View("Error");
+            }
 
-            var exp = _experienceRepo.Read(expID);
+
             var newExpPoint = new ExperiencePoint { Id = Guid.NewGuid().ToString(), Title = "Please enter a highlight title" };
             newExpPoint.Descriptions = new List<ExperiencePointDescription>();
             newExpPoint.Descriptions.Add(new ExperiencePointDescription { Id = Guid.NewGuid().ToString(), Discription = "Please enter a description" });
@@ -568,21 +578,43 @@ namespace MyResume.WebApp.Controllers
             exp.ExperiencePoints.Add(newExpPoint);
             _experienceRepo.Update(exp);
 
-            return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
+            return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
         }
 
-        public IActionResult AddDescFieldToExperienceView(string expID, int pointIndex)
+        public IActionResult AddDescFieldToExperienceView(string expGrpId, string pointId)
         {
             var activeUserId = _userManager.GetUserId(User);
+            var exp = _experienceRepo.Read(expGrpId);
+            var userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId;
+           
+            if (exp.UserInformationId != userInfoId)
+            {
+                Response.StatusCode = 403;
+                ViewBag.ErrorTitle = "Wrong user";
+                ViewBag.ErrorMessage = "Unauthorized edit attempt was made";
+                return View("Error");
+            }
 
-            var exp = _experienceRepo.Read(expID);
-            
+
             //exp.ExperiencePoints[pointIndex].Descriptions = new List<ExperiencePointDescription>();
-            exp.ExperiencePoints[pointIndex].Descriptions.Add(new ExperiencePointDescription { Id = Guid.NewGuid().ToString(), Discription = "Please enter a description" });
+            //exp.ExperiencePoints[pointIndex].Descriptions.Add(new ExperiencePointDescription { Id = Guid.NewGuid().ToString(), Discription = "Please enter a description" });
+            var expPoint = exp.ExperiencePoints.FirstOrDefault(x => x.Id == pointId );
+            if(exp != null)
+            {
+                expPoint.Descriptions.Add(new ExperiencePointDescription { Id = Guid.NewGuid().ToString(), Discription = "Please enter a description" });
+            }
+            else
+            {
+                Response.StatusCode = 404;
+                ViewBag.ErrorTitle = "Can't find the experience highlight to edit";
+                ViewBag.ErrorMessage = "Please contact the administration";
+                return View("Error");
+            }
+
 
             _experienceRepo.Update(exp);
 
-            return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
+            return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
         }
 
 
@@ -647,7 +679,6 @@ namespace MyResume.WebApp.Controllers
                 {
                     if (modelExpGrp.ExperiencePoints[count].MarkForDeletion)
                     {
-                        // _experienceRepo.DeleteExpPoint(point);
                         pointDeletionList.Add(point);
                         count++;
                         continue;
@@ -664,7 +695,6 @@ namespace MyResume.WebApp.Controllers
                         if (modelExpGrp.ExperiencePoints[count].Descriptions[descCount].MarkForDeletion)
                         {
                             descDeletionList.Add(desc);
-                            // _experienceRepo.DeleteExpPointDesc(desc);
                             descCount++;
                             continue;
                         }

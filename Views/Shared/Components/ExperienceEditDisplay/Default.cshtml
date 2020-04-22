@@ -26,6 +26,9 @@
                     {
                         <div class="point-section m-2 p-2 bg-dark">
                             <div class="mb-1">
+                               @{ var pointSectionID = $"pointSectionID_{i}_{j}";}
+                                <input id="@pointSectionID" asp-for="@Model[i].ExperiencePoints[j].Id" hidden type="text" />
+
                                 <input asp-for="@Model[i].ExperiencePoints[j].Title" type="text" value="@Model[i].ExperiencePoints[j].Title" />
                                 <input asp-for="@Model[i].ExperiencePoints[j].MarkForDeletion" />
                             </div>
