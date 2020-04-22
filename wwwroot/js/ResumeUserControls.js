@@ -36,6 +36,7 @@ $(document).ready(function () {
             expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
         }
     });
+    UpdateWithNewExpGrp();
     ConnectAddFieldsBtns();
 });
 //function ConnectAddDescBtn() { 
@@ -59,6 +60,19 @@ function ConnectAddFieldsBtns() {
             UpdateWithNewDescField(addDescBtn, sectionID.value, pointSectionID.value);
         }
     }
+}
+function UpdateWithNewExpGrp() {
+    $("#addNewExpSection").on("click", function () {
+        console.log("Adding new EXP");
+        $("#exp-grp-container").load("/Home/AddEXP", function (responseText, textStatus, jqXHR) {
+            if (textStatus == "error") {
+                alert("ERROR creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+            if (textStatus == "success") {
+                alert("SUCCESS creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+        });
+    });
 }
 function UpdateWithNewDescField(addDescbtn, sectionID, pointSectionId) {
     if (sectionID == undefined) {
@@ -224,10 +238,24 @@ function OnSuccessfulEditEXP() {
     alert("TEMP successful edit");
 }
 function OnFailureEditEXP(xhr) {
-    alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
+    alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 }
 function OnFailureCreateEXP(xhr) {
-    alert("On Create something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
+    //$("#newExperienceModal").load("/Home/UserResume/XXXXXXXXXXXX", (responseText, textStatus, jqXHR) => {
+    //    if (textStatus == "error") {
+    //        alert("Failed to load Resume = " + jqXHR.status + " | " + xhr.statusText);
+    //    }
+    //    if (textStatus == "success") {
+    //        alert("Success to load Resume ");
+    //    }
+    //});
+    if (xhr.status == 400) {
+        // TODO make this into a validation error ResumeControles.ts 328 and remove hard coded values
+        alert("Error you might have gone over the max limit of experience(6), highlight(6) or description(6) sections. | Status : " + xhr.status + " | Text = " + xhr.statusText);
+    }
+    else {
+        alert("On Create something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
+    }
 }
 //function CreateExp(expId: string): void {
 //    // $("#createExpForm").hide("slow");

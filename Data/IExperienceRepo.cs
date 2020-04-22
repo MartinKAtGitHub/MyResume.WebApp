@@ -19,9 +19,9 @@ namespace MyResume.WebApp.Data
         ExperiencePoint DeleteExpPoint(ExperiencePoint experiencePointToDelete);
         ExperiencePointDescription DeleteExpPointDesc(ExperiencePointDescription experiencePointDescToDelete);
 
-
-
         IEnumerable<Experience> ReadAll(Guid userId);
+
+        int GetExperienceCount(Guid userInfoId);
 
     }
 }

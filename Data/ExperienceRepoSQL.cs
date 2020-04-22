@@ -18,7 +18,6 @@ namespace MyResume.WebApp.Data
 
         public Experience CreateExp(Experience model)
         {
-
             _appDbContext.Experiences.Add(model);
             _appDbContext.SaveChanges();
             return model;
@@ -34,16 +33,13 @@ namespace MyResume.WebApp.Data
 
         public ExperiencePointDescription CreateExpPointDesc(ExperiencePointDescription newExpPointDesc)
         {
-
             _appDbContext.Add(newExpPointDesc);
             _appDbContext.SaveChanges();
             return newExpPointDesc;
         }
 
-
         public Experience DeleteExp(Experience experienceToDelete)
         {
-
             _appDbContext.Remove(experienceToDelete);
             _appDbContext.SaveChanges();
             return experienceToDelete;
@@ -51,7 +47,6 @@ namespace MyResume.WebApp.Data
 
         public ExperiencePoint DeleteExpPoint(ExperiencePoint experiencePointToDelete)
         {
-
             _appDbContext.Remove(experiencePointToDelete);
             _appDbContext.SaveChanges();
             return experiencePointToDelete;
@@ -59,7 +54,6 @@ namespace MyResume.WebApp.Data
 
         public ExperiencePointDescription DeleteExpPointDesc(ExperiencePointDescription experiencePointDescToDelete)
         {
-
             _appDbContext.Remove(experiencePointDescToDelete);
             _appDbContext.SaveChanges();
             return experiencePointDescToDelete;
@@ -72,16 +66,14 @@ namespace MyResume.WebApp.Data
             return result;
         }
 
-        public IEnumerable<Experience> ReadAll(Guid userId)
+        public IEnumerable<Experience> ReadAll(Guid userInfoId)
         {
-            var result = _appDbContext.Experiences.Include(x => x.ExperiencePoints).ThenInclude(x => x.Descriptions).Where(x => x.UserInformationId == userId);
+            var result = _appDbContext.Experiences.Include(x => x.ExperiencePoints).ThenInclude(x => x.Descriptions).Where(x => x.UserInformationId == userInfoId);
             return result;
-         
         }
 
-        public Experience Update(Experience updatedExperience)
+        public Experience Update(Experience updatedExperience) 
         {
-
             _appDbContext.Experiences.Update(updatedExperience);
             _appDbContext.SaveChanges();
             return updatedExperience;
@@ -89,10 +81,16 @@ namespace MyResume.WebApp.Data
 
         public List<Experience> UpdateAll(List<Experience> updatedExperiences)
         {
-
             _appDbContext.Experiences.UpdateRange(updatedExperiences);
             _appDbContext.SaveChanges();
             return updatedExperiences;
         }
+
+        public int GetExperienceCount(Guid userInfoId)
+        {
+            var result = _appDbContext.Experiences.Select(x => x.UserInformationId == userInfoId).ToList().Count;
+            return result;
+        }
+
     }
 }

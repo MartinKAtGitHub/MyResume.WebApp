@@ -45,7 +45,8 @@
         @if (Model.EnableOwnerOptions)
         {
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newExperienceModal">Add new exp</button>     
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newExperienceModal">Add new exp</button>
+            <button id="addNewExpSection">TEST ADD EXP</button>
         }
 
     </div>
@@ -72,7 +73,7 @@
           data-ajax-complete ="CreateComplete"
           data-ajax-loading="#spinner">
 
-        <div class="modal fade" id="newExperienceModal" tabindex="-1" role="dialog" aria-labelledby="newExperienceModalTitle" aria-hidden="true">
+        <div  id="newExperienceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newExperienceModalTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -86,7 +87,7 @@
 
                     <div class="modal-body">
                         <div id="exp-grp-modal">
-                            <input type="hidden" asp-for="@Model.NewExpGrp.ExpUserInfoID" value="@this.ViewContext.RouteData.Values["id"].ToString()" />
+                            <input type="hidden" asp-for="@Model.NewExpGrp.UserId" value="@this.ViewContext.RouteData.Values["id"].ToString()" />
 
                             <label asp-for="@Model.NewExpGrp.Title">Grp Title</label>
                             <input asp-for="@Model.NewExpGrp.Title" type="text" value="" placeholder="Grp title" />

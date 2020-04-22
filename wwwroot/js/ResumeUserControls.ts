@@ -50,6 +50,7 @@ $(document).ready(() => {
 
     });
 
+    UpdateWithNewExpGrp();
     ConnectAddFieldsBtns();
 });
 
@@ -76,16 +77,38 @@ function ConnectAddFieldsBtns() {
 
             let desc = points.children(".desc-section");
             let addDescBtn = $("#addDesc_" + i + "_" + j + "");
-            let pointSectionID = $("#pointSectionID_" + i + "_" + j +"").get(0) as HTMLInputElement;
+            let pointSectionID = $("#pointSectionID_" + i + "_" + j + "").get(0) as HTMLInputElement;
 
             UpdateWithNewDescField(addDescBtn, sectionID.value, pointSectionID.value);
-         
+
         }
     }
 
 }
 
+
+function UpdateWithNewExpGrp() {
+
+    $("#addNewExpSection").on("click", () => {
+        console.log("Adding new EXP");
+
+        $("#exp-grp-container").load("/Home/AddEXP", (responseText, textStatus, jqXHR) => {
+            if (textStatus == "error") {
+                
+                alert("ERROR creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+
+            if (textStatus == "success") {
+                alert("SUCCESS creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
+
+            }
+        });
+
+    });
+}
+
 function UpdateWithNewDescField(addDescbtn: JQuery<HTMLElement>, sectionID: string, pointSectionId: string) {
+
     if (sectionID == undefined) {
         alert("Error: Cant find every experience section, pleas try to refresh or contact admins");
         return;
@@ -122,7 +145,6 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
         alert("Error: Cant find every experience section, pleas try to refresh or contact admins");
         return;
     }
-
 
     addPointbtn.on("click", () => {
         $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expGrpId: sectionID }, (responseText, textStatus, jqXHR) => {
@@ -281,8 +303,6 @@ function OnCompleteCreateEXP() {
 }
 
 function OnSuccessfulCreateEXP(xhr: XMLHttpRequest) { // This only fires on 200
-
-
     let form = $("#newExpFrom")[0] as HTMLFormElement;
     form.reset();
 
@@ -312,12 +332,30 @@ function OnSuccessfulEditEXP() { // Successful
 }
 
 function OnFailureEditEXP(xhr: XMLHttpRequest) {
-    alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
+    alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 
 }
 
 function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?
-    alert("On Create something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText); // i can set these in the controller
+    //$("#newExperienceModal").load("/Home/UserResume/XXXXXXXXXXXX", (responseText, textStatus, jqXHR) => {
+    //    if (textStatus == "error") {
+    //        alert("Failed to load Resume = " + jqXHR.status + " | " + xhr.statusText);
+    //    }
+
+    //    if (textStatus == "success") {
+    //        alert("Success to load Resume ");
+    //    }
+    //});
+
+    if (xhr.status == 400) {
+        // TODO make this into a validation error ResumeControles.ts 328 and remove hard coded values
+        alert("Error you might have gone over the max limit of experience(6), highlight(6) or description(6) sections. | Status : " + xhr.status + " | Text = " + xhr.statusText);
+
+    } else {
+
+        alert("On Create something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
+    }
+
 }
 
 

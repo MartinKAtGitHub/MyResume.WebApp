@@ -13,7 +13,6 @@ namespace MyResume.WebApp.Models
       
         public string Id { get; set; }
 
-      
         [Required]
         public string ExperiencePointId { get; set; }
         public ExperiencePoint ExperiencePoint { get; set; }
