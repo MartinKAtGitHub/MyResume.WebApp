@@ -105,7 +105,7 @@ function UpdateWithNewPointField(addPointbtn, sectionID) {
         $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expGrpId: sectionID }, function (responseText, textStatus, jqXHR) {
             if (textStatus == "error") {
                 ConnectAddFieldsBtns();
-                alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
+                alert("Something went wrong code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
             if (textStatus == "success") {
                 ConnectAddFieldsBtns();

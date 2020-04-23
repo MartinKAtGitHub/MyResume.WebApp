@@ -139,7 +139,6 @@ function UpdateWithNewDescField(addDescbtn: JQuery<HTMLElement>, sectionID: stri
 
 
 function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: string) {
-
     if (sectionID == undefined) {
         alert("Error: Cant find every experience section, pleas try to refresh or contact admins");
         return;
@@ -150,14 +149,13 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
 
             if (textStatus == "error") {
                 ConnectAddFieldsBtns();
-                alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
+                alert("Something went wrong code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
 
             if (textStatus == "success") {
                 ConnectAddFieldsBtns();
             }
         });
-
     });
 }
 

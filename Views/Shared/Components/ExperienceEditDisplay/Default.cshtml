@@ -5,7 +5,7 @@
 @if (Model.Any())
 {
     <div class="col">
-        <form id="editExpFrom" asp-action="UpdateExperiences" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="EditSuccess" data-ajax-failure="EditFailure">
+        <form id="editExpFrom" asp-action="UpdateExperiences" method="post" data-ajax="true" data-ajax-method="post" data-ajax-success="EditSuccess" data-ajax-failure="EditFailure" data-ajax-update="#exp-grp-container">
             @*data-ajax-update="#exp-grp-container" < this works like $load but i get validation warnings *@
             <div asp-validation-summary="All" class="text-danger"></div>
 
