@@ -44,7 +44,7 @@ namespace MyResume.WebApp.Data
             return defaultEntery;
         }
 
-        public UserInformation Delete(string id) // We could make this a RESET insted
+        public UserInformation Delete(string id) //TODO UserInformation has no DELETE operation  -> We could make this a RESET instead because its pretty much AppUser
         {
             // CreateDefault()
             throw new NotImplementedException();

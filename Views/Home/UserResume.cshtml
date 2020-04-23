@@ -37,6 +37,34 @@
 </div>
 
 
+<div id="skillSection">
+
+    @if (Model.EnableOwnerOptions)
+    {
+        <div id="skillDisplayContainer" class="m-5">
+            @await Component.InvokeAsync("SkillsContainerEditing", new { appUserId = Model.AppUserId })
+        </div>
+    }
+
+    <form id="createNewSkillForm" asp-action="CreatNewSkill" method="post" 
+          data-ajax="true" data-ajax-method="post" data-ajax-success="CreateNewSkillSuccess" data-ajax-failure="CreateNewSkillFailure" data-ajax-update="#skillDisplayContainer">
+       
+        <div asp-validation-summary="All"></div>
+        
+        <input asp-for="@Model.NewSkillViewModel.TagName" />
+        <span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.TagName"></span>
+
+        <input asp-for="@Model.NewSkillViewModel.Level" value="1" />
+        <span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.Level"></span>
+
+        <button type="submit"> Add Skill</button>
+
+    </form>
+
+
+</div>
+
+
 <div class="row exp-main-area">
 
     <div class="w-100 ">
@@ -210,11 +238,16 @@ else
     <script src="~/js/ResumeUserControls.js"></script>
 
     <script>
-        //CreateBegin = OnBeginCreateEXP;
-        //CreateSuccess = OnSuccessfulCreateEXP;
-        //CreateFailure = OnFailureCreateEXP;
-        //CreateComplete = OnCompleteCreateEXP;
-        
+
+        CreateNewSkillSuccess = OnSuccsessCreatNewSkill;
+        CreateNewSkillFailure = OnFailCreatNewSkill;
+
+        EditSkillSuccess = OnSuccsessEditSkill;
+        EditSkillFailure = OnFailEditSkill;
+
+        DeleteSkillSuccess =OnSuccessDeletedSkill;
+        DeleteSkillFailure=OnFailDeletedSkill;
+
         EditSuccess = OnSuccessfulEditEXP;
         EditFailure = OnFailureEditEXP;
 

@@ -226,6 +226,24 @@ function OnFailureEditEXP(xhr) {
     ConnectAddFieldsBtns();
     alert("EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 }
+function OnSuccessCreatNewSkill(jqXHR) {
+    alert("Success | Create new skill | " + jqXHR.status + " , " + jqXHR.statusText);
+}
+function OnFailCreatNewSkill(jqXHR) {
+    alert("FAIL | Create new skill | " + jqXHR.status + " , " + jqXHR.statusText);
+}
+function OnSuccessEditSkill(jqXHR) {
+    alert("Success | EDIT skill | " + jqXHR.status + " , " + jqXHR.statusText);
+}
+function OnFailEditSkill(jqXHR) {
+    alert("FAIL | EDIT  skill | " + jqXHR.status + " , " + jqXHR.statusText);
+}
+function OnSuccessDeletedSkill(jqXHR) {
+    alert("Success | EDIT skill | " + jqXHR.status + " , " + jqXHR.statusText);
+}
+function OnFailDeletedSkill(jqXHR) {
+    alert("Fail | EDIT skill | " + jqXHR.status + " , " + jqXHR.statusText);
+}
 //function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?
 //    //$("#newExperienceModal").load("/Home/UserResume/XXXXXXXXXXXX", (responseText, textStatus, jqXHR) => {
 //    //    if (textStatus == "error") {

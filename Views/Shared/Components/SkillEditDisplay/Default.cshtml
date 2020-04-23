@@ -1,0 +1,25 @@
+﻿@model Skill
+
+    <div>
+        <form class="editSkillForm" asp-action="EditSkill" method="post"
+              data-ajax="true" data-ajax-method="post" data-ajax-success="EditSkillSuccess" data-ajax-failure="EditSkillFailure" data-ajax-update="#skillDisplayContainer">
+
+            <input asp-for="@Model.ApplicationUserId" hidden value="@Model.ApplicationUserId" />
+            <input asp-for="@Model.Id" hidden value="@Model.Id" />
+
+            <input asp-for="@Model.TagName" value="@Model.TagName" />
+            <span class="text-danger" asp-validation-for="@Model.TagName"></span>
+
+            <input asp-for="@Model.Level" value="@Model.Level" />
+            <span class="text-danger" asp-validation-for="@Model.Level"></span>
+
+            <button class="btn btn-success" type="submit">Edit</button>
+        </form>
+    </div>
+    <div>
+        <form class="deleteSkillForm" asp-action="DeleteSkill" asp-route-id="@Model.Id" method="post"
+              data-ajax="true" data-ajax-method="post" data-ajax-success="DeleteSkillSuccess" data-ajax-failure="DeleteSkillFailure" data-ajax-update="#skillDisplayContainer">
+            
+            <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+    </div>

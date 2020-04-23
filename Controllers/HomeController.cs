@@ -25,9 +25,10 @@ namespace MyResume.WebApp.Controllers
         private readonly IConfiguration _config;
         private readonly IAchievementRepo _achievementRepo;
         private readonly IExperienceRepo _experienceRepo;
+        private readonly ISkillRepo _skillRepo;
 
         public HomeController(UserManager<ApplicationUser> userManager, IUserInfoRepo userInfoRepo, IWebHostEnvironment webHostEnvironment,
-            IConfiguration config, IAchievementRepo achievementRepo, IExperienceRepo experienceRepo)
+            IConfiguration config, IAchievementRepo achievementRepo, IExperienceRepo experienceRepo, ISkillRepo skillRepo)
         {
             _userManager = userManager;
             _userInfoRepo = userInfoRepo;
@@ -35,6 +36,7 @@ namespace MyResume.WebApp.Controllers
             _config = config;
             _achievementRepo = achievementRepo;
             _experienceRepo = experienceRepo;
+            _skillRepo = skillRepo;
         }
 
         public IActionResult Index(string searchString)
@@ -64,8 +66,10 @@ namespace MyResume.WebApp.Controllers
 
             var model = new UserResumeViewModel
             {
+                AppUserId = userID,
                 UserInfo = userInfo,
-                Achievements = allUserItems
+                Achievements = allUserItems,
+
             };
 
             if (userID == id)
@@ -657,7 +661,7 @@ namespace MyResume.WebApp.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 Index = 0,
-                Discription = " (default) index = 0" 
+                Discription = " (default) index = 0"
             });
 
             exp.ExperiencePoints.Add(newExpPoint);
@@ -815,12 +819,112 @@ namespace MyResume.WebApp.Controllers
                 updatedExpGrps.Add(expGrp);
             }
 
-            //var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
-            //               .Where(y => y.Count > 0)
-            //               .ToList();
+            
 
             _experienceRepo.UpdateAll(updatedExpGrps);
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
         }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult CreatNewSkill(UserResumeViewModel model)
+        {
+            var appUserId = _userManager.GetUserId(User);
+            var skilCount = _skillRepo.ReadAll(appUserId).Count();
+            var maxLimit = _config.GetValue<int>("SkillDBLimits:MaxSkillLimit");
+
+            if (skilCount >= maxLimit)
+            {
+                ModelState.AddModelError("", $"You have reached the max limit of proficiencies({maxLimit}), please delete unnecessary proficiencies ");
+                return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
+            }
+
+            var newSkill = new Skill()
+            {
+                Id = Guid.NewGuid(),
+                ApplicationUserId = appUserId,
+                TagName = model.NewSkillViewModel.TagName,
+                Level = model.NewSkillViewModel.Level
+            };
+
+            _skillRepo.Create(newSkill);
+
+            return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult EditSkill(Skill model)
+        {
+            var appUserId = _userManager.GetUserId(User);
+            var updatedSkill =  _skillRepo.Read(model.Id);
+
+            if (updatedSkill == null)
+            {
+                Response.StatusCode = 404;
+                ViewBag.ErrorTitle = "Cant find proficiency";
+                ViewBag.ErrorMessage = "Pleas refresh and try again";
+                return View("Error");
+            }
+
+            if (updatedSkill.ApplicationUserId != appUserId)
+            {
+                Response.StatusCode = 403;
+                ViewBag.ErrorTitle = "Wrong user";
+                ViewBag.ErrorMessage = "Unauthorized edit attempt was made";
+                return View("Error");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
+            }
+
+
+            updatedSkill.Level = model.Level;
+            updatedSkill.TagName = model.TagName;
+
+            _skillRepo.Update(updatedSkill);
+            return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult DeleteSkill(Guid id)
+        {
+            
+            var appUserId = _userManager.GetUserId(User);
+            var deleteSkill = _skillRepo.Read(id);
+
+            if (deleteSkill == null)
+            {
+                Response.StatusCode = 404;
+                ViewBag.ErrorTitle = "Cant find proficiency";
+                ViewBag.ErrorMessage = "Pleas refresh and try again";
+                return View("Error");
+            }
+
+            if (deleteSkill.ApplicationUserId != appUserId)
+            {
+                Response.StatusCode = 403;
+                ViewBag.ErrorTitle = "Wrong user";
+                ViewBag.ErrorMessage = "Unauthorized edit attempt was made";
+                return View("Error");
+            }
+
+            var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
+                           .Where(y => y.Count > 0)
+                           .ToList();
+
+            _skillRepo.Delete(deleteSkill);
+            return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
+        }
+
+
     }
 }

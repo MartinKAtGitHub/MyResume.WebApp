@@ -15,6 +15,7 @@ namespace MyResume.WebApp.Data
         public DbSet<UserInformation> UserInformation { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<Experience> Experiences { get; set; }
+        public DbSet<Skill> Skills { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions) : base(dbContextOptions)
         {

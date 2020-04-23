@@ -68,6 +68,7 @@ namespace MyResume.WebApp
             services.AddScoped<IUserInfoRepo, UserInfoRepoSQL>();
             services.AddScoped<IAchievementRepo, AchievementRepoSQL>();
             services.AddScoped<IExperienceRepo, ExperienceRepoSQL>();
+            services.AddScoped<ISkillRepo, SkillRepoSQL>();
             // services.AddScoped<ICommentRepository, SQLCommentRepository>();
 
             //  services.AddSingleton<IAuthorizationHandler, CanEditOnluOtherAdminRolesAndClaimsHandler>();

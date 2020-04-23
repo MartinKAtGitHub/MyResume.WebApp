@@ -313,6 +313,27 @@ function OnFailureEditEXP(xhr: XMLHttpRequest) {
     alert("EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 }
 
+function OnSuccessCreatNewSkill(jqXHR: JQueryXHR) {
+    alert(`Success | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+}
+function OnFailCreatNewSkill(jqXHR: JQueryXHR) {
+    alert(`FAIL | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+}
+
+function OnSuccessEditSkill(jqXHR: JQueryXHR) {
+    alert(`Success | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+}
+function OnFailEditSkill(jqXHR: JQueryXHR) {
+    alert(`FAIL | EDIT  skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+}
+
+function OnSuccessDeletedSkill(jqXHR: JQueryXHR) {
+    alert(`Success | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+}
+
+function OnFailDeletedSkill(jqXHR: JQueryXHR) {
+    alert(`Fail | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+}
 //function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?
 //    //$("#newExperienceModal").load("/Home/UserResume/XXXXXXXXXXXX", (responseText, textStatus, jqXHR) => {
 //    //    if (textStatus == "error") {
