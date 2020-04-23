@@ -34,6 +34,9 @@ $(document).ready(function () {
     //        expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
     //    }
     //});
+    $("#rating").barrating({
+        theme: 'bars-1to10'
+    });
     UpdateWithNewExpGrp();
     ConnectAddFieldsBtns();
 });

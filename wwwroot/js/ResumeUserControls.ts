@@ -50,6 +50,13 @@ $(document).ready(() => {
 
     //});
 
+
+    ($(`#rating`) as any).barrating({
+            theme: 'bars-1to10'
+        });
+
+
+   
     UpdateWithNewExpGrp();
     ConnectAddFieldsBtns();
 });

@@ -15,7 +15,6 @@ namespace MyResume.WebApp.Data
             _appDbContext = appDbContext;
         }
 
-
         public Skill Create(Skill newSkill)
         {
             _appDbContext.Skills.Add(newSkill);
@@ -28,7 +27,6 @@ namespace MyResume.WebApp.Data
             _appDbContext.Skills.Remove(skill);
             _appDbContext.SaveChanges();
             return skill;
-                
         }
 
         public Skill Read(Guid id)

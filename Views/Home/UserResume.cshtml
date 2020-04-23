@@ -46,11 +46,11 @@
         </div>
     }
 
-    <form id="createNewSkillForm" asp-action="CreatNewSkill" method="post" 
+    <form id="createNewSkillForm" asp-action="CreatNewSkill" method="post"
           data-ajax="true" data-ajax-method="post" data-ajax-success="CreateNewSkillSuccess" data-ajax-failure="CreateNewSkillFailure" data-ajax-update="#skillDisplayContainer">
-       
+
         <div asp-validation-summary="All"></div>
-        
+
         <input asp-for="@Model.NewSkillViewModel.TagName" />
         <span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.TagName"></span>
 
@@ -239,14 +239,14 @@ else
 
     <script>
 
-        CreateNewSkillSuccess = OnSuccsessCreatNewSkill;
+        CreateNewSkillSuccess = OnSuccessCreatNewSkill;
         CreateNewSkillFailure = OnFailCreatNewSkill;
 
-        EditSkillSuccess = OnSuccsessEditSkill;
+        EditSkillSuccess = OnSuccessEditSkill;
         EditSkillFailure = OnFailEditSkill;
 
-        DeleteSkillSuccess =OnSuccessDeletedSkill;
-        DeleteSkillFailure=OnFailDeletedSkill;
+        DeleteSkillSuccess = OnSuccessDeletedSkill;
+        DeleteSkillFailure = OnFailDeletedSkill;
 
         EditSuccess = OnSuccessfulEditEXP;
         EditFailure = OnFailureEditEXP;
