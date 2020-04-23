@@ -17,6 +17,8 @@ namespace MyResume.WebApp.Models
         public string ExperiencePointId { get; set; }
         public ExperiencePoint ExperiencePoint { get; set; }
 
+        [Required]
+        public int Index { get; set; }
         //[Required(ErrorMessage = "Description is required")]
         [MaxLength(60)]
         public string Discription { get; set; } // TODO fix type Description 

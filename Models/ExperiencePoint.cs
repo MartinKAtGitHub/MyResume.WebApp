@@ -16,12 +16,14 @@ namespace MyResume.WebApp.Models
         public string ExperienceId { get; set; }
         public Experience Experience { get; set; }
 
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-
+        [Required]
+        public int Index { get; set; }
         //[Required(ErrorMessage = "Experience highlight title is required")]
         [MaxLength(30)]
         public string Title { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
 
         [NotMapped]
         public bool MarkForDeletion { get; set; }

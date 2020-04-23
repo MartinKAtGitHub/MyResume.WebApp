@@ -294,23 +294,25 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
 
 function OnSuccessfulEditEXP() { // Successful
 
-    $("#exp-grp-container").load("/Home/GetExperienceView", (responseText, textStatus, jqXHR) => {
+    ConnectAddFieldsBtns();
+    //$("#exp-grp-container").load("/Home/GetExperienceView", (responseText, textStatus, jqXHR) => {
 
-        if (textStatus == "error") {
-            ConnectAddFieldsBtns();
-            alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
-        }
+    //    if (textStatus == "error") {
+    //        ConnectAddFieldsBtns();
+    //        alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
+    //    }
 
-        if (textStatus == "success") {
-            ConnectAddFieldsBtns();
-        }
-    });
+    //    if (textStatus == "success") {
+    //        ConnectAddFieldsBtns();
+    //    }
+    //});
 
-    alert("TEMP successful edit");
+    alert("TEMP | EDIT | Successful");
 }
 
 function OnFailureEditEXP(xhr: XMLHttpRequest) {
-    alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
+    ConnectAddFieldsBtns();
+    alert("EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 }
 
 //function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?

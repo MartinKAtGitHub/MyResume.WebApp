@@ -570,6 +570,14 @@ namespace MyResume.WebApp.Controllers
         //}
 
 
+        public IActionResult GetExperienceView()//Ajax call
+        {
+            var activeUserId = _userManager.GetUserId(User);
+
+            return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
+        }
+
+
         public IActionResult AddEXP()
         {
             var activeUserId = _userManager.GetUserId(User);
@@ -585,31 +593,33 @@ namespace MyResume.WebApp.Controllers
             var exp = new Experience()
             {
                 Id = Guid.NewGuid().ToString(),
+                Index = expCount,
                 Title = "Empty",
                 UserInformationId = _userInfoRepo.Read(activeUserId).UserInformationId,
                 ExperiencePoints = new List<ExperiencePoint>()
             };
 
-            var newExpPoint = new ExperiencePoint { Id = Guid.NewGuid().ToString(), Title = "" };
+            var newExpPoint = new ExperiencePoint
+            {
+                Id = Guid.NewGuid().ToString(),
+                Index = 0,
+                Title = "(Default) index = 0"
+            };
             newExpPoint.Descriptions = new List<ExperiencePointDescription>();
-            newExpPoint.Descriptions.Add(new ExperiencePointDescription { Id = Guid.NewGuid().ToString(), Discription = "" });
+            newExpPoint.Descriptions.Add(new ExperiencePointDescription
+            {
+                Id = Guid.NewGuid().ToString(),
+                Index = 0,
+                Discription = "(Default) index = 0"
+            });
 
             exp.ExperiencePoints.Add(newExpPoint);
-
             _experienceRepo.CreateExp(exp);
-            return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
-        }
-
-        public IActionResult GetExperienceView()//Ajax call
-        {
-            var activeUserId = _userManager.GetUserId(User);
-
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
         }
 
         public IActionResult AddpointFieldToExperienceView(string expGrpId)
         {
-
             var activeUserId = _userManager.GetUserId(User);
             var userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId;
             if (!ModelState.IsValid)
@@ -635,9 +645,20 @@ namespace MyResume.WebApp.Controllers
                 return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
             }
 
-            var newExpPoint = new ExperiencePoint { Id = Guid.NewGuid().ToString(), Title = "Please enter a highlight title" };
+            var newExpPoint = new ExperiencePoint
+            {
+                Id = Guid.NewGuid().ToString(),
+                Index = expPointCount,
+                Title = "index = " + expPointCount
+            };
+
             newExpPoint.Descriptions = new List<ExperiencePointDescription>();
-            newExpPoint.Descriptions.Add(new ExperiencePointDescription { Id = Guid.NewGuid().ToString(), Discription = "Please enter a description" });
+            newExpPoint.Descriptions.Add(new ExperiencePointDescription
+            {
+                Id = Guid.NewGuid().ToString(),
+                Index = 0,
+                Discription = " (default) index = 0" 
+            });
 
             exp.ExperiencePoints.Add(newExpPoint);
             _experienceRepo.Update(exp);
@@ -675,7 +696,12 @@ namespace MyResume.WebApp.Controllers
                     ModelState.AddModelError("", $"You have exceeded the maximum({maxLimit}) amount of experience highlight descriptions sections you can make.");
                     return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
                 }
-                expPoint.Descriptions.Add(new ExperiencePointDescription { Id = Guid.NewGuid().ToString(), Discription = "Please enter a description" });
+                expPoint.Descriptions.Add(new ExperiencePointDescription
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Index = expPointDescCount,
+                    Discription = "index =" + expPointDescCount
+                });
             }
             else
             {
@@ -690,7 +716,6 @@ namespace MyResume.WebApp.Controllers
 
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
         }
-
 
         [HttpPost]
         [Authorize]
@@ -746,14 +771,14 @@ namespace MyResume.WebApp.Controllers
                 foreach (var point in expGrp.ExperiencePoints)
                 {
                     //if (modelExpGrp.ExperiencePoints[count].MarkForDeletion)
-                        if (modelExpGrp.ExpPoints[count].MarkForDeletion)
-                        {
+                    if (modelExpGrp.ExpPoints[count].MarkForDeletion)
+                    {
                         pointDeletionList.Add(point);
                         count++;
                         continue;
                     }
 
-                   // point.Title = modelExpGrp.ExperiencePoints[count].Title;
+                    // point.Title = modelExpGrp.ExperiencePoints[count].Title;
                     point.Title = modelExpGrp.ExpPoints[count].PointTitle;
 
                     int descCount = 0;
@@ -762,8 +787,8 @@ namespace MyResume.WebApp.Controllers
                     foreach (var desc in point.Descriptions)
                     {
 
-                       // if (modelExpGrp.ExperiencePoints[count].Descriptions[descCount].MarkForDeletion)
-                            if (modelExpGrp.ExpPoints[count].Descriptions[descCount].MarkForDeletion)
+                        // if (modelExpGrp.ExperiencePoints[count].Descriptions[descCount].MarkForDeletion)
+                        if (modelExpGrp.ExpPoints[count].Descriptions[descCount].MarkForDeletion)
                         {
                             descDeletionList.Add(desc);
                             descCount++;
@@ -789,7 +814,7 @@ namespace MyResume.WebApp.Controllers
 
                 updatedExpGrps.Add(expGrp);
             }
-            
+
             //var forDeBuggingErrors = ModelState.Select(x => x.Value.Errors)
             //               .Where(y => y.Count > 0)
             //               .ToList();

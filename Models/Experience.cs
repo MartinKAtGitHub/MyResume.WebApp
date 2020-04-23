@@ -16,15 +16,17 @@ namespace MyResume.WebApp.Models
         public Guid UserInformationId { get; set; }
         public UserInformation UserInformation { get; set; }
 
+        [Required]
+        public int Index { get; set; }
+
         [Required(ErrorMessage = "Experience title is required")]
         [MaxLength(30)]
         public string Title { get; set; }
-        
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public List<ExperiencePoint> ExperiencePoints { get; set; }
 
         [NotMapped]
         public bool MarkForDeletion { get; set; }
-        public List<ExperiencePoint> ExperiencePoints { get; set; }
     }
 }

@@ -210,19 +210,21 @@ function UpdateWithNewPointField(addPointbtn, sectionID) {
 //    $("#newExperienceModal").modal('hide');
 //}
 function OnSuccessfulEditEXP() {
-    $("#exp-grp-container").load("/Home/GetExperienceView", function (responseText, textStatus, jqXHR) {
-        if (textStatus == "error") {
-            ConnectAddFieldsBtns();
-            alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
-        }
-        if (textStatus == "success") {
-            ConnectAddFieldsBtns();
-        }
-    });
-    alert("TEMP successful edit");
+    ConnectAddFieldsBtns();
+    //$("#exp-grp-container").load("/Home/GetExperienceView", (responseText, textStatus, jqXHR) => {
+    //    if (textStatus == "error") {
+    //        ConnectAddFieldsBtns();
+    //        alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
+    //    }
+    //    if (textStatus == "success") {
+    //        ConnectAddFieldsBtns();
+    //    }
+    //});
+    alert("TEMP | EDIT | Successful");
 }
 function OnFailureEditEXP(xhr) {
-    alert("On EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
+    ConnectAddFieldsBtns();
+    alert("EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 }
 //function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?
 //    //$("#newExperienceModal").load("/Home/UserResume/XXXXXXXXXXXX", (responseText, textStatus, jqXHR) => {

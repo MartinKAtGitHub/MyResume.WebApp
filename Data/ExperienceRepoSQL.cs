@@ -62,17 +62,38 @@ namespace MyResume.WebApp.Data
 
         public Experience Read(string id)
         {
-            var result = _appDbContext.Experiences.Include(x => x.ExperiencePoints).ThenInclude(x => x.Descriptions).FirstOrDefault(x => x.Id == id);
-            return result;
+            var Experience = _appDbContext.Experiences.Include(x => x.ExperiencePoints).ThenInclude(x => x.Descriptions).FirstOrDefault(x => x.Id == id);
+
+            foreach (var point in Experience.ExperiencePoints)
+            {
+                var sortedDescriptions = point.Descriptions.OrderByDescending(x => x.Index).ToList();
+                point.Descriptions = sortedDescriptions;
+            }
+            Experience.ExperiencePoints = Experience.ExperiencePoints.OrderByDescending(x => x.Index).ToList();
+            return Experience;
         }
 
         public IEnumerable<Experience> ReadAll(Guid userInfoId)
         {
             var result = _appDbContext.Experiences.Include(x => x.ExperiencePoints).ThenInclude(x => x.Descriptions).Where(x => x.UserInformationId == userInfoId);
+
+            foreach (var exp in result)
+            {
+                var sortedExpPoints = exp.ExperiencePoints.OrderByDescending(x => x.Index).ToList();
+                exp.ExperiencePoints = sortedExpPoints;
+
+                foreach (var point in exp.ExperiencePoints)
+                {
+                    var sortedDescriptions = point.Descriptions.OrderByDescending(x => x.Index).ToList();
+                    point.Descriptions = sortedDescriptions;
+                }
+            }
+
+            result = result.OrderByDescending(x => x.Index);
             return result;
         }
 
-        public Experience Update(Experience updatedExperience) 
+        public Experience Update(Experience updatedExperience)
         {
             _appDbContext.Experiences.Update(updatedExperience);
             _appDbContext.SaveChanges();
