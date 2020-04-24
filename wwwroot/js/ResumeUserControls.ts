@@ -44,19 +44,15 @@ $(document).ready(() => {
     //            }
     //        });
 
-    
+
     //        expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
     //    }
 
     //});
 
-
-    ($(`#rating`) as any).barrating({
-            theme: 'bars-1to10'
-        });
+    JqBarSetup();
 
 
-   
     UpdateWithNewExpGrp();
     ConnectAddFieldsBtns();
 });
@@ -68,6 +64,40 @@ $(document).ready(() => {
 //        console.log("Points = " +i)
 //    }
 //}
+
+
+function JqBarSetup() {
+
+    //for (var i = 0; i < length; i++) {
+    //    let skillDiv = $(`skill_${i}`)
+    //    skillDiv
+    //}
+
+    let skills = $(".skill");
+
+    console.log("Skills count" + skills.length);
+
+    for (var i = 0; i < skills.length; i++) {
+
+        let rating: any = $(`#rating_${i}`);
+        let levelInput = $(`#skillLevel_${i}`).get(0) as HTMLInputElement;
+
+        rating.barrating({
+            theme: 'bars-1to10',
+            onSelect: function (value, text, event) {
+               
+                levelInput.value = value;
+            }
+        });
+    }
+
+    //($(`#rating`) as any).barrating({
+    //    theme: 'bars-1to10',
+    //    onSelect: function (value, text, event) {
+    //        console.log("SELECT =" + value + " |" + text);
+    //    }
+    //});
+}
 
 function ConnectAddFieldsBtns() {
 
@@ -321,25 +351,31 @@ function OnFailureEditEXP(xhr: XMLHttpRequest) {
 }
 
 function OnSuccessCreatNewSkill(jqXHR: JQueryXHR) {
+    JqBarSetup();
     alert(`Success | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailCreatNewSkill(jqXHR: JQueryXHR) {
+    JqBarSetup();
     alert(`FAIL | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnSuccessEditSkill(jqXHR: JQueryXHR) {
+    JqBarSetup();
     alert(`Success | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailEditSkill(jqXHR: JQueryXHR) {
-    alert(`FAIL | EDIT  skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+    JqBarSetup();
+    alert(`FAIL | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnSuccessDeletedSkill(jqXHR: JQueryXHR) {
-    alert(`Success | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+    JqBarSetup();
+    alert(`Success | Delete skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnFailDeletedSkill(jqXHR: JQueryXHR) {
-    alert(`Fail | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+    JqBarSetup();
+    alert(`Fail | Delete skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 //function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?
 //    //$("#newExperienceModal").load("/Home/UserResume/XXXXXXXXXXXX", (responseText, textStatus, jqXHR) => {

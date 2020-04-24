@@ -3,6 +3,9 @@
 <div>
     <form class="editSkillForm" asp-action="EditSkill" method="post"
           data-ajax="true" data-ajax-method="post" data-ajax-success="EditSkillSuccess" data-ajax-failure="EditSkillFailure" data-ajax-update="#skillDisplayContainer">
+        @*data-ajax-update="#skillDisplayContainer"*@
+        @*data-ajax-update="#skill_@Model.Index"*@
+
 
         <input asp-for="@Model.ApplicationUserId" hidden value="@Model.ApplicationUserId" />
         <input asp-for="@Model.Id" hidden value="@Model.Id" />
@@ -10,21 +13,20 @@
         <input asp-for="@Model.TagName" value="@Model.TagName" />
         <span class="text-danger" asp-validation-for="@Model.TagName"></span>
 
-        <input asp-for="@Model.Level" value="@Model.Level" />
+        <input id="skillLevel_@Model.Index" hidden asp-for="@Model.Level" value="@Model.Level" />
         <span class="text-danger" asp-validation-for="@Model.Level"></span>
 
 
-        <select id="rating">
-            @for (int i = 0; i < Model.MaxLevelLimit; i++)
+        <select id="rating_@Model.Index">
+            @for (int i = 1; i <= Model.ProficiencyLevelsText.Length; i++)
             {
                 if (i == Model.Level)
                 {
-                    <option selected value="@i">@i</option>
+                    <option selected value="@i">@Model.ProficiencyLevelsText[i - 1]</option>
                 }
                 else
                 {
-                    <option value="@i">@i</option>
-
+                    <option value="@i">@Model.ProficiencyLevelsText[i - 1]</option>
                 }
             }
         </select>

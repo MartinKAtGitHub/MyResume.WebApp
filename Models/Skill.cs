@@ -24,7 +24,16 @@ namespace MyResume.WebApp.Models
         public ApplicationUser ApplicationUser { get; set; }
 
         [NotMapped]
-        public int MaxLevelLimit { get => 10; }
+        public int Index { get; set; }
 
+
+        [NotMapped]
+        public string[] ProficiencyLevelsText
+        {
+            get { return new string[] { "Novice Low", "Novice Mid", "Novice High",
+                "Intermediate Low", "Intermediate Mid", "Intermediate High",
+                "Advanced Low","Advanced Mid","Advanced High","Expert", }; 
+            }
+        }
     }
 }

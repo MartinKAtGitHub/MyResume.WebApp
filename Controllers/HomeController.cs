@@ -819,7 +819,7 @@ namespace MyResume.WebApp.Controllers
                 updatedExpGrps.Add(expGrp);
             }
 
-            
+
 
             _experienceRepo.UpdateAll(updatedExpGrps);
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
@@ -862,7 +862,7 @@ namespace MyResume.WebApp.Controllers
         public IActionResult EditSkill(Skill model)
         {
             var appUserId = _userManager.GetUserId(User);
-            var updatedSkill =  _skillRepo.Read(model.Id);
+            var updatedSkill = _skillRepo.Read(model.Id);
 
             if (updatedSkill == null)
             {
@@ -883,21 +883,24 @@ namespace MyResume.WebApp.Controllers
             if (!ModelState.IsValid)
             {
                 return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
+             //   return ViewComponent("SkillEditDisplay", new { updatedSkill });
             }
 
 
             updatedSkill.Level = model.Level;
             updatedSkill.TagName = model.TagName;
 
-            _skillRepo.Update(updatedSkill);
+            var skill = _skillRepo.Update(updatedSkill);
+
             return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
+           // return ViewComponent("SkillEditDisplay", new { skill });
         }
 
         [HttpPost]
         [Authorize]
         public IActionResult DeleteSkill(Guid id)
         {
-            
+
             var appUserId = _userManager.GetUserId(User);
             var deleteSkill = _skillRepo.Read(id);
 
