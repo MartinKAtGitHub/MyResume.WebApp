@@ -4,10 +4,11 @@
     --itemHeight: 300px;
     --avatarCardWidth: 200px;
     --rgbDefault: rgb(44, 46, 76);
+    --rgbBackgroundColor: rgb(15, 18, 33);
 }
 
 body {
-    background-color: rgb(15, 18, 33);
+    background-color: var(--rgbBackgroundColor);
     color: cornsilk;
 }
 
@@ -215,9 +216,34 @@ a.item-edit-link {
     min-height: 200px;
 }
 
+/*----- Skill section ----- */
+
+#deleteSkillModalBody {
+    height: 150px;
+    display: flex;
+}
+
+.deleteSkillConfirmBtns {
+    display: inline-block;
+    width: 50%;
+    font-size: 2em;
+}
+
+.skill-tag-name-input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background-color: var(--rgbBackgroundColor);
+    color: cornsilk;
+    text-align: center;
+    width: 100%;
+}
+
+
+
+
 
 /*----- Experience Modal ----- */
-#newExpFrom input {
+/*#newExpFrom input {
     display: block;
     width: 100%;
 }
@@ -233,4 +259,7 @@ a.item-edit-link {
 
 .desc-container{
     background-color:black;
-}
+}*/
+
+
+

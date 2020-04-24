@@ -37,32 +37,48 @@
 </div>
 
 
-<div id="skillSection">
+<div id="skillSection" class="row no-gutters">
+
 
     @if (Model.EnableOwnerOptions)
     {
-        <div id="skillDisplayContainer" class="m-5 p-3 bg-secondary">
-            @await Component.InvokeAsync("SkillsContainerEditing", new { appUserId = Model.AppUserId })
+        <div class="col-12">
+            <h3 class="display-3 border-bottom mb-3">SKILLS(Edit)</h3>
+
+            <div id="skillDisplayContainer" class="row">
+                @await Component.InvokeAsync("SkillsContainerEditing", new { appUserId = Model.AppUserId })
+            </div>
+
         </div>
+        <div class="col-12">
+            <div class="row">
+                <form id="createNewSkillForm" asp-action="CreatNewSkill" method="post"
+                      data-ajax="true"
+                      data-ajax-method="post"
+                      data-ajax-success="CreateNewSkillSuccess"
+                      data-ajax-failure="CreateNewSkillFailure"
+                      data-ajax-update="#skillDisplayContainer"
+                      data-ajax-loading="#spinner">
 
-        <form id="createNewSkillForm" asp-action="CreatNewSkill" method="post"
-              data-ajax="true" data-ajax-method="post" data-ajax-success="CreateNewSkillSuccess" data-ajax-failure="CreateNewSkillFailure" data-ajax-update="#skillDisplayContainer">
+                    <div asp-validation-summary="All"></div>
 
-            <div asp-validation-summary="All"></div>
+                    <input asp-for="@Model.NewSkillViewModel.TagName" />
+                    <span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.TagName"></span>
 
-            <input asp-for="@Model.NewSkillViewModel.TagName" />
-            <span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.TagName"></span>
+                    <input asp-for="@Model.NewSkillViewModel.Level" value="1" />
+                    <span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.Level"></span>
 
-            <input asp-for="@Model.NewSkillViewModel.Level" value="1" />
-            <span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.Level"></span>
+                    <button type="submit"> Add Skill</button>
+                    <span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
 
-            <button type="submit"> Add Skill</button>
-
-        </form>
+                </form>
+            </div>
+        </div>
     }
     else
     {
-        <div>
+        <div class="col-12">
+            <h3 class="display-3 border-bottom mb-3">SKILLS</h3>
             Needs display version of SKILL display
         </div>
     }
@@ -71,7 +87,7 @@
 </div>
 
 
-<div class="row exp-main-area">
+<div class="row m-2 exp-main-area">
 
     <div class="w-100 ">
         <h3 class="display-3 border-bottom m-0">Experience</h3>

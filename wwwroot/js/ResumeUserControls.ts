@@ -51,7 +51,8 @@ $(document).ready(() => {
     //});
 
     JqBarSetup();
-
+    submitOnLoseFocus();
+    OnDeleteSkillClick();
 
     UpdateWithNewExpGrp();
     ConnectAddFieldsBtns();
@@ -65,38 +66,50 @@ $(document).ready(() => {
 //    }
 //}
 
-
-function JqBarSetup() {
-
-    //for (var i = 0; i < length; i++) {
-    //    let skillDiv = $(`skill_${i}`)
-    //    skillDiv
-    //}
+function OnDeleteSkillClick() {
 
     let skills = $(".skill");
 
-    console.log("Skills count" + skills.length);
+    for (var i = 0; i < skills.length; i++) {
+        let btn = $(`#deleteSkillBtn_${i}`);
+        btn.on("click", () => {
+            $(`deleteSkillModal_${i}`).modal('hide');
+        });
+    }
+}
 
+function submitOnLoseFocus() {
+
+    let skills = $(".skill");
+
+    for (var i = 0; i < skills.length; i++) {
+        let form = $(`#skillEditForm_${i}`)
+       
+        $(`#skillTagName_${i}`).blur(function () {
+            form.submit();
+        });
+    }
+}
+
+function JqBarSetup() {
+
+    let skills = $(".skill");
     for (var i = 0; i < skills.length; i++) {
 
         let rating: any = $(`#rating_${i}`);
         let levelInput = $(`#skillLevel_${i}`).get(0) as HTMLInputElement;
+        let form = $(`#skillEditForm_${i}`)
 
         rating.barrating({
-            theme: 'bars-1to10',
+            theme: 'bars-square',
+            showValues: true,
+            showSelectedRating: false,
             onSelect: function (value, text, event) {
-               
                 levelInput.value = value;
+                form.submit();
             }
         });
     }
-
-    //($(`#rating`) as any).barrating({
-    //    theme: 'bars-1to10',
-    //    onSelect: function (value, text, event) {
-    //        console.log("SELECT =" + value + " |" + text);
-    //    }
-    //});
 }
 
 function ConnectAddFieldsBtns() {
@@ -352,29 +365,41 @@ function OnFailureEditEXP(xhr: XMLHttpRequest) {
 
 function OnSuccessCreatNewSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
+    submitOnLoseFocus();
+    OnDeleteSkillClick();
     alert(`Success | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailCreatNewSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
+    submitOnLoseFocus();
+    OnDeleteSkillClick();
     alert(`FAIL | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnSuccessEditSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
+    submitOnLoseFocus();
+    OnDeleteSkillClick();
     alert(`Success | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailEditSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
+    submitOnLoseFocus();
+    OnDeleteSkillClick();
     alert(`FAIL | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnSuccessDeletedSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
+    submitOnLoseFocus();
+    OnDeleteSkillClick();
     alert(`Success | Delete skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnFailDeletedSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
+    submitOnLoseFocus();
+    OnDeleteSkillClick();
     alert(`Fail | Delete skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 //function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?

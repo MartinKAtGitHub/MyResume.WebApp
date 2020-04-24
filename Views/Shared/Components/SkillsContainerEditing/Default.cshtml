@@ -5,8 +5,11 @@
     for (int i = 0; i < Model.Count; i++)
     {
         Model[i].Index = i;
-        <div id="skill_@i" class="skill bg-info m-2">
-            @await Component.InvokeAsync("SkillEditDisplay", new { skill = Model[i] })
+       
+        <div id="skill_@i" class="skill col-12 mb-2">
+            <div class="row">
+                @await Component.InvokeAsync("SkillEditDisplay", new { skill = Model[i] })
+            </div>
         </div>
     }
     <div class="text-danger" asp-validation-summary="All"></div>

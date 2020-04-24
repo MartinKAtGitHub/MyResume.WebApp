@@ -23,8 +23,8 @@
 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
-        <link href="~/lib/jquery-bar-rating/themes/bars-1to10.css" rel="stylesheet" />
-
+ 
+        <link href="~/lib/jquery-bar-rating/themes/bars-square.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet"
@@ -71,7 +71,9 @@
 
 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-        <link href="~/lib/jquery-bar-rating/themes/bars-1to10.css" rel="stylesheet" />
+
+      
+        <link href="~/lib/jquery-bar-rating/themes/bars-square.css" rel="stylesheet" />
     </environment>
 
     <link href="~/css/site.css" rel="stylesheet" />
@@ -79,7 +81,7 @@
 </head>
 <body>
 
-    <div class="container-fluid">
+    @*<div class="container-fluid">*@
 
         <nav class="navbar navbar-expand flex-column flex-sm-row navbar-dark justify-content-center active">
 
@@ -158,7 +160,8 @@
 
         </nav>
 
-        <div id="renderBody" class="mt-5 mx-auto">
+        <div id="renderBody" class="container-fluid">
+            @*class="container-fluid"*@
             @RenderBody()
         </div>
 
@@ -172,6 +175,6 @@
             @RenderSection("Scripts", required: false)
         }
 
-    </div>
+    @*</div>*@
 </body>
 </html>
