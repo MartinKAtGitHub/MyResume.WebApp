@@ -34,42 +34,56 @@ $(document).ready(function () {
     //        expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
     //    }
     //});
+    var skills = $(".skill");
+    var skillId = "";
+    var _loop_1 = function () {
+        var btn = $("#calldeletModal_" + i);
+        var dataId = btn.data("id");
+        console.log(dataId);
+        console.log(btn);
+        btn.on("click", function () {
+            skillId = dataId;
+            console.log("Sending id" + skillId);
+        });
+    };
+    for (var i = 0; i < skills.length; i++) {
+        _loop_1();
+    }
+    $("#deleteSkillModalBody").on("click", function () {
+        console.log("YES DELETE");
+        $("#skillDisplayContainer").load("/Home/DeleteSkill", { id: skillId }, function (responseText, textStatus, jqXHR) {
+            if (textStatus == "error") {
+                JqBarSetup();
+                submitOnLoseFocus();
+                alert("ERROR on DELETE skill: " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+            if (textStatus == "success") {
+                JqBarSetup();
+                submitOnLoseFocus();
+                alert("SUCCESS on DELETE skill : " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+        });
+    });
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
     UpdateWithNewExpGrp();
     ConnectAddFieldsBtns();
 });
-//function ConnectAddDescBtn() { 
-//    let pointSections = $(".point-section");
-//    for (var i = 0; i < pointSections.length; i++) {
-//        console.log("Points = " +i)
-//    }
-//}
-function OnDeleteSkillClick() {
-    var skills = $(".skill");
-    for (var i = 0; i < skills.length; i++) {
-        var btn = $("#deleteSkillBtn_" + i);
-        btn.on("click", function () {
-            $("deleteSkillModal_" + i).modal('hide');
-        });
-    }
-}
 function submitOnLoseFocus() {
     var skills = $(".skill");
-    var _loop_1 = function () {
+    var _loop_2 = function () {
         var form = $("#skillEditForm_" + i);
         $("#skillTagName_" + i).blur(function () {
             form.submit();
         });
     };
     for (var i = 0; i < skills.length; i++) {
-        _loop_1();
+        _loop_2();
     }
 }
 function JqBarSetup() {
     var skills = $(".skill");
-    var _loop_2 = function () {
+    var _loop_3 = function () {
         var rating = $("#rating_" + i);
         var levelInput = $("#skillLevel_" + i).get(0);
         var form = $("#skillEditForm_" + i);
@@ -84,7 +98,7 @@ function JqBarSetup() {
         });
     };
     for (var i = 0; i < skills.length; i++) {
-        _loop_2();
+        _loop_3();
     }
 }
 function ConnectAddFieldsBtns() {
@@ -105,7 +119,6 @@ function ConnectAddFieldsBtns() {
 }
 function UpdateWithNewExpGrp() {
     $("#addNewExpSection").on("click", function () {
-        console.log("Adding new EXP");
         $("#exp-grp-container").load("/Home/AddEXP", function (responseText, textStatus, jqXHR) {
             if (textStatus == "error") {
                 ConnectAddFieldsBtns();
@@ -273,37 +286,31 @@ function OnFailureEditEXP(xhr) {
 function OnSuccessCreatNewSkill(jqXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
     alert("Success | Create new skill | " + jqXHR.status + " , " + jqXHR.statusText);
 }
 function OnFailCreatNewSkill(jqXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
     alert("FAIL | Create new skill | " + jqXHR.status + " , " + jqXHR.statusText);
 }
 function OnSuccessEditSkill(jqXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
     alert("Success | EDIT skill | " + jqXHR.status + " , " + jqXHR.statusText);
 }
 function OnFailEditSkill(jqXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
     alert("FAIL | EDIT skill | " + jqXHR.status + " , " + jqXHR.statusText);
 }
 function OnSuccessDeletedSkill(jqXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
     alert("Success | Delete skill | " + jqXHR.status + " , " + jqXHR.statusText);
 }
 function OnFailDeletedSkill(jqXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
     alert("Fail | Delete skill | " + jqXHR.status + " , " + jqXHR.statusText);
 }
 //function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?

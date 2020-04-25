@@ -25,8 +25,8 @@ namespace MyResume.WebApp.Models
 
         [NotMapped]
         public int Index { get; set; }
-
-
+        
+ 
         [NotMapped]
         public string[] ProficiencyLevelsText
         {

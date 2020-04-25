@@ -40,6 +40,42 @@
 <div id="skillSection" class="row no-gutters">
 
 
+
+
+    <!-- The Modal -->
+    <div class="modal" id="deleteSkillModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header ">
+                    @*<h4 class="modal-title mx-auto">Delete @Model.TagName skill?</h4>*@
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div id="deleteSkillModalBody" class="modal-body">
+                    @*<form class="deleteSkillForm" asp-action="DeleteSkill" method="post" asp-route-id=""
+                          data-ajax="true" data-ajax-method="post" data-ajax-success="DeleteSkillSuccess" data-ajax-failure="DeleteSkillFailure" data-ajax-update="#skillDisplayContainer">
+
+                        <input id="deleSkillInput" hidden />*@
+
+                        <button id="deleteSkillModalBody" type="button" class="deleteSkillConfirmBtns m-2 btn btn-danger" data-dismiss="modal">YES</button>
+                        <button type="button" class="deleteSkillConfirmBtns m-2 btn btn-info" data-dismiss="modal">NO</button>
+                    @*</form>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
     @if (Model.EnableOwnerOptions)
     {
         <div class="col-12">

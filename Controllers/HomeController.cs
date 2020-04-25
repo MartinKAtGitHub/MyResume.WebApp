@@ -898,11 +898,11 @@ namespace MyResume.WebApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult DeleteSkill(Guid id)
+        public IActionResult DeleteSkill(string id)
         {
 
             var appUserId = _userManager.GetUserId(User);
-            var deleteSkill = _skillRepo.Read(id);
+            var deleteSkill = _skillRepo.Read(Guid.Parse(id));
 
             if (deleteSkill == null)
             {

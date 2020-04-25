@@ -49,34 +49,54 @@ $(document).ready(() => {
     //    }
 
     //});
+    let skills = $(".skill");
+    let skillId = "";
+
+    for (var i = 0; i < skills.length; i++) {
+        let btn = $(`#calldeletModal_${i}`);
+        let dataId = btn.data("id");
+
+        console.log(dataId);
+        console.log(btn);
+
+        btn.on("click", () => {
+            skillId = dataId;
+            console.log("Sending id" + skillId);
+        });
+    }
+
+    $("#deleteSkillModalBody").on("click", () => {
+        console.log("YES DELETE");
+
+        $("#skillDisplayContainer").load("/Home/DeleteSkill", { id : skillId },(responseText, textStatus, jqXHR) => {
+            if (textStatus == "error") {
+
+                JqBarSetup();
+                submitOnLoseFocus();
+
+                alert("ERROR on DELETE skill: " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+
+            if (textStatus == "success") {
+
+                JqBarSetup();
+                submitOnLoseFocus();
+
+                alert("SUCCESS on DELETE skill : " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+        });
+
+    });
 
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
+  
 
     UpdateWithNewExpGrp();
     ConnectAddFieldsBtns();
 });
 
-//function ConnectAddDescBtn() { 
-//    let pointSections = $(".point-section");
 
-//    for (var i = 0; i < pointSections.length; i++) {
-//        console.log("Points = " +i)
-//    }
-//}
-
-function OnDeleteSkillClick() {
-
-    let skills = $(".skill");
-
-    for (var i = 0; i < skills.length; i++) {
-        let btn = $(`#deleteSkillBtn_${i}`);
-        btn.on("click", () => {
-            $(`deleteSkillModal_${i}`).modal('hide');
-        });
-    }
-}
 
 function submitOnLoseFocus() {
 
@@ -138,8 +158,7 @@ function ConnectAddFieldsBtns() {
 function UpdateWithNewExpGrp() {
 
     $("#addNewExpSection").on("click", () => {
-        console.log("Adding new EXP");
-
+     
         $("#exp-grp-container").load("/Home/AddEXP", (responseText, textStatus, jqXHR) => {
             if (textStatus == "error") {
                 ConnectAddFieldsBtns();
@@ -366,40 +385,38 @@ function OnFailureEditEXP(xhr: XMLHttpRequest) {
 function OnSuccessCreatNewSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
+    
     alert(`Success | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailCreatNewSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
+    
     alert(`FAIL | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnSuccessEditSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
+   
     alert(`Success | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailEditSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
+   
     alert(`FAIL | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnSuccessDeletedSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
     alert(`Success | Delete skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnFailDeletedSkill(jqXHR: JQueryXHR) {
     JqBarSetup();
     submitOnLoseFocus();
-    OnDeleteSkillClick();
     alert(`Fail | Delete skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 //function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?
