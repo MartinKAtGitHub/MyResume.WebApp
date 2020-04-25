@@ -37,32 +37,21 @@
 </div>
 
 
-<div id="skillSection" class="row no-gutters">
-
-
-
+<div id="skillSection" class="row mb-5 no-gutters">
 
     <!-- The Modal -->
     <div class="modal" id="deleteSkillModal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-
                 <!-- Modal Header -->
                 <div class="modal-header ">
-                    @*<h4 class="modal-title mx-auto">Delete @Model.TagName skill?</h4>*@
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 id="modelDeleteHeaderTitle" class="modal-title mx-auto">Delete skill?</h4>
                 </div>
 
                 <!-- Modal body -->
                 <div id="deleteSkillModalBody" class="modal-body">
-                    @*<form class="deleteSkillForm" asp-action="DeleteSkill" method="post" asp-route-id=""
-                          data-ajax="true" data-ajax-method="post" data-ajax-success="DeleteSkillSuccess" data-ajax-failure="DeleteSkillFailure" data-ajax-update="#skillDisplayContainer">
-
-                        <input id="deleSkillInput" hidden />*@
-
-                        <button id="deleteSkillModalBody" type="button" class="deleteSkillConfirmBtns m-2 btn btn-danger" data-dismiss="modal">YES</button>
-                        <button type="button" class="deleteSkillConfirmBtns m-2 btn btn-info" data-dismiss="modal">NO</button>
-                    @*</form>*@
+                    <button id="deleteSkillModalBtn" type="button" class="deleteSkillConfirmBtns m-2 btn btn-danger" data-dismiss="modal">YES</button>
+                    <button type="button" class="deleteSkillConfirmBtns m-2 btn btn-info" data-dismiss="modal">NO</button>
                 </div>
 
             </div>
@@ -70,45 +59,53 @@
     </div>
 
 
-
-
-
-
-
-
     @if (Model.EnableOwnerOptions)
     {
-        <div class="col-12">
-            <h3 class="display-3 border-bottom mb-3">SKILLS(Edit)</h3>
+        <div class="col-12 mb-5">
+            <h3 class="display-3 border-bottom mb-5">SKILLS(Edit)</h3>
 
             <div id="skillDisplayContainer" class="row">
                 @await Component.InvokeAsync("SkillsContainerEditing", new { appUserId = Model.AppUserId })
             </div>
-
         </div>
-        <div class="col-12">
-            <div class="row">
-                <form id="createNewSkillForm" asp-action="CreatNewSkill" method="post"
-                      data-ajax="true"
-                      data-ajax-method="post"
-                      data-ajax-success="CreateNewSkillSuccess"
-                      data-ajax-failure="CreateNewSkillFailure"
-                      data-ajax-update="#skillDisplayContainer"
-                      data-ajax-loading="#spinner">
 
-                    <div asp-validation-summary="All"></div>
+        <div id="createNewSkillContainer" class="col-12">
+            <form id="createNewSkillForm" asp-action="CreatNewSkill" method="post"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-success="CreateNewSkillSuccess"
+                  data-ajax-failure="CreateNewSkillFailure"
+                  data-ajax-update="#skillDisplayContainer"
+                  data-ajax-loading="#spinner">
 
-                    <input asp-for="@Model.NewSkillViewModel.TagName" />
-                    <span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.TagName"></span>
+                <div class="row">
+                    <div class="col"><div class="text-danger" asp-validation-summary="All"></div></div>
+                </div>
+                <div class="row no-gutters mt-3">
+                    <div class="col-3">
+                        
+                        <input id="createSkillTagNameInput" class="skill-tag-name-input" asp-for="@Model.NewSkillViewModel.TagName"placeholder=" Create new tag name" />
+                        @*<span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.TagName"></span>*@
 
-                    <input asp-for="@Model.NewSkillViewModel.Level" value="1" />
-                    <span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.Level"></span>
+                        <input id="createSkillLevelInput" hidden asp-for="@Model.NewSkillViewModel.Level" value="1" />
+                        @*<span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.Level"></span>*@
+                    </div>
 
-                    <button type="submit"> Add Skill</button>
-                    <span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
+                    <div class="col p-2">
+                        <select id="createSkillLevelRating">
+                            @for (int i = 1; i <= Model.NewSkillViewModel.MaxLevelLimit; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
 
-                </form>
-            </div>
+                    <div class="col-1 text-center">
+                        <button id="createNewSkillBtn" type="submit" class="btn btn-success"><i class="fas fa-plus"></i></button>
+                        <span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
+                    </div>
+                </div>
+            </form>
         </div>
     }
     else
@@ -302,9 +299,6 @@ else
 
         EditSkillSuccess = OnSuccessEditSkill;
         EditSkillFailure = OnFailEditSkill;
-
-        DeleteSkillSuccess = OnSuccessDeletedSkill;
-        DeleteSkillFailure = OnFailDeletedSkill;
 
         EditSuccess = OnSuccessfulEditEXP;
         EditFailure = OnFailureEditEXP;

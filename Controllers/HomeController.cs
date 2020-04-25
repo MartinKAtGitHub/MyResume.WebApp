@@ -69,6 +69,7 @@ namespace MyResume.WebApp.Controllers
                 AppUserId = userID,
                 UserInfo = userInfo,
                 Achievements = allUserItems,
+                NewSkillViewModel = new SkillViewModel()
 
             };
 

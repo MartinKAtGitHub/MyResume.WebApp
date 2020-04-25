@@ -238,7 +238,14 @@ a.item-edit-link {
     width: 100%;
 }
 
+#createSkillTagNameInput {
+    border-bottom: 1px solid var(--success);
+}
 
+#createNewSkillContainer {
+    /*background-color: rgba(40, 167, 69, 0.71);*/
+    border-top: 3px solid var(--success);
+}
 
 
 

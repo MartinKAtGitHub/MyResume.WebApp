@@ -17,5 +17,7 @@ namespace MyResume.WebApp.ModelView
         [Range(1, 10)]
         [Display(Name = "Proficiency")]
         public int Level { get; set; }
+
+        public int MaxLevelLimit { get => 10; }
     }
 }

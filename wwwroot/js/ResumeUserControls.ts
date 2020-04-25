@@ -62,7 +62,7 @@ $(document).ready(() => {
     //    });
     //}
 
-    $("#deleteSkillModalBody").on("click", () => {
+    $("#deleteSkillModalBtn").on("click", () => {
         $("#skillDisplayContainer").load("/Home/DeleteSkill", { id: skillId }, (responseText, textStatus, jqXHR) => {
             if (textStatus == "error") {
 
@@ -80,30 +80,85 @@ $(document).ready(() => {
         });
     });
 
-    //JqBarSetup();
-    //submitOnLoseFocus();
-
+    JQBarSetForCreatSkill();
     AttachEventsToSkillOparations();
 
     UpdateWithNewExpGrp();
     ConnectAddFieldsBtns();
+
+    onCreateSkillTagNameInputValueChange();
+
 });
 
-//---------------------------------------------
+function onCreateSkillTagNameInputValueChange() {
+    let inputTagName = $("#createSkillTagNameInput");
+    let levelRating = $('#createSkillLevelRating');
+    let addBtn = $("#createNewSkillBtn");
+    let addBtnHtml = addBtn.get(0) as HTMLButtonElement;
+    let createNewSkillForm = $("#createNewSkillForm");
+
+    addBtnHtml.disabled = true;
+
+    inputTagName.on("input",function () {
+        if ((inputTagName.get(0) as HTMLInputElement).value == "") {
+            addBtnHtml.disabled = true;
+        } else {
+            addBtnHtml.disabled = false;
+        }
+    });
+
+
+    createNewSkillForm.on('submit', function () {
+        console.log("Why dose my form not subbit");
+
+        setTimeout(function () {
+        (inputTagName.get(0) as HTMLInputElement).value = "";
+        (levelRating as any).barrating('set', "1");
+
+        });
+
+    });
+
+    //addBtn.on("click", () => {
+
+    //    (inputTagName.get(0) as HTMLInputElement).value = "";
+    //    (levelRating as any).barrating('set', "1");
+        
+    //    //createNewSkillForm.submit();
+    //    //createNewSkillForm.reset();
+    //})
+
+}
+
+function JQBarSetForCreatSkill() {
+    let rating: any = $(`#createSkillLevelRating`);
+    let levelInput = $(`#createSkillLevelInput`).get(0) as HTMLInputElement;
+    //let form = $(`#createNewSkillForm`)
+
+    rating.barrating({
+        theme: 'bars-square',
+        showValues: true,
+        showSelectedRating: false,
+        onSelect: function (value, text, event) {
+            levelInput.value = value;
+            //form.submit();
+        }
+    });
+}
+
 function AttachEventsToSkillOparations() {
 
     let skills = $(".skill");
     for (var i = 0; i < skills.length; i++) {
-        updateSkillOnLoseFocus(i);
+        UpdateSkillOnLoseFocus(i);
         JQBarsSetup(i)
-        OnClickSendDeleteSkillId(i);
+        OnClickSendDeleteSkillData(i);
     }
 
-    // DeleteSkillOp();
 }
 
 
-function updateSkillOnLoseFocus(index: number) {
+function UpdateSkillOnLoseFocus(index: number) {
 
     let form = $(`#skillEditForm_${index}`)
 
@@ -113,7 +168,6 @@ function updateSkillOnLoseFocus(index: number) {
 }
 
 function JQBarsSetup(index: number) {
-
 
     let rating: any = $(`#rating_${index}`);
     let levelInput = $(`#skillLevel_${index}`).get(0) as HTMLInputElement;
@@ -130,52 +184,18 @@ function JQBarsSetup(index: number) {
     });
 }
 
-
-function OnClickSendDeleteSkillId(index: number) {
-
-    console.log("New setUp");
+function OnClickSendDeleteSkillData(index: number) {
 
     let btn = $(`#calldeletModal_${index}`);
     let dataId = btn.data("id");
+    let dataTageName = btn.data("tagName");
 
     btn.on("click", () => {
         skillId = dataId;
+        $("#modelDeleteHeaderTitle").text(`Delete ${dataTageName} skill?`);
     });
 }
 
-function submitOnLoseFocus() {
-
-    let skills = $(".skill");
-
-    for (var i = 0; i < skills.length; i++) {
-        let form = $(`#skillEditForm_${i}`)
-
-        $(`#skillTagName_${i}`).blur(function () {
-            form.submit();
-        });
-    }
-}
-
-function JqBarSetup() {
-
-    let skills = $(".skill");
-    for (var i = 0; i < skills.length; i++) {
-
-        let rating: any = $(`#rating_${i}`);
-        let levelInput = $(`#skillLevel_${i}`).get(0) as HTMLInputElement;
-        let form = $(`#skillEditForm_${i}`)
-
-        rating.barrating({
-            theme: 'bars-square',
-            showValues: true,
-            showSelectedRating: false,
-            onSelect: function (value, text, event) {
-                levelInput.value = value;
-                form.submit();
-            }
-        });
-    }
-}
 
 function ConnectAddFieldsBtns() {
 
@@ -407,18 +427,6 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
 function OnSuccessfulEditEXP() { // Successful
 
     ConnectAddFieldsBtns();
-    //$("#exp-grp-container").load("/Home/GetExperienceView", (responseText, textStatus, jqXHR) => {
-
-    //    if (textStatus == "error") {
-    //        ConnectAddFieldsBtns();
-    //        alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
-    //    }
-
-    //    if (textStatus == "success") {
-    //        ConnectAddFieldsBtns();
-    //    }
-    //});
-
     alert("TEMP | EDIT | Successful");
 }
 
@@ -428,45 +436,27 @@ function OnFailureEditEXP(xhr: XMLHttpRequest) {
 }
 
 function OnSuccessCreatNewSkill(jqXHR: JQueryXHR) {
-    //JqBarSetup();
-    //submitOnLoseFocus();
-
+   
     AttachEventsToSkillOparations();
     alert(`Success | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailCreatNewSkill(jqXHR: JQueryXHR) {
-    //JqBarSetup();
-    //submitOnLoseFocus();
-
+   
     AttachEventsToSkillOparations();
     alert(`FAIL | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 function OnSuccessEditSkill(jqXHR: JQueryXHR) {
-    //JqBarSetup();
-    //submitOnLoseFocus();
+    
     AttachEventsToSkillOparations();
 
     alert(`Success | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailEditSkill(jqXHR: JQueryXHR) {
-    //JqBarSetup();
-    //submitOnLoseFocus();
+    
     AttachEventsToSkillOparations();
 
     alert(`FAIL | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
-}
-
-function OnSuccessDeletedSkill(jqXHR: JQueryXHR) {
-    //JqBarSetup();
-    //submitOnLoseFocus();
-    alert(`Success | Delete skill | ${jqXHR.status} , ${jqXHR.statusText}`);
-}
-
-function OnFailDeletedSkill(jqXHR: JQueryXHR) {
-    //JqBarSetup();
-    //submitOnLoseFocus();
-    alert(`Fail | Delete skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 
 

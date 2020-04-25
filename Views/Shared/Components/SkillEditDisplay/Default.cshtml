@@ -1,6 +1,6 @@
 ﻿@model Skill
 
-<div class="col-10">
+<div class="col">
     <form id="skillEditForm_@Model.Index" class="editSkillForm" asp-action="EditSkill" method="post"
           data-ajax="true" data-ajax-method="post" data-ajax-success="EditSkillSuccess" data-ajax-failure="EditSkillFailure" data-ajax-update="#skillDisplayContainer">
         @*data-ajax-update="#skillDisplayContainer"*@
@@ -12,7 +12,7 @@
         <input id="skillLevel_@Model.Index" hidden asp-for="@Model.Level" value="@Model.Level" />
         <span class="text-danger" asp-validation-for="@Model.Level"></span>
 
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col-3">
                 <input id="skillTagName_@Model.Index" class="skill-tag-name-input" asp-for="@Model.TagName" value="@Model.TagName" />
                 <span class="text-danger" asp-validation-for="@Model.TagName"></span>
@@ -32,43 +32,19 @@
                     }
                 </select>
             </div>
+            <div class="col-1 text-center">
+                <button id="calldeletModal_@Model.Index" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteSkillModal" data-id="@Model.Id" data-tag-name="@Model.TagName">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
         </div>
+
         @*<button class="btn btn-success" type="submit">Edit</button>       !  using .blur on input tag  and submit on when person loses focus on input field*@
     </form>
 </div>
-<div class="col">
-    @*<form class="deleteSkillForm" asp-action="DeleteSkill" asp-route-id="@Model.Id" method="post"
-          data-ajax="true" data-ajax-method="post" data-ajax-success="DeleteSkillSuccess" data-ajax-failure="DeleteSkillFailure" data-ajax-update="#skillDisplayContainer">*@
-
-
-        @*<div class="modal" id="deleteSkillModal_@Model.Index">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-
-
-                    <div class="modal-header ">
-                        <h4 class="modal-title mx-auto">Delete @Model.TagName skill?</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-
-
-                    <div id="deleteSkillModalBody" class="modal-body">
-                        <button id="deleteSkillBtn_@Model.Index" type="submit" class="deleteSkillConfirmBtns m-2 btn btn-danger">YES</button>
-                        <button type="button" class="deleteSkillConfirmBtns m-2 btn btn-info" data-dismiss="modal">NO</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>*@
-
-        @*<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteSkillModal_@Model.Index">
-            <i class="fa fa-trash"></i>
-        </button>*@
-
-        <button id="calldeletModal_@Model.Index" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteSkillModal" data-id="@Model.Id">
+@*<div class="col text-center">
+        <button id="calldeletModal_@Model.Index" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteSkillModal" data-id="@Model.Id" data-tag-name="@Model.TagName">
             <i class="fa fa-trash"></i>
         </button>
 
-        @*<button id="deleteSkillBtn" class=" btn btn-outline-danger" type="submit"><i class="fa fa-trash"></i></button>*@
-    @*</form>*@
-</div>
+    </div>*@
