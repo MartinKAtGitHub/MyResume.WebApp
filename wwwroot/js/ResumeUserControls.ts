@@ -90,6 +90,20 @@ $(document).ready(() => {
 
 });
 
+function ShowAlert(message: string, type: string) {
+    
+
+    let alert = $("#skillAlert");
+    alert.addClass(type);
+    alert.show("slow");
+    alert.text(`Success! ${message}`);
+    setTimeout(() => {
+
+        alert.hide("slow");
+    }, 2000);
+
+}
+
 function onCreateSkillTagNameInputValueChange() {
     let inputTagName = $("#createSkillTagNameInput");
     let levelRating = $('#createSkillLevelRating');
@@ -109,8 +123,7 @@ function onCreateSkillTagNameInputValueChange() {
 
 
     createNewSkillForm.on('submit', function () {
-        console.log("Why dose my form not subbit");
-
+       
         setTimeout(function () {
         (inputTagName.get(0) as HTMLInputElement).value = "";
         (levelRating as any).barrating('set', "1");
@@ -438,7 +451,8 @@ function OnFailureEditEXP(xhr: XMLHttpRequest) {
 function OnSuccessCreatNewSkill(jqXHR: JQueryXHR) {
    
     AttachEventsToSkillOparations();
-    alert(`Success | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
+  // ShowAlert("Created new skill", "alert-success");
+    //alert(`Success | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailCreatNewSkill(jqXHR: JQueryXHR) {
    
@@ -481,42 +495,5 @@ function OnFailEditSkill(jqXHR: JQueryXHR) {
 //        alert("On Create something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 //    }
 
-//}
-
-
-//function CreateExp(expId: string): void {
-
-//    // $("#createExpForm").hide("slow");
-//    const form = $('#newExpFrom');
-//    const formData = new FormData(form.get(0) as HTMLFormElement);
-//    const actionURL = form.prop('action');
-
-//    //formData.forEach(element => {
-//    //    console.log(element.valueOf());
-//    //});
-
-//    $.ajax({
-
-//        type: "POST",
-//        url: actionURL,
-//        data: formData,
-//        dataType: "json",
-
-//        processData: false,
-//        contentType: false,
-
-//        success: function (msg) {
-//            console.log("SUCCESS" + msg);
-//            //  alert("SUCCSESS !!!!!!!!!!!");
-//            // Maybe add a SUCCSES message or Icon
-
-//        },
-
-//        error: function (req, status, error) {
-//            alert(error);
-
-//            // Maybe add a FAIL message or Icon IN CASE AN  UNAUTHIRZED PERSON TRYS IT
-//        }
-//    });
 //}
 

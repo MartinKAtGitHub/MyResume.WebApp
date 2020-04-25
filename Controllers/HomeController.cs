@@ -836,12 +836,14 @@ namespace MyResume.WebApp.Controllers
 
             if (skilCount >= maxLimit)
             {
+              //  Response.StatusCode = 400; // THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
                 ModelState.AddModelError("", $"You have reached the max limit of proficiencies({maxLimit}), please delete unnecessary proficiencies ");
                 return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
             }
 
             if (!ModelState.IsValid)
             {
+                //  Response.StatusCode = 400; THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
                 return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
             }
 

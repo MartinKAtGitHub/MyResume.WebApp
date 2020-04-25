@@ -38,6 +38,17 @@ a.item-edit-link {
 .modal-content {
     background-color: var(--rgbDefault);
 }
+
+#skillAlert {
+    display:none;
+    position: fixed;
+    z-index: 99;
+    right:0px;
+    left:0px;
+    top:50px;
+    margin: auto;
+}
+
 /*-----------------------------------*/
 
 #renderBody {
