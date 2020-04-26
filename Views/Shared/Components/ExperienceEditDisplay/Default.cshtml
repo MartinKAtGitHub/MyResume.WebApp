@@ -1,113 +1,156 @@
 ﻿
 @model List<ExpViewModel>
-@*EDIT VIEW Component*@
+@*EDIT EXP VIEW Component*@
 
 @if (Model.Any())
 {
     <div class="col">
-        <button id="addNewExpSection">TEST ADD EXP</button>
+        @*<button id="addNewExpSection">TEST ADD EXP</button>*@
 
-        <form id="editExpFrom" asp-action="UpdateExperiences" method="post"
-              data-ajax="true"
-              data-ajax-method="post"
-              data-ajax-success="EditSuccess"
-              data-ajax-failure="EditFailure"
-              data-ajax-update="#exp-grp-container">
 
-            <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row border-bottom mb-5">
+            <div class="col">
+                <h3 class="display-3">Experience(EDIT)</h3>
+            </div>
+        </div>
 
-            @for (int i = 0; i < Model.Count; i++)
-            {
-                <div id="experienceSection_@i" class="row mb-2 experience-section p-2 bg-info">
-                    <input id="experienceSectionID_@i" asp-for="@Model[i].Id" hidden type="text" />
+        <div class="row mb-4">
+            <div class="col text-center">
+                <button id="addNewExpSection" class="btn btn-success btn-block"><i class="fas fa-plus"></i> New Experience Section</button>
+            </div>
+        </div>
 
-                    <div class=" col-12 mb-1">
+        <div class="row mb-2">
 
-                        <div class="row"> <span asp-validation-for="@Model[i].Title" class=" col text-danger"></span></div>
-                        <div class="row no-gutters">
-                            <div class="col-5">
-                                <input class="experience-section-title w-100 h-100" asp-for="@Model[i].Title" type="text" value="@Model[i].Title" />
-                            </div>
-                            <div class="col-1 text-center">
-                                <input id="deleteExpMarkInput_@i" hidden asp-for="@Model[i].MarkForDeletion" />
+            <form id="editExpFrom" asp-action="UpdateExperiences" method="post"
+                  data-ajax="true"
+                  data-ajax-method="post"
+                  data-ajax-success="EditSuccess"
+                  data-ajax-failure="EditFailure"
+                  data-ajax-update="#exp-grp-container">
 
-                                <button id="deleteExpToggleMark_@i" type="button" class="btn btn-outline-warning">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </div>
-                            <div class="col">
-                                @{ var assPointID = $"addPoint_{i}"; }
-                                <button id="@assPointID" class="btn btn-warning" type="button">add point </button>
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div id="experienceSection_@i" class="experience-section row mb-2 ">
+                        @*<input id="experienceSectionID_@i" asp-for="@Model[i].Id" hidden type="text" />*@
+
+                        <div class=" del-btn-container ">
+                            <input id="deleteExpMarkInput_@i" hidden asp-for="@Model[i].MarkForDeletion" />
+
+                            <button id="deleteExpToggleMark_@i" type="button" class="delBtn btn btn-warning">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+
+
+                        <!-- EXP GRP COL-->
+                        <div class=" col-12 mb-5">
+                            <div class="row"> <span asp-validation-for="@Model[i].Title" class=" col text-danger"></span></div>
+
+                            <div class="row">
+                                <input id="experienceSectionID_@i" asp-for="@Model[i].Id" hidden type="text" />
+
+                                <div class="col-12 m-2">
+                                    <input class="experience-section-title" asp-for="@Model[i].Title" type="text"  placeholder="New experience section" value="@Model[i].Title" />
+                                </div>
+                                <div class="col-12 text-center">
+                                    @{ var assPointID = $"addPoint_{i}"; }
+                                    <button id="@assPointID" class=" btn btn-success w-50" type="button"><i class="fas fa-plus"></i> New HighLight Section</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        @for (int j = 0; j < Model[i].ExpPoints.Count; j++)
-                        {
-                            <div class="point-section  mb-3 row bg-dark">
 
-                                <div class="col-12 mb-3">
-                                    @{ var pointSectionID = $"pointSectionID_{i}_{j}";}
+                        <!-- EXP Holds all point COL-->
+                        <div class="col-12">
+                            @for (int j = 0; j < Model[i].ExpPoints.Count; j++)
+                            {
+                                <div class="point-section row ">
+                                    <div class=" del-btn-container ">
+                                        @{ var pointMarkId = $"deletePointMarkInput_{i}_{j}"; }
+                                        <input id="@pointMarkId" hidden asp-for="@Model[i].ExpPoints[j].MarkForDeletion" />
 
-                                    <input id="@pointSectionID" asp-for="@Model[i].ExpPoints[j].Id" hidden type="text" />
+                                        @{ var deleteBtnToggleId = $"deletePointToggleMark_{i}_{j}"; }
+                                        <button id="@deleteBtnToggleId" type="button" class=" delBtn btn btn-warning">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
 
-                                    <input asp-for="@Model[i].ExpPoints[j].PointTitle" type="text" value="@Model[i].ExpPoints[j].PointTitle" />
-                                    <span asp-validation-for="@Model[i].ExpPoints[j].PointTitle" class="text-danger"></span>
+                                    <!--exp point-->
+                                    <div class="col-12 mb-4">
+                                        @{ var pointSectionID = $"pointSectionID_{i}_{j}";}
+                                        <input id="@pointSectionID" asp-for="@Model[i].ExpPoints[j].Id" hidden type="text" />
 
-                                   @{ var pointMarkId = $"deletePointMarkInput_{i}_{j}"; }
-                                    <input id="@pointMarkId" hidden asp-for="@Model[i].ExpPoints[j].MarkForDeletion" />
+                                        <div class="row"> <span asp-validation-for="@Model[i].ExpPoints[j].PointTitle" class="text-danger"></span></div>
 
-                                    @{ var deleteBtnToggleId = $"deletePointToggleMark_{i}_{j}";  }
-                                    <button id="@deleteBtnToggleId" type="button" class="btn btn-outline-warning">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-
-                                </div>
-                                <div class="col-12">
-                                    @for (int k = 0; k < Model[i].ExpPoints[j].Descriptions.Count; k++)
-                                    {
-                                        <div class="desc-section row bg-success">
-
-                                            <div class="col-12">
-                                                <input asp-for="@Model[i].ExpPoints[j].Descriptions[k].Desc" type="text" value="@Model[i].ExpPoints[j].Descriptions[k].Desc" />
-                                                <span asp-validation-for="@Model[i].ExpPoints[j].Descriptions[k].Desc" class="text-danger"></span>
-
-                                                @{ var descMarkId = $"delDescMarkInput_{i}_{j}_{k}"; }
-                                                <input id="@descMarkId" hidden asp-for="@Model[i].ExpPoints[j].Descriptions[k].MarkForDeletion" />
-
-
-                                                @{ var delDescBtnToggleId = $"deleteDescToggleBtn{i}_{j}_{k}"; }
-                                                <button id="@delDescBtnToggleId" type="button" class="btn btn-outline-warning">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-
-
+                                        <div class="row mb-5">
+                                            <div class="col-12 mb-2">
+                                                <input class="point-section-title" asp-for="@Model[i].ExpPoints[j].PointTitle" type="text" placeholder="New highlight" value="@Model[i].ExpPoints[j].PointTitle" />
                                             </div>
+
+                                            <div class="col-12 text-center">
+                                                @{ var id = $"addDesc_{i}_{j}"; }
+                                                <button id="@id" class="btn btn-success w-50" type="button"><i class="fas fa-plus"></i> New Description </button>
+                                            </div>
+
                                         </div>
-                                    }
-                                </div>
+                                    </div>
+                                    <!-- EXP holds all DESC COL-->
+                                    <div class="col-12">
+                                        @for (int k = 0; k < Model[i].ExpPoints[j].Descriptions.Count; k++)
+                                        {
+                                            <div class="desc-section row">
 
-                                <div class="col-12">
-                                    @{
-                                        var id = $"addDesc_{i}_{j}"; @*we only want 1 btn per point*@
-                                    }
-                                    <button id="@id" class="btn btn-outline-danger" type="button">add desc </button>
+                                                <div class="del-btn-container">
+                                                    @{ var descMarkId = $"delDescMarkInput_{i}_{j}_{k}"; }
+                                                    <input id="@descMarkId" hidden asp-for="@Model[i].ExpPoints[j].Descriptions[k].MarkForDeletion" />
+
+                                                    @{ var delDescBtnToggleId = $"deleteDescToggleBtn{i}_{j}_{k}"; }
+                                                    <button id="@delDescBtnToggleId" type="button" class="delBtn btn btn-warning">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+
+
+                                                <div class="col-12">
+                                                    <div class="row"><span asp-validation-for="@Model[i].ExpPoints[j].Descriptions[k].Desc" class="text-danger"></span></div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="desc-section-title" asp-for="@Model[i].ExpPoints[j].Descriptions[k].Desc" type="text" placeholder="New description" value="@Model[i].ExpPoints[j].Descriptions[k].Desc" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
+
                     </div>
+                }
 
+            <div class="row mb-3"> 
+                <div class="col-12">
+                <button class="btn btn-info btn-block" type="submit">Submit Changes</button>
                 </div>
-            }
-
-            <button type="submit"> submit</button>
-        </form>
+            </div>
+            </form>
+        </div>
     </div>
 }
 else
 {
-    <div>
-        <button id="addNewExpSection">TEST ADD EXP</button>
+<div class="col">
+    <div class="row mb-3">
         <h1 class="text-danger">No experience sections was found.</h1>
     </div>
+    <div class="row mb-4">
+        <div class="col text-center">
+            <button id="addNewExpSection" class="btn btn-success btn-block"><i class="fas fa-plus"></i> New Experience Section</button>
+        </div>
+    </div>
+</div>
 }

@@ -604,7 +604,7 @@ namespace MyResume.WebApp.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 Index = expCount,
-                Title = "Empty",
+                Title = "",
                 UserInformationId = _userInfoRepo.Read(activeUserId).UserInformationId,
                 ExperiencePoints = new List<ExperiencePoint>()
             };
@@ -613,14 +613,14 @@ namespace MyResume.WebApp.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 Index = 0,
-                Title = "(Default) index = 0"
+                Title = ""
             };
             newExpPoint.Descriptions = new List<ExperiencePointDescription>();
             newExpPoint.Descriptions.Add(new ExperiencePointDescription
             {
                 Id = Guid.NewGuid().ToString(),
                 Index = 0,
-                Discription = "(Default) index = 0"
+                Discription = ""
             });
 
             exp.ExperiencePoints.Add(newExpPoint);
@@ -659,7 +659,7 @@ namespace MyResume.WebApp.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 Index = expPointCount,
-                Title = "index = " + expPointCount
+                Title = ""
             };
 
             newExpPoint.Descriptions = new List<ExperiencePointDescription>();
@@ -667,7 +667,7 @@ namespace MyResume.WebApp.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 Index = 0,
-                Discription = " (default) index = 0"
+                Discription = ""
             });
 
             exp.ExperiencePoints.Add(newExpPoint);
@@ -711,8 +711,7 @@ namespace MyResume.WebApp.Controllers
                 {
                     Id = Guid.NewGuid().ToString(),
                     Index = expPointDescCount,
-                    Discription = "index =" + expPointDescCount
-                });
+                    Discription = ""                });
             }
             else
             {

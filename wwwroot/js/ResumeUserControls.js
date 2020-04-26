@@ -140,12 +140,12 @@ function OnDeleteBtnToggleDeleteMark() {
             toggler = !toggler;
             inputField.prop('checked', toggler);
             if (toggler == true) {
-                delBtn.removeClass("btn-outline-warning");
+                delBtn.removeClass("btn-warning");
                 delBtn.addClass("btn-danger");
             }
             else {
                 delBtn.removeClass("btn-danger");
-                delBtn.addClass("btn-outline-warning");
+                delBtn.addClass("btn-warning");
             }
         });
     }
@@ -177,11 +177,13 @@ function OnAddExpBtnClick() {
     $("#addNewExpSection").on("click", function () {
         $("#exp-grp-container").load("/Home/AddEXP", function (responseText, textStatus, jqXHR) {
             if (textStatus == "success") {
+                OnAddExpBtnClick();
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
                 alert("SUCCESS creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
             }
             if (textStatus == "error") {
+                OnAddExpBtnClick();
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
                 alert("ERROR creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);

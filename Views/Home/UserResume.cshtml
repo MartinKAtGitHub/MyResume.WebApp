@@ -70,7 +70,7 @@
     @if (Model.EnableOwnerOptions)
     {
         <div class="col-12 mb-5">
-            <h3 class="display-3 border-bottom mb-5">SKILLS(Edit)</h3>
+            <h3 class="display-3 border-bottom mb-5">Skills(Edit)</h3>
 
             <div id="skillDisplayContainer" class="row">
                 @await Component.InvokeAsync("SkillsContainerEditing", new { appUserId = Model.AppUserId })
@@ -118,8 +118,9 @@
     }
     else
     {
+        // SKILLDISPLAY
         <div class="col-12">
-            <h3 class="display-3 border-bottom mb-3">SKILLS</h3>
+            <h3 class="display-3 border-bottom mb-3">Skills</h3>
             @await Component.InvokeAsync("SkillsDisplayAll", new { appUserId = ViewContext.RouteData.Values["id"].ToString() })
         </div>
     }
@@ -128,18 +129,12 @@
 </div>
 
 
-<div class="row exp-main-area">
+<div class="row mb-5 exp-main-area">
 
     <div class="col">
-        <div class="row">
-            <div class="col">
-                <h3 class="display-3 border-bottom">Experience</h3>
-            </div>
-        </div>
         <div id="exp-grp-container" class="row">
             @if (Model.EnableOwnerOptions)
             {
-               
                 @await Component.InvokeAsync("ExperienceEditDisplay", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
             }
             else
@@ -155,13 +150,18 @@
 
 @if (@Model.Achievements.ToList().Any())
 {
-    <div id="item_container" class=" row border-top">
+
+    <div class="row mb-5 border-bottom">
+        <h3 class="display-3  mb-5">Portfolio (Edit)</h3>
+    </div>
+
+    <div id="item_container" class="row">
 
         @foreach (var achievement in @Model.Achievements)
         {
             var thumbNail = string.IsNullOrEmpty(achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath) ? Model.DefaultGalleryImage : achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath;
 
-            <div class="col mb-4">
+            <div class="col-12 mb-4">
 
                 <div class="card h-100 mx-auto text-center item-card">
 
@@ -220,57 +220,6 @@
                     }
                 </div>
             </div>
-
-
-            @*<div class="col mb-3 d-flex justify-content-center">
-                <div class="item ">*@
-
-
-            //var thumbNail = achievement.ItemGalleryImageFilePaths[0].GalleryImageFilePath ?? Model.DefaultGalleryImage;
-
-
-            @*<a asp-action="DisplayItem" asp-route-id="@achievement.AchievementId">
-                    <img class="item-card-img" src="@thumbNail" alt="Item thumbnail" asp-append-version="true" />
-                </a>*@
-
-            @*@if (Model.EnableOwnerOptions)
-                {
-                    <div class="itemEditBtn">
-
-                        <a id="editBtn_@achievement.AchievementId" class="btn btn-info" asp-action="EditItem" asp-route-id="@achievement.AchievementId">
-                            Edit Item
-                        </a>
-                    </div>
-
-                    <div class="itemDeleteBtn">
-                        <form asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
-
-                            <span id="deleteSpan_@achievement.AchievementId">
-                                <span class="btn btn-danger"
-                                      onclick="confirmDelete('@achievement.AchievementId', true)">Delete</span>
-                            </span>
-
-
-                            <span id="confirmDeleteSpan_@achievement.AchievementId" style="display:none">
-                                <span>Are you sure you want to delete?</span>
-                                <button type="submit" class="btn btn-danger">Yes</button>
-                                <span class="btn btn-primary"
-                                      onclick="confirmDelete('@achievement.AchievementId', false)">No</span>
-                            </span>
-
-                        </form>
-                    </div>
-                }*@
-
-            @*<div class="itemSummeryFadeIn">
-                    <h3>@achievement.Title</h3>
-                </div>*@
-
-
-            @*<img src="" alt="Alternate Text" />*@
-
-            @*</div>
-                </div>*@
         }
     </div>
 

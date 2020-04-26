@@ -13,7 +13,7 @@ namespace MyResume.WebApp.ModelView
         public string UserId { get; set; }
 
 
-        [Required(ErrorMessage = "Experience title is required")]
+        //[Required(ErrorMessage = "Experience title is required")]
         [MaxLength(30)]
         public string Title { get; set; }
 
