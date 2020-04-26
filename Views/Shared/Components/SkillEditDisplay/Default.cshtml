@@ -1,5 +1,6 @@
 ﻿@model Skill
 
+@*EDIT SKILL DISPLAY*@
 <div class="col">
     <form id="skillEditForm_@Model.Index" class="editSkillForm" asp-action="EditSkill" method="post"
           data-ajax="true" data-ajax-method="post" data-ajax-success="EditSkillSuccess" data-ajax-failure="EditSkillFailure" data-ajax-update="#skillDisplayContainer">

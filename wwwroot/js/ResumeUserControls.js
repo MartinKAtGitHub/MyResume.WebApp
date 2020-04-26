@@ -1,76 +1,37 @@
 var skillId = "";
+var editMode;
 $(document).ready(function () {
-    //const addExpPointBtn = $("#addExpPointBtn");
-    //const removeExpPointBtn = $("#removeExpPointBtn");
-    //const formCreateNewExp = $("#newExpFrom")[0] as HTMLFormElement;
-    //let expPointCounter = 0;
-    //AddExpPointFieldModal(expPointCounter, addExpPointBtn, formCreateNewExp);
-    //expPointCounter++;
-    //addExpPointBtn.on("click", () => {
-    //    AddExpPointFieldModal(expPointCounter, addExpPointBtn, formCreateNewExp);
-    //    expPointCounter++;
-    //});
-    //removeExpPointBtn.on("click", () => {
-    //    if (expPointCounter >= 2) {
-    //        RemoveExpPointField();
-    //        expPointCounter--;
-    //    } else {
-    //        alert("Cant remove highlight! You need at least 1 highlight with a description to create a experience group | this is a temp window"); // TODO change removeExpPointBtn() from using inline warning rather then an Alert window
-    //    }
-    //});
-    //$(document).ajaxSuccess(function (event, xhr, settings) { // Because of AJAX unobtrusive we need to use this global event on ajax success and filter out witch one succeeded
-    //    if (settings.url == formCreateNewExp.action) {
-    //        console.log("Creating new Grp");
-    //        $("#exp-grp-container").load("/Home/GetExperienceView", (responseText, textStatus, jqXHR) => {
-    //            if (textStatus == "error") {
-    //                let msg = "Sorry but there was an error: ";
-    //                ConnectAddFieldsBtns();
-    //                alert(msg + jqXHR.status + " " + jqXHR.statusText);
-    //            }
-    //            if (textStatus == "success") {
-    //                ConnectAddFieldsBtns();
-    //                alert("Crate an pop-up to indicate the creation was successful");
-    //            }
-    //        });
-    //        expPointCounter = 1; // we set this to 1 because 0 index is spawned at the start of the page
-    //    }
-    //});
-    //let skills = $(".skill");
-    //let skillId = "";
-    //for (var i = 0; i < skills.length; i++) {
-    //    let btn = $(`#calldeletModal_${i}`);
-    //    let dataId = btn.data("id");
-    //    btn.on("click", () => {
-    //        skillId = dataId;
-    //        console.log("Sending id" + skillId);
-    //    });
-    //}
-    $("#deleteSkillModalBtn").on("click", function () {
-        $("#skillDisplayContainer").load("/Home/DeleteSkill", { id: skillId }, function (responseText, textStatus, jqXHR) {
-            if (textStatus == "error") {
-                AttachEventsToSkillOparations();
-                alert("ERROR on DELETE skill: " + jqXHR.status + " | " + jqXHR.statusText);
-            }
-            if (textStatus == "success") {
-                AttachEventsToSkillOparations();
-                alert("SUCCESS on DELETE skill : " + jqXHR.status + " | " + jqXHR.statusText);
-            }
+    if (editMode == true) {
+        $("#deleteSkillModalBtn").on("click", function () {
+            $("#skillDisplayContainer").load("/Home/DeleteSkill", { id: skillId }, function (responseText, textStatus, jqXHR) {
+                if (textStatus == "success") {
+                    AttachEventsToSkillOparations();
+                    ShowAlert("Skill was successfully deleted", "alert-success", 4000);
+                }
+                if (textStatus == "error") {
+                    AttachEventsToSkillOparations();
+                    ShowAlert("Something went wrong, please refresh and try again", "alert-danger", 8000);
+                    alert("ERROR on DELETE skill: " + jqXHR.status + " | " + jqXHR.statusText);
+                }
+            });
         });
-    });
-    JQBarSetForCreatSkill();
-    AttachEventsToSkillOparations();
-    UpdateWithNewExpGrp();
-    ConnectAddFieldsBtns();
-    onCreateSkillTagNameInputValueChange();
+        AttachEventsToSkillOparations();
+        UpdateWithNewExpGrp();
+        ConnectAddFieldsBtns();
+        onCreateSkillTagNameInputValueChange();
+    }
+    else {
+        JQBarsSetupDisplay();
+    }
 });
-function ShowAlert(message, type) {
+function ShowAlert(message, type, fadeOutTimer) {
     var alert = $("#skillAlert");
     alert.addClass(type);
-    alert.show("slow");
-    alert.text("Success! " + message);
+    alert.show("fast");
+    alert.text("" + message);
     setTimeout(function () {
         alert.hide("slow");
-    }, 2000);
+    }, fadeOutTimer);
 }
 function onCreateSkillTagNameInputValueChange() {
     var inputTagName = $("#createSkillTagNameInput");
@@ -93,32 +54,12 @@ function onCreateSkillTagNameInputValueChange() {
             levelRating.barrating('set', "1");
         });
     });
-    //addBtn.on("click", () => {
-    //    (inputTagName.get(0) as HTMLInputElement).value = "";
-    //    (levelRating as any).barrating('set', "1");
-    //    //createNewSkillForm.submit();
-    //    //createNewSkillForm.reset();
-    //})
-}
-function JQBarSetForCreatSkill() {
-    var rating = $("#createSkillLevelRating");
-    var levelInput = $("#createSkillLevelInput").get(0);
-    //let form = $(`#createNewSkillForm`)
-    rating.barrating({
-        theme: 'bars-square',
-        showValues: true,
-        showSelectedRating: false,
-        onSelect: function (value, text, event) {
-            levelInput.value = value;
-            //form.submit();
-        }
-    });
 }
 function AttachEventsToSkillOparations() {
     var skills = $(".skill");
     for (var i = 0; i < skills.length; i++) {
         UpdateSkillOnLoseFocus(i);
-        JQBarsSetup(i);
+        JQBarsSetupEditing(i);
         OnClickSendDeleteSkillData(i);
     }
 }
@@ -128,7 +69,7 @@ function UpdateSkillOnLoseFocus(index) {
         form.submit();
     });
 }
-function JQBarsSetup(index) {
+function JQBarsSetupEditing(index) {
     var rating = $("#rating_" + index);
     var levelInput = $("#skillLevel_" + index).get(0);
     var form = $("#skillEditForm_" + index);
@@ -141,6 +82,18 @@ function JQBarsSetup(index) {
             form.submit();
         }
     });
+}
+function JQBarsSetupDisplay() {
+    var skills = $(".skill");
+    for (var i = 0; i < skills.length; i++) {
+        var rating = $("#ratingStatic_" + i);
+        rating.barrating({
+            theme: 'bars-square',
+            showValues: true,
+            showSelectedRating: false,
+            readonly: true
+        });
+    }
 }
 function OnClickSendDeleteSkillData(index) {
     var btn = $("#calldeletModal_" + index);
@@ -324,22 +277,33 @@ function OnFailureEditEXP(xhr) {
     ConnectAddFieldsBtns();
     alert("EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 }
-function OnSuccessCreatNewSkill(jqXHR) {
+function OnSuccessCreatNewSkill() {
     AttachEventsToSkillOparations();
-    // ShowAlert("Created new skill", "alert-success");
+    ShowAlert("Request to create new skill sent!", "alert-success", 4000);
     //alert(`Success | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
-function OnFailCreatNewSkill(jqXHR) {
+function OnFailCreatNewSkill() {
     AttachEventsToSkillOparations();
-    alert("FAIL | Create new skill | " + jqXHR.status + " , " + jqXHR.statusText);
+    ShowAlert("Something went wrong, please refresh and try again", "alert-danger", 8000);
+    // If the jQuery Unobtrusive AJAX fails the div is not updated, which means no validation messages. we can manually refresh but its not intuitive
+    //$("#skillDisplayContainer").load("/Home/GetSkillsContainerEditing", (responseText, textStatus, jqXHR) => {
+    //    if (textStatus == "error") {
+    //        alert("Failed ACTIVE RELOAD = " + jqXHR.status + " | " + jqXHR.statusText);
+    //        AttachEventsToSkillOparations();
+    //    }
+    //    if (textStatus == "success") {
+    //        alert("Success ACTIVE RELOAD = " + jqXHR.status + " | " + jqXHR.statusText);
+    //        AttachEventsToSkillOparations();
+    //    }
+    //});
 }
 function OnSuccessEditSkill(jqXHR) {
     AttachEventsToSkillOparations();
-    alert("Success | EDIT skill | " + jqXHR.status + " , " + jqXHR.statusText);
+    // alert(`Success | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailEditSkill(jqXHR) {
     AttachEventsToSkillOparations();
-    alert("FAIL | EDIT skill | " + jqXHR.status + " , " + jqXHR.statusText);
+    // alert(`FAIL | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 //function OnFailureCreateEXP(xhr: XMLHttpRequest) { // jQuery XMLHttpRequest type ?
 //    //$("#newExperienceModal").load("/Home/UserResume/XXXXXXXXXXXX", (responseText, textStatus, jqXHR) => {

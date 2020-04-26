@@ -1,0 +1,42 @@
+﻿@*DISPLAY SKILLS*@
+@model List<Skill>
+
+@if (Model.Any())
+{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        Model[i].Index = i;
+
+        <div id="skill_@i" class="skill col-12 mb-2">
+            <div class="row">
+                <div class="col">
+                    <div class="row no-gutters">
+                        <div class="col-3">
+                            <h5 id="skillTagName_@Model[i].Index" class="">@Model[i].TagName</h5>
+                        </div>
+                        <div class="col p-2">
+                            <select id="ratingStatic_@Model[i].Index">
+                                @for (int j = 1; j <= Model[i].MaxLevelLimit; j++)
+                                {
+                                    if (j == Model[i].Level)
+                                    {
+                                        <option selected value="@j">@j</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@j">@j</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="text-danger" asp-validation-summary="All"></div>
+}
+else
+{
+    <div> You have not created any skills</div>
+}

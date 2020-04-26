@@ -16,7 +16,7 @@ namespace MyResume.WebApp.Models
         public string TagName { get; set; }
 
         [Required]
-        [Range(1, 10)]
+        [Range(1, 10)] // MaxLevelLimit
         public int Level { get; set; }
 
         [Required]
@@ -25,8 +25,10 @@ namespace MyResume.WebApp.Models
 
         [NotMapped]
         public int Index { get; set; }
-        
- 
+        [NotMapped]
+        public int MaxLevelLimit { get => 10; }
+
+
         [NotMapped]
         public string[] ProficiencyLevelsText
         {

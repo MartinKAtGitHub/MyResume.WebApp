@@ -53,8 +53,10 @@
 
     .br-theme-bars-square .br-readonly a.br-active,
     .br-theme-bars-square .br-readonly a.br-selected {
-        border: 2px solid #729bf8;
-        color: #729bf8;
+        /*border: 2px solid #729bf8;
+        color: #729bf8;*/
+        border: 2px solid #fff8dc;
+        color: #fff8dc;
     }
 
 @media print {

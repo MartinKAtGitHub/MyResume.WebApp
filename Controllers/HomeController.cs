@@ -582,6 +582,11 @@ namespace MyResume.WebApp.Controllers
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
         }
 
+        public IActionResult GetSkillsContainerEditing() // this wont get Model state or anything els
+        {
+            var appUserId = _userManager.GetUserId(User);
+            return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
+        }
 
         public IActionResult AddEXP()
         {
@@ -836,14 +841,14 @@ namespace MyResume.WebApp.Controllers
 
             if (skilCount >= maxLimit)
             {
-              //  Response.StatusCode = 400; // THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
+               // Response.StatusCode = 400; // THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
                 ModelState.AddModelError("", $"You have reached the max limit of proficiencies({maxLimit}), please delete unnecessary proficiencies ");
                 return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
             }
 
             if (!ModelState.IsValid)
             {
-                //  Response.StatusCode = 400; THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
+              //  Response.StatusCode = 400; //THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
                 return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
             }
 
@@ -886,7 +891,7 @@ namespace MyResume.WebApp.Controllers
             if (!ModelState.IsValid)
             {
                 return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
-             //   return ViewComponent("SkillEditDisplay", new { updatedSkill });
+                //   return ViewComponent("SkillEditDisplay", new { updatedSkill });
             }
 
 
@@ -896,7 +901,7 @@ namespace MyResume.WebApp.Controllers
             var skill = _skillRepo.Update(updatedSkill);
 
             return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
-           // return ViewComponent("SkillEditDisplay", new { skill });
+            // return ViewComponent("SkillEditDisplay", new { skill });
         }
 
         [HttpPost]

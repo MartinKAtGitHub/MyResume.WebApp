@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\OutDated.ts" />
     <Content Remove="wwwroot\js\ResumeUserControls.ts" />
   </ItemGroup>
 
