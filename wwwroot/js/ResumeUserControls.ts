@@ -2,6 +2,9 @@
 var editMode: any;
 
 $(document).ready(() => {
+
+
+
     if (editMode == true) {
 
         $("#deleteSkillModalBtn").on("click", () => {
@@ -24,17 +27,24 @@ $(document).ready(() => {
             });
         });
 
+
+        OnDeleteBtnToggleDeleteMark();
+
         AttachEventsToSkillOparations();
 
-        UpdateWithNewExpGrp();
+        OnAddExpBtnClick();
         ConnectAddFieldsBtns();
 
         onCreateSkillTagNameInputValueChange();
+        JQBarSetForCreatSkillField();
 
     } else {
         JQBarsSetupDisplay();
 
     }
+
+
+
 });
 
 function ShowAlert(message: string, type: string, fadeOutTimer: number) {
@@ -76,6 +86,22 @@ function onCreateSkillTagNameInputValueChange() {
 
         });
 
+    });
+}
+
+function JQBarSetForCreatSkillField() {
+    let rating: any = $(`#createSkillLevelRating`);
+    let levelInput = $(`#createSkillLevelInput`).get(0) as HTMLInputElement;
+
+
+    rating.barrating({
+        theme: 'bars-square',
+        showValues: true,
+        showSelectedRating: false,
+        onSelect: function (value, text, event) {
+            levelInput.value = value;
+
+        }
     });
 }
 
@@ -149,16 +175,15 @@ function ConnectAddFieldsBtns() {
 
     let expGrps = $(".experience-section");
     for (var i = 0; i < expGrps.length; i++) {
-
         let addPointBtn = $("#addPoint_" + i + "");
         let sectionID = $("#experienceSectionID_" + i + "").get(0) as HTMLInputElement;
         let expSection = $("#experienceSection_" + i + "");
+
         UpdateWithNewPointField(addPointBtn, sectionID.value);
 
-        let points = expSection.children(".point-section");
-        for (var j = 0; j < points.length; j++) {
 
-            let desc = points.children(".desc-section");
+        let points = expSection.find(".point-section");
+        for (var j = 0; j < points.length; j++) {
             let addDescBtn = $("#addDesc_" + i + "_" + j + "");
             let pointSectionID = $("#pointSectionID_" + i + "_" + j + "").get(0) as HTMLInputElement;
 
@@ -168,20 +193,79 @@ function ConnectAddFieldsBtns() {
 }
 
 
-function UpdateWithNewExpGrp() {
+function OnDeleteBtnToggleDeleteMark() {
+
+    function toggleInputValueOnBtnClick(delBtn: JQuery<HTMLElement>, inputField: JQuery<HTMLElement> ,toggler: boolean) {
+        delBtn.click(() => {
+
+            console.log("Works");
+            toggler = !toggler;
+            inputField.prop('checked', toggler);
+
+            if (toggler == true) {
+                delBtn.removeClass("btn-outline-warning");
+                delBtn.addClass("btn-danger");
+            } else {
+                delBtn.removeClass("btn-danger");
+                delBtn.addClass("btn-outline-warning");
+            }
+        });
+    }
+
+    let expGrps = $(".experience-section");
+    for (var i = 0; i < expGrps.length; i++) {
+
+        console.log(i);
+        let delExpBtn = $(`#deleteExpToggleMark_${i}`);
+        let markCheckBox = $(`#deleteExpMarkInput_${i}`);
+        let toggler = false;
+
+        toggleInputValueOnBtnClick(delExpBtn, markCheckBox, toggler);
+  
+
+        let expSection = $("#experienceSection_" + i + "");
+        let points = expSection.find(".point-section");
+        for (var j = 0; j < points.length; j++) {
+
+            let delPointBtnToggle = $(`#deletePointToggleMark_${i}_${j}`);
+            let delPointMarkInput = $(`#deletePointMarkInput_${i}_${j}`);
+            let toggler = false;
+
+            toggleInputValueOnBtnClick(delPointBtnToggle, delPointMarkInput, toggler);
+
+            let descSections = $(".desc-section");
+            for (var k = 0; k < descSections.length; k++) {
+
+                let delDescBtnToggle = $(`#deleteDescToggleBtn${i}_${j}_${k}`);
+                let delDescMarkInput = $(`#delDescMarkInput_${i}_${j}_${k}`);
+                let toggler = false;
+     
+                toggleInputValueOnBtnClick(delDescBtnToggle, delDescMarkInput, toggler);
+
+            }
+
+        }
+
+    }
+
+}
+
+function OnAddExpBtnClick() {
 
     $("#addNewExpSection").on("click", () => {
 
         $("#exp-grp-container").load("/Home/AddEXP", (responseText, textStatus, jqXHR) => {
-            if (textStatus == "error") {
-                ConnectAddFieldsBtns();
-                alert("ERROR creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
-            }
 
             if (textStatus == "success") {
+                OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
                 alert("SUCCESS creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
 
+            }
+            if (textStatus == "error") {
+                OnDeleteBtnToggleDeleteMark();
+                ConnectAddFieldsBtns();
+                alert("ERROR creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
             }
         });
 
@@ -202,18 +286,20 @@ function UpdateWithNewDescField(addDescbtn: JQuery<HTMLElement>, sectionID: stri
 
     addDescbtn.on("click", () => {
 
-        // console.log(`section = ${sectionID} point = ${pointSectionId}`);
+        console.log(`section = ${sectionID} point = ${pointSectionId}`);
 
         $("#exp-grp-container").load("/Home/AddDescFieldToExperienceView", { expGrpId: sectionID, pointId: pointSectionId }, (responseText, textStatus, jqXHR) => {
 
+            if (textStatus == "success") {
+                OnDeleteBtnToggleDeleteMark();
+                ConnectAddFieldsBtns();
+            }
             if (textStatus == "error") {
+                OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
                 alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
 
-            if (textStatus == "success") {
-                ConnectAddFieldsBtns();
-            }
         });
 
     });
@@ -229,14 +315,16 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
     addPointbtn.on("click", () => {
         $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expGrpId: sectionID }, (responseText, textStatus, jqXHR) => {
 
+            if (textStatus == "success") {
+                OnDeleteBtnToggleDeleteMark();
+                ConnectAddFieldsBtns();
+            }
             if (textStatus == "error") {
+                OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
                 alert("Something went wrong code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
 
-            if (textStatus == "success") {
-                ConnectAddFieldsBtns();
-            }
         });
     });
 }
@@ -374,12 +462,17 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
 
 function OnSuccessfulEditEXP() { // Successful
 
+    OnDeleteBtnToggleDeleteMark();
     ConnectAddFieldsBtns();
+    OnAddExpBtnClick();
+
     alert("TEMP | EDIT | Successful");
 }
 
 function OnFailureEditEXP(xhr: XMLHttpRequest) {
+    OnDeleteBtnToggleDeleteMark();
     ConnectAddFieldsBtns();
+    OnAddExpBtnClick();
     alert("EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 }
 

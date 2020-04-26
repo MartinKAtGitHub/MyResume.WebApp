@@ -680,6 +680,7 @@ namespace MyResume.WebApp.Controllers
         {
             var activeUserId = _userManager.GetUserId(User);
             var userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId;
+         
             if (!ModelState.IsValid)
             {
                 return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });

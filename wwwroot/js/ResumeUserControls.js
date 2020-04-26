@@ -15,10 +15,12 @@ $(document).ready(function () {
                 }
             });
         });
+        OnDeleteBtnToggleDeleteMark();
         AttachEventsToSkillOparations();
-        UpdateWithNewExpGrp();
+        OnAddExpBtnClick();
         ConnectAddFieldsBtns();
         onCreateSkillTagNameInputValueChange();
+        JQBarSetForCreatSkillField();
     }
     else {
         JQBarsSetupDisplay();
@@ -53,6 +55,18 @@ function onCreateSkillTagNameInputValueChange() {
             inputTagName.get(0).value = "";
             levelRating.barrating('set', "1");
         });
+    });
+}
+function JQBarSetForCreatSkillField() {
+    var rating = $("#createSkillLevelRating");
+    var levelInput = $("#createSkillLevelInput").get(0);
+    rating.barrating({
+        theme: 'bars-square',
+        showValues: true,
+        showSelectedRating: false,
+        onSelect: function (value, text, event) {
+            levelInput.value = value;
+        }
     });
 }
 function AttachEventsToSkillOparations() {
@@ -111,25 +125,66 @@ function ConnectAddFieldsBtns() {
         var sectionID = $("#experienceSectionID_" + i + "").get(0);
         var expSection = $("#experienceSection_" + i + "");
         UpdateWithNewPointField(addPointBtn, sectionID.value);
-        var points = expSection.children(".point-section");
+        var points = expSection.find(".point-section");
         for (var j = 0; j < points.length; j++) {
-            var desc = points.children(".desc-section");
             var addDescBtn = $("#addDesc_" + i + "_" + j + "");
             var pointSectionID = $("#pointSectionID_" + i + "_" + j + "").get(0);
             UpdateWithNewDescField(addDescBtn, sectionID.value, pointSectionID.value);
         }
     }
 }
-function UpdateWithNewExpGrp() {
+function OnDeleteBtnToggleDeleteMark() {
+    function toggleInputValueOnBtnClick(delBtn, inputField, toggler) {
+        delBtn.click(function () {
+            console.log("Works");
+            toggler = !toggler;
+            inputField.prop('checked', toggler);
+            if (toggler == true) {
+                delBtn.removeClass("btn-outline-warning");
+                delBtn.addClass("btn-danger");
+            }
+            else {
+                delBtn.removeClass("btn-danger");
+                delBtn.addClass("btn-outline-warning");
+            }
+        });
+    }
+    var expGrps = $(".experience-section");
+    for (var i = 0; i < expGrps.length; i++) {
+        console.log(i);
+        var delExpBtn = $("#deleteExpToggleMark_" + i);
+        var markCheckBox = $("#deleteExpMarkInput_" + i);
+        var toggler = false;
+        toggleInputValueOnBtnClick(delExpBtn, markCheckBox, toggler);
+        var expSection = $("#experienceSection_" + i + "");
+        var points = expSection.find(".point-section");
+        for (var j = 0; j < points.length; j++) {
+            var delPointBtnToggle = $("#deletePointToggleMark_" + i + "_" + j);
+            var delPointMarkInput = $("#deletePointMarkInput_" + i + "_" + j);
+            var toggler_1 = false;
+            toggleInputValueOnBtnClick(delPointBtnToggle, delPointMarkInput, toggler_1);
+            var descSections = $(".desc-section");
+            for (var k = 0; k < descSections.length; k++) {
+                var delDescBtnToggle = $("#deleteDescToggleBtn" + i + "_" + j + "_" + k);
+                var delDescMarkInput = $("#delDescMarkInput_" + i + "_" + j + "_" + k);
+                var toggler_2 = false;
+                toggleInputValueOnBtnClick(delDescBtnToggle, delDescMarkInput, toggler_2);
+            }
+        }
+    }
+}
+function OnAddExpBtnClick() {
     $("#addNewExpSection").on("click", function () {
         $("#exp-grp-container").load("/Home/AddEXP", function (responseText, textStatus, jqXHR) {
-            if (textStatus == "error") {
-                ConnectAddFieldsBtns();
-                alert("ERROR creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
-            }
             if (textStatus == "success") {
+                OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
                 alert("SUCCESS creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
+            }
+            if (textStatus == "error") {
+                OnDeleteBtnToggleDeleteMark();
+                ConnectAddFieldsBtns();
+                alert("ERROR creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
             }
         });
     });
@@ -144,14 +199,16 @@ function UpdateWithNewDescField(addDescbtn, sectionID, pointSectionId) {
         return;
     }
     addDescbtn.on("click", function () {
-        // console.log(`section = ${sectionID} point = ${pointSectionId}`);
+        console.log("section = " + sectionID + " point = " + pointSectionId);
         $("#exp-grp-container").load("/Home/AddDescFieldToExperienceView", { expGrpId: sectionID, pointId: pointSectionId }, function (responseText, textStatus, jqXHR) {
+            if (textStatus == "success") {
+                OnDeleteBtnToggleDeleteMark();
+                ConnectAddFieldsBtns();
+            }
             if (textStatus == "error") {
+                OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
                 alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
-            }
-            if (textStatus == "success") {
-                ConnectAddFieldsBtns();
             }
         });
     });
@@ -163,12 +220,14 @@ function UpdateWithNewPointField(addPointbtn, sectionID) {
     }
     addPointbtn.on("click", function () {
         $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expGrpId: sectionID }, function (responseText, textStatus, jqXHR) {
+            if (textStatus == "success") {
+                OnDeleteBtnToggleDeleteMark();
+                ConnectAddFieldsBtns();
+            }
             if (textStatus == "error") {
+                OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
                 alert("Something went wrong code : " + jqXHR.status + " | " + jqXHR.statusText);
-            }
-            if (textStatus == "success") {
-                ConnectAddFieldsBtns();
             }
         });
     });
@@ -270,11 +329,15 @@ function UpdateWithNewPointField(addPointbtn, sectionID) {
 //    $("#newExperienceModal").modal('hide');
 //}
 function OnSuccessfulEditEXP() {
+    OnDeleteBtnToggleDeleteMark();
     ConnectAddFieldsBtns();
+    OnAddExpBtnClick();
     alert("TEMP | EDIT | Successful");
 }
 function OnFailureEditEXP(xhr) {
+    OnDeleteBtnToggleDeleteMark();
     ConnectAddFieldsBtns();
+    OnAddExpBtnClick();
     alert("EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
 }
 function OnSuccessCreatNewSkill() {

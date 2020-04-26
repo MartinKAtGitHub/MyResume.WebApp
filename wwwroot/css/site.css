@@ -217,14 +217,14 @@ a.item-edit-link {
 /*---------- Experience elements ----------*/
 
 .exp-main-area {
-    min-height: 300px;
+    /*min-height: 300px;*/
     /*background-color: red;*/
 }
 
 #exp-grp-container{
-    background-color: rgb(230, 239, 4);
-    width: 100%;
-    min-height: 200px;
+    /*background-color: rgb(230, 239, 4);*/
+    /*width: 100%;
+    min-height: 200px;*/
 }
 
 /*----- Skill section ----- */

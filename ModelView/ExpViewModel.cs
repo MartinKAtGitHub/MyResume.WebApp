@@ -17,7 +17,7 @@ namespace MyResume.WebApp.ModelView
         [MaxLength(30)]
         public string Title { get; set; }
 
-        [MinLength(1, ErrorMessage ="You need at least 1 highlight in your experience")] // expViewModel 21 -> TODO need error ErrorMessage to display in the validation summery 
+      //  [MinLength(1, ErrorMessage ="You need at least 1 highlight in your experience")] // expViewModel 21 -> TODO need error ErrorMessage to display in the validation summery 
         public List<ExpPoint> ExpPoints { get; set; }
         
         
@@ -39,7 +39,7 @@ namespace MyResume.WebApp.ModelView
             public string PointTitle { get; set; }
             
             //Dates
-            [MinLength(1, ErrorMessage ="You need at least 1 description in your experience highlight")]
+            //[MinLength(1, ErrorMessage ="You need at least 1 description in your experience highlight")]
             public List<Descriptions> Descriptions { get; set; } // TODO Descriptions only has client side validation, we need to make sure for every creation a description is given ?
            
             //MOD----------------------------------------------

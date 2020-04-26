@@ -128,26 +128,25 @@
 </div>
 
 
-<div class="row m-2 exp-main-area">
+<div class="row exp-main-area">
 
-    <div class="w-100 ">
-        <h3 class="display-3 border-bottom m-0">Experience</h3>
-
-        @if (Model.EnableOwnerOptions)
-        {
-            <button id="addNewExpSection">TEST ADD EXP</button>
-        }
-
-    </div>
-    <div id="exp-grp-container" class="row">
-        @if (Model.EnableOwnerOptions)
-        {
-            @await Component.InvokeAsync("ExperienceEditDisplay", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
-        }
-        else
-        {
-            @await Component.InvokeAsync("ExperienceDataDisplay", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
-        }
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <h3 class="display-3 border-bottom">Experience</h3>
+            </div>
+        </div>
+        <div id="exp-grp-container" class="row">
+            @if (Model.EnableOwnerOptions)
+            {
+               
+                @await Component.InvokeAsync("ExperienceEditDisplay", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
+            }
+            else
+            {
+                @await Component.InvokeAsync("ExperienceDataDisplay", new { userInfoId = Model.UserInfo.UserInformationId }) @*Because this renders 1 time i can then call it with ajax later using controllers*@
+            }
+        </div>
     </div>
 
 </div>
