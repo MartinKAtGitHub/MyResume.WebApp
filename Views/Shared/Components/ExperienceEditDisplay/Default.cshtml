@@ -10,7 +10,7 @@
 
         <div class="row border-bottom mb-5">
             <div class="col">
-                <h3 class="display-3">Experience(EDIT)</h3>
+                <h3 class="display-3">Experience</h3>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
                                 <input id="experienceSectionID_@i" asp-for="@Model[i].Id" hidden type="text" />
 
                                 <div class="col-12 m-2">
-                                    <input class="experience-section-title" asp-for="@Model[i].Title" type="text"  placeholder="New experience section" value="@Model[i].Title" />
+                                    <input class="experience-section-title" asp-for="@Model[i].Title" type="text" placeholder="New experience section" value="@Model[i].Title" />
                                 </div>
                                 <div class="col-12 text-center">
                                     @{ var assPointID = $"addPoint_{i}"; }
@@ -132,25 +132,31 @@
                     </div>
                 }
 
-            <div class="row mb-3"> 
-                <div class="col-12">
-                <button class="btn btn-info btn-block" type="submit">Submit Changes</button>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <button class="btn btn-info btn-block" type="submit">Submit Changes</button>
+                    </div>
                 </div>
-            </div>
             </form>
         </div>
     </div>
 }
 else
 {
-<div class="col">
-    <div class="row mb-3">
-        <h1 class="text-danger">No experience sections was found.</h1>
-    </div>
-    <div class="row mb-4">
-        <div class="col text-center">
-            <button id="addNewExpSection" class="btn btn-success btn-block"><i class="fas fa-plus"></i> New Experience Section</button>
+    <div class="col">
+
+        <div class="row border-bottom mb-5">
+            <div class="col">
+                <h3 class="display-3">Experience</h3>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <h3 class="text-warning mx-auto">No experience sections was found.</h3>
+        </div>
+        <div class="row mb-4">
+            <div class="col text-center">
+                <button id="addNewExpSection" class="btn btn-success btn-block"><i class="fas fa-plus"></i> New Experience Section</button>
+            </div>
         </div>
     </div>
-</div>
 }

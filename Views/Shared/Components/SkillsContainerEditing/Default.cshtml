@@ -5,7 +5,7 @@
     for (int i = 0; i < Model.Count; i++)
     {
         Model[i].Index = i;
-       
+
         <div id="skill_@i" class="skill col-12 mb-2">
             <div class="row">
                 @await Component.InvokeAsync("SkillEditDisplay", new { skill = Model[i] })
@@ -16,5 +16,5 @@
 }
 else
 {
-    <div> You have not created any skills</div>
+    <div class="col"> <h4 class="text-warning text-center">You have not created any skills</h4></div>
 }

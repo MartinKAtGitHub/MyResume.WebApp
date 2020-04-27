@@ -3,8 +3,7 @@ var editMode: any;
 
 $(document).ready(() => {
 
-
-
+   
     if (editMode == true) {
 
         $("#deleteSkillModalBtn").on("click", () => {
@@ -331,6 +330,36 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
     });
 }
 
+// Using HTML onClick Inline Event ! 
+function confirmItemDelete(uniqueId, isDeleteClicked) {
+    var deleteSpan = 'deleteSpan_' + uniqueId;
+    var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
+    //  var editBtn = 'editBtn_' + uniqueId;
+    var editCol = 'editCol_' + uniqueId;
+    var confirmTxt = 'confirmTxt_' + uniqueId;
+    var titleTxt = 'titleTxt_' + uniqueId;
+
+    if (isDeleteClicked) {
+
+        $('#' + deleteSpan).hide();
+        //    $('#' + editBtn).hide();
+        $('#' + editCol).hide();
+        $('#' + titleTxt).hide();
+
+        $('#' + confirmDeleteSpan).show();
+        $('#' + confirmTxt).show();
+    }
+    else {
+        $('#' + deleteSpan).show();
+        //  $('#' + editBtn).show();
+        $('#' + editCol).show();
+        $('#' + titleTxt).show();
+
+        $('#' + confirmDeleteSpan).hide();
+        $('#' + confirmTxt).hide();
+
+    }
+}
 
 //function AddExpPointFieldModal(expPointCounter: number, addExpPointBtn: JQuery<HTMLElement>, expFrom: HTMLFormElement) {
 

@@ -16,11 +16,11 @@ namespace MyResume.WebApp.Models
         public string Title { get; set; } // Need validation for wired characters
 
         [Required]
-        [MaxLength(380)]
+        [MaxLength(380)] // CHANGE THE VIEW ALSO
         public string Summary { get; set; }
        
         [MaxLength(600)]
-        public string MainText { get; set; }
+        public string MainText { get; set; } // We can remove this
 
         [Range(1, 6)]
         public int OrderPosition { get; set; }

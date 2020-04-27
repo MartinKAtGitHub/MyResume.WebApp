@@ -77,11 +77,7 @@ a.item-edit-link {
 }
 
 
-#footer {
-    background-color: orange;
-    height: 50px;
-    margin-top: 10px;
-}
+
 
 #nameContainer {
     display: inline-block;
@@ -112,6 +108,12 @@ a.item-edit-link {
 
 
 /*---------- Item elements ----------*/
+
+#itemSummery {
+    background-color: rgb(39, 44, 66);
+    box-shadow: -5px 5px #070a15;
+}
+
 #item_container.row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax( var(--itemWidth), 1fr));
@@ -318,6 +320,12 @@ a.item-edit-link {
     height: 40px;
 }
 
+
+#footer{
+    height: 100px;
+    /*background-color:red;*/
+    margin-top:50px;
+}
 
 /*----- Experience Modal ----- */
 /*#newExpFrom input {

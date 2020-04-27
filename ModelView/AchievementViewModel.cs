@@ -13,6 +13,8 @@ namespace MyResume.WebApp.ModelView
             
         }
 
+        //public string userId { get; set; }
+
         [Required]
         [MaxLength(35)]
         public string Title { get; set; }
@@ -24,6 +26,7 @@ namespace MyResume.WebApp.ModelView
         [MaxLength(600)]
         public string MainText { get; set; }
 
+
         public IFormFile Thumbnail { get; set; }
         public IFormFile GallaryImage_1 { get; set; }
         public IFormFile GallaryImage_2 { get; set; }
@@ -33,6 +36,7 @@ namespace MyResume.WebApp.ModelView
 
         public int OrderPosMaxLimit { get; set; }
         public string OrderPosLbl { get => $"Order position (1 - {OrderPosMaxLimit})"; } //TODO change hard coded range to use config max limit
+      
         [DataType(DataType.Text)]
         [Range(1, 6, ErrorMessage = "Value out of range.")] 
         public int OrderPosition { get; set; }

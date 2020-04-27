@@ -8,9 +8,6 @@
 
 <div id="skillAlert" class="alert text-center" role="alert">
 
-    @*<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>*@
 </div>
 
 
@@ -152,8 +149,15 @@
 {
 
     <div class="row mb-5 border-bottom">
-        <h3 class="display-3  mb-5">Portfolio (Edit)</h3>
+        <h3 class="display-3">Portfolio</h3>
     </div>
+
+    @if (Model.EnableOwnerOptions)
+    {
+        <div class="row mb-5">
+            <a asp-action="CreateItem" asp-controller="Home" class="btn btn-success btn-block"><i class="fas fa-plus"></i> Create new portfolio item</a>
+        </div>
+    }
 
     <div id="item_container" class="row">
 
@@ -195,7 +199,7 @@
 
                                 <div class="col align-items-center justify-content-center bg-warning">
                                     <form class="h-100" asp-action="DeleteItem" asp-route-id="@achievement.AchievementId" method="post">
-                                        <div id="deleteSpan_@achievement.AchievementId" class=" item-options" onclick="confirmDelete('@achievement.AchievementId', true)">
+                                        <div id="deleteSpan_@achievement.AchievementId" class=" item-options" onclick="confirmItemDelete('@achievement.AchievementId', true)">
                                             <div class="p-3">
                                                 <i class="fas fa-trash-alt "></i> Delete
                                             </div>
@@ -207,7 +211,7 @@
                                                 <div class="col">
                                                     <button class="bg-danger item-options item-delete-yes-no-btns" type="submit"><i class="fas fa-check-square"></i> Yes</button>
                                                 </div>
-                                                <div class="col" onclick="confirmDelete('@achievement.AchievementId', false)">
+                                                <div class="col" onclick="confirmItemDelete('@achievement.AchievementId', false)">
                                                     <button class="bg-primary item-options item-delete-yes-no-btns" type="button"><i class="fas fa-times-circle"></i> No</button>
                                                 </div>
                                             </div>
@@ -222,29 +226,33 @@
             </div>
         }
     </div>
-
-    <div>
-        @if (Model.EnableOwnerOptions)
-        {
-            <a asp-action="CreateItem" asp-controller="Home">Add New Item</a>
-        }
-        <a href="#">Show more</a>
-    </div>
 }
 else
 {
-    <h3>No items has been added to this resume</h3>
-    @if (Model.EnableOwnerOptions)
-    {
-        <a asp-action="CreateItem" asp-controller="Home">Create New Item</a>
-    }
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="row mb-5 border-bottom">
+                <h3 class="display-3 mb-5">Portfolio</h3>
+            </div>
+
+            <div class="row">
+                <h3 class="text-warning mx-auto">No Portfolio item was found</h3>
+            </div>
+        </div>
+
+        @if (Model.EnableOwnerOptions)
+        {
+            <div class="col-12 text-center">
+                <a class="btn btn-info" asp-action="CreateItem" asp-controller="Home">Create New Item <i class="fas fa-arrow-right"></i></a>
+            </div>
+        }
+    </div>
 }
 
 
 
 @section Scripts {
 
-    <script src="~/js/SiteScripts.js"></script>
     <script src="~/js/ResumeUserControls.js"></script>
 
     <script>

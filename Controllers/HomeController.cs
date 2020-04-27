@@ -98,16 +98,16 @@ namespace MyResume.WebApp.Controllers
             // For sec reason it is recommended we create a ViewModel only exposing the properties we want to edit
             var model = new EditUserInfoViewModel
             {
+                UserName = _userManager.GetUserName(User),
                 FirstName = userInfo.FirstName,
                 MiddleName = userInfo.MiddelName,
                 LastName = userInfo.LasttName,
                 AvatarImgPath = userInfo.AvatarImgPath,
                 Summary = userInfo.Summary,
-                MainText = userInfo.MainText,
+                //MainText = userInfo.MainText,
                 AvailableForContact = userInfo.AvailableForContact
             };
             model.DefaultAvatarPath = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath");
-
             return View(model);
         }
 
@@ -117,6 +117,7 @@ namespace MyResume.WebApp.Controllers
         {
 
             var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
+            model.DefaultAvatarPath = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath");
 
             if (ModelState.IsValid)
             {
@@ -129,7 +130,7 @@ namespace MyResume.WebApp.Controllers
                 }
                 else
                 {
-                    model.AvatarImgPath = userInfo.AvatarImgPath; // If no changes were made to img path, just use the same img path from before
+                    model.AvatarImgPath = userInfo.AvatarImgPath;
                 }
 
                 userInfo.FirstName = model.FirstName;
@@ -137,7 +138,7 @@ namespace MyResume.WebApp.Controllers
                 userInfo.LasttName = model.LastName;
 
                 userInfo.Summary = model.Summary;
-                userInfo.MainText = model.MainText;
+                //userInfo.MainText = model.MainText;
                 userInfo.AvailableForContact = model.AvailableForContact;
 
                 _userInfoRepo.Update(userInfo);
@@ -149,7 +150,7 @@ namespace MyResume.WebApp.Controllers
             {
                 AvatarImgPath = userInfo.AvatarImgPath,
                 Summary = userInfo.Summary,
-                MainText = userInfo.MainText,
+                //MainText = userInfo.MainText,
                 AvailableForContact = userInfo.AvailableForContact
             };
             return View(model);
@@ -416,6 +417,7 @@ namespace MyResume.WebApp.Controllers
 
             var model = new AchievementViewModel()
             {
+                //userId =  item.UserInformationId.ToString(),
                 ImageSrcPaths = new List<string>(),
                 Title = item.Title,
                 Summary = item.Summary,
@@ -447,6 +449,7 @@ namespace MyResume.WebApp.Controllers
 
             if (string.IsNullOrEmpty(userInfo.AvatarImgPath)) // We don't want to do anything if we dont have an image to remove 
             {
+                ModelState.AddModelError("","No Image to Remove");
                 return RedirectToAction("EditUserInfo");
             }
 

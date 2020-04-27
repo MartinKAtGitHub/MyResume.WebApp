@@ -4,23 +4,43 @@
     ViewData["Title"] = "Edit item";
 
 }
-<h4>ITEM</h4>
-<h6>Max file size is 5Kb</h6>
-<hr />
+<div class="row mb-5">
+    <div class="col text-center">
+        <h4>Portfolio item | @Model.Title</h4>
+    </div>
+</div>
 
-<div class="row">
+<div class="row mb-5">
     @for (int i = 0; i < @Model.ImageSrcPaths.Count; i++)
     {
-        <div class="col">
-            <img class="img-fluid" src="@Model.ImageSrcPaths[i]" alt="Alternate Text" asp-append-version="true" />
+        if (Model.ImageSrcPaths[i] != null)
+        {
+            <div class="col mb-4">
 
-            <form method="post" asp-action="RemoveGalleryImg" asp-route-id="@this.ViewContext.RouteData.Values["id"] " asp-route-imageIndex="@i">
-                <div>
-                    <button type="submit" class="btn-warning">Remove Avatar</button>
+                <div class=" avatar-card card h-100 mx-auto text-center">
+                    <img class=" card-img-top avatar-card-img" src="@Model.ImageSrcPaths[i]" asp-append-version="true" />
+                    <div class="card-header p-0">
+                        @if (i == 0)
+                        {
+                            <p class="m-1">Thumbnail</p>
+                        }
+                        else
+                        {
+                            <p class="m-1">Image @i</p>
+                        }
+
+                    </div>
+                    <div class="card-body p-0">
+                        <form method="post" asp-action="RemoveGalleryImg" asp-route-id="@this.ViewContext.RouteData.Values["id"] " asp-route-imageIndex="@i">
+                            <div class="col p-0">
+                                <button type="submit" class="btn btn-block btn-danger">Remove Image</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
 
-        </div>
+        }
     }
 </div>
 
@@ -28,101 +48,103 @@
 
 <div class="row">
     <div class="col">
-
         <form enctype="multipart/form-data" method="post" asp-action="EditItem">
 
             <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row mb-5">
+
+                <div class="col-12 text-center mt-5">
+                    <h6 class="text-info">Only image files of type PNG and size of 5KB is accepted</h6>
+                </div>
+
+                <div class="col-12 custom-file mb-2">
+                    <input asp-for="@Model.Thumbnail" class="form-control custom-file-input" accept=".png">
+                    <label asp-for="@Model.Thumbnail" class="custom-file-label">Thumbnail</label>
+
+                </div>
+                <div class="col-12 custom-file mb-2">
+                    <input asp-for="@Model.GallaryImage_1" class="form-control custom-file-input" accept=".png">
+                    <label asp-for="@Model.GallaryImage_1" class="custom-file-label">Image 1</label>
+
+                </div>
+                <div class="col-12 custom-file mb-2">
+                    <input asp-for="@Model.GallaryImage_2" class="form-control custom-file-input" accept=".png">
+                    <label asp-for="@Model.GallaryImage_2" class="custom-file-label">Image 2</label>
+                </div>
+                <div class="col-12 custom-file mb-2">
+                    <input asp-for="@Model.GallaryImage_3" class="form-control custom-file-input" accept=".png">
+                    <label asp-for="@Model.GallaryImage_3" class="custom-file-label">Image 3</label>
+                </div>
+                <div class="col-12 custom-file mb-2">
+                    <input asp-for="@Model.GallaryImage_4" class="form-control custom-file-input" accept=".png">
+                    <label asp-for="@Model.GallaryImage_4" class="custom-file-label">Image 4</label>
+                </div>
+                <div class="col-12 custom-file mb-2">
+                    <input asp-for="@Model.GallaryImage_5" class="form-control custom-file-input" accept=".png">
+                    <label asp-for="@Model.GallaryImage_5" class="custom-file-label">Image 5</label>
+                </div>
+            </div>
 
 
-            <div class="custom-file mb-2">
-                <input asp-for="@Model.Thumbnail" class="form-control custom-file-input" accept=".png">
-                <label asp-for="@Model.Thumbnail" class="custom-file-label">Choose file</label>
+            <div class="row">
+                <div class="col-12 form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="col-12 form-group">
+                    <label asp-for="Summary" class="control-label"></label>
 
-            </div>
-            <div class="custom-file mb-2">
-                <input asp-for="@Model.GallaryImage_1" class="form-control custom-file-input" accept=".png">
-                <label asp-for="@Model.GallaryImage_1" class="custom-file-label">Choose file</label>
+                    <textarea asp-for="Summary" cols="100" rows="6" class="form-control"></textarea>
+                   
+                    <span asp-validation-for="Summary" class="text-danger"></span>
+                </div>
+                @*<div class="col-12 form-group">
+                        <label asp-for="MainText" class="control-label"></label>
+                        <input asp-for="MainText" class="form-control" />
+                        <span asp-validation-for="MainText" class="text-danger"></span>
+                    </div>*@
 
-            </div>
-            <div class="custom-file mb-2">
-                <input asp-for="@Model.GallaryImage_2" class="form-control custom-file-input" accept=".png">
-                <label asp-for="@Model.GallaryImage_2" class="custom-file-label">Choose file</label>
-            </div>
-            <div class="custom-file mb-2">
-                <input asp-for="@Model.GallaryImage_3" class="form-control custom-file-input" accept=".png">
-                <label asp-for="@Model.GallaryImage_3" class="custom-file-label">Choose file</label>
-            </div>
-            <div class="custom-file mb-2">
-                <input asp-for="@Model.GallaryImage_4" class="form-control custom-file-input" accept=".png">
-                <label asp-for="@Model.GallaryImage_4" class="custom-file-label">Choose file</label>
-            </div>
-            <div class="custom-file mb-2">
-                <input asp-for="@Model.GallaryImage_5" class="form-control custom-file-input" accept=".png">
-                <label asp-for="@Model.GallaryImage_5" class="custom-file-label">Choose file</label>
-            </div>
+                <div class="col-12 form-group">
+                    <label asp-for="OrderPosition" class="control-label">@Model.OrderPosLbl</label>
+                    <span data-toggle="tooltip" data-placement="right" title="Choose the order of your items from position 1 to @Model.OrderPosMaxLimit. Items can have the same value"><i class="fas fa-question-circle"></i></span>
+                    <input asp-for="OrderPosition" class="form-control" value="@Model.OrderPosition" />
+                    <span asp-validation-for="OrderPosition" class="text-danger"></span>
+                </div>
 
+                @*<div class="col-12  form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="EnableComments" /> @Html.DisplayNameFor(model => model.EnableComments)
+                        </label>
+                    </div>
+                    <div class="col-12 form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="EnableRating" /> @Html.DisplayNameFor(model => model.EnableRating)
+                        </label>
+                    </div>*@
 
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Summary" class="control-label"></label>
-                <input asp-for="Summary" class="form-control" />
-                <span asp-validation-for="Summary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MainText" class="control-label"></label>
-                <input asp-for="MainText" class="form-control" />
-                <span asp-validation-for="MainText" class="text-danger"></span>
-            </div>
+                <div class="col-12 form-group">
+                    <div class="row">
 
-            <div class="form-group">
-                <label asp-for="OrderPosition" class="control-label">@Model.OrderPosLbl</label> 
-                <span data-toggle="tooltip" data-placement="right" title="Choose the order of your items from position 1 to @Model.OrderPosMaxLimit. Items can have the same value"><i class="fas fa-question-circle"></i></span>
-                <input asp-for="OrderPosition" class="form-control" />
-                <span asp-validation-for="OrderPosition" class="text-danger"></span>
+                        <div class="col">
+                            <button type="submit" class="btn btn-block btn-primary"><i class="far fa-caret-square-up"></i> Update</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EnableComments" /> @Html.DisplayNameFor(model => model.EnableComments)
-                </label>
-
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EnableRating" /> @Html.DisplayNameFor(model => model.EnableRating)
-                </label>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Edit" class="btn btn-primary" />
-            </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="UserResume" asp-route-id="@signInManager.UserManager.GetUserId(User)">Back to List</a>
+<div class="row">
+    <div class="col">
+        <a class="btn btn-outline-info" asp-action="UserResume" asp-route-id="@signInManager.UserManager.GetUserId(User)"> <i class="fas fa-arrow-left"></i> Back to List</a>
+    </div>
 </div>
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('.custom-file-input').on("change", function () {
-                var fileName = $(this).val().split("\\").pop();
-                $(this).next('.custom-file-label').html(fileName);
-            });
 
-        });
-    </script>
-
-    <script>
-
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })</script>
+    @*<script src="~/js/CreatItemLogic.js"></script>*@
 }
 
