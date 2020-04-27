@@ -31,8 +31,8 @@ namespace MyResume.WebApp.Data
                 ApplicationUserId = user.Id,
                 //UserName = user.UserName,
                 Summary = "Summary text is empty",
-                MainText = "Text empty",
-                AvailableForContact = false,
+                //MainText = "Text empty",
+                //AvailableForContact = false,
 
                 //AvatarImgPath = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath")    // AvatarImgPath = "~/images/MyResumeDefaultAvatar.png"
                 AvatarImgPath = null // We this because you can remove the default images with the above code.

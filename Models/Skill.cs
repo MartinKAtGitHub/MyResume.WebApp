@@ -12,7 +12,7 @@ namespace MyResume.WebApp.Models
         public Guid Id { get; set; }
 
         [Required]
-        [StringLength(maximumLength: 20, MinimumLength = 1)]
+        [StringLength(maximumLength: 40, MinimumLength = 1)]
         public string TagName { get; set; }
 
         [Required]

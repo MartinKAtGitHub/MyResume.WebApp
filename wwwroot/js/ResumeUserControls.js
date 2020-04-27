@@ -151,7 +151,6 @@ function OnDeleteBtnToggleDeleteMark() {
     }
     var expGrps = $(".experience-section");
     for (var i = 0; i < expGrps.length; i++) {
-        console.log(i);
         var delExpBtn = $("#deleteExpToggleMark_" + i);
         var markCheckBox = $("#deleteExpMarkInput_" + i);
         var toggler = false;

@@ -12,20 +12,21 @@ namespace MyResume.WebApp.Models
         public Guid AchievementId { get; set; }
    
         [Required] 
-        [MaxLength(35)]
+        [MaxLength(50)]
         public string Title { get; set; } // Need validation for wired characters
 
         [Required]
-        [MaxLength(380)] // CHANGE THE VIEW ALSO
+        [MaxLength(600)]
         public string Summary { get; set; }
        
-        [MaxLength(600)]
-        public string MainText { get; set; } // We can remove this
+        //[MaxLength(600)]
+        //public string MainText { get; set; } // We can remove this
 
         [Range(1, 6)]
         public int OrderPosition { get; set; }
-        public bool EnableComments { get; set; }
-        public bool EnableRating { get; set; }
+
+        //public bool EnableComments { get; set; }
+        //public bool EnableRating { get; set; }
       
         // public string ThumbnailImgPath { get; set; }
 

@@ -16,25 +16,25 @@ namespace MyResume.WebApp.Models
         //[MaxLength(30)] // What is the limit on this in a IdentityUser ? Can this be a FK ?
         // public string UserName { get; set; } 
 
-        [MaxLength(15)]
+        [MaxLength(30)]
         public string FirstName { get; set; }
         
-        [MaxLength(15)]
+        [MaxLength(30)]
         public string MiddelName { get; set; }
         
-        [MaxLength(15)]
+        [MaxLength(30)]
         public string LasttName { get; set; } // Misspelling Last - extra T
         
-        [MaxLength(20)]
-        public string Profession { get; set; }
+        //[MaxLength(30)]
+        //public string Profession { get; set; }
 
-        [MaxLength(380)]
+        [MaxLength(600)]
         public string Summary { get; set; }
 
-        [MaxLength(3000)]
-        public string MainText { get; set; }
+        //[MaxLength(3000)]
+        //public string MainText { get; set; }
 
-        public bool AvailableForContact { get; set; }
+        //public bool AvailableForContact { get; set; }
         public string AvatarImgPath { get; set; }
 
         public int AchievementCount { get; set; }

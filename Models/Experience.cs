@@ -20,7 +20,7 @@ namespace MyResume.WebApp.Models
         public int Index { get; set; }
 
         [Required(ErrorMessage = "Experience title is required")]
-        [MaxLength(30)]
+        [MaxLength(70)]
         public string Title { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

@@ -14,7 +14,7 @@ namespace MyResume.WebApp.ModelView
 
 
         //[Required(ErrorMessage = "Experience title is required")]
-        [MaxLength(30)]
+        [MaxLength(70)]
         public string Title { get; set; }
 
       //  [MinLength(1, ErrorMessage ="You need at least 1 highlight in your experience")] // expViewModel 21 -> TODO need error ErrorMessage to display in the validation summery 
@@ -35,7 +35,7 @@ namespace MyResume.WebApp.ModelView
             }
             
           //  [Required(ErrorMessage = "Experience highlight title is required")]
-            [MaxLength(30)]
+            [MaxLength(70)]
             public string PointTitle { get; set; }
             
             //Dates
@@ -50,7 +50,7 @@ namespace MyResume.WebApp.ModelView
         public class Descriptions
         {
             //[Required(ErrorMessage ="Description is required")]
-            [MaxLength(60)]
+            [MaxLength(120)]
             public string Desc { get; set; }
 
             //MOD---------------------------------------------

@@ -9,7 +9,7 @@ namespace MyResume.WebApp.ModelView
     public class SkillViewModel
     {
         [Required (ErrorMessage ="You need a tag name to create a tag")]
-        [StringLength(maximumLength: 20, MinimumLength = 1)]
+        [StringLength(maximumLength: 40, MinimumLength = 1)]
         [Display(Name ="Tag name")]
         public string TagName { get; set; }
 

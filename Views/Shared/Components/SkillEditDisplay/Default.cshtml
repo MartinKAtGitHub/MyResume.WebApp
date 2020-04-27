@@ -13,12 +13,14 @@
         <input id="skillLevel_@Model.Index" hidden asp-for="@Model.Level" value="@Model.Level" />
         <span class="text-danger" asp-validation-for="@Model.Level"></span>
 
+
+
         <div class="row no-gutters">
-            <div class="col-3">
+            <div class="col-12 col-md-3 mb-4">
                 <input id="skillTagName_@Model.Index" class="skill-tag-name-input" asp-for="@Model.TagName" value="@Model.TagName" />
                 <span class="text-danger" asp-validation-for="@Model.TagName"></span>
             </div>
-            <div class="col p-2">
+            <div class="col p-2 mb-4">
                 <select id="rating_@Model.Index">
                     @for (int i = 1; i <= Model.ProficiencyLevelsText.Length; i++)
                     {
@@ -33,7 +35,7 @@
                     }
                 </select>
             </div>
-            <div class="col-1 text-center">
+            <div class="col-12 col-md-1 mb-2 text-center">
                 <button id="calldeletModal_@Model.Index" type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteSkillModal" data-id="@Model.Id" data-tag-name="@Model.TagName">
                     <i class="fa fa-trash"></i>
                 </button>

@@ -105,7 +105,7 @@ namespace MyResume.WebApp.Controllers
                 AvatarImgPath = userInfo.AvatarImgPath,
                 Summary = userInfo.Summary,
                 //MainText = userInfo.MainText,
-                AvailableForContact = userInfo.AvailableForContact
+                //AvailableForContact = userInfo.AvailableForContact
             };
             model.DefaultAvatarPath = _config.GetValue<string>("FileUploadSettings:DefaultAvatarImgFilePath");
             return View(model);
@@ -139,7 +139,7 @@ namespace MyResume.WebApp.Controllers
 
                 userInfo.Summary = model.Summary;
                 //userInfo.MainText = model.MainText;
-                userInfo.AvailableForContact = model.AvailableForContact;
+                //userInfo.AvailableForContact = model.AvailableForContact;
 
                 _userInfoRepo.Update(userInfo);
                 return View(model);
@@ -151,7 +151,7 @@ namespace MyResume.WebApp.Controllers
                 AvatarImgPath = userInfo.AvatarImgPath,
                 Summary = userInfo.Summary,
                 //MainText = userInfo.MainText,
-                AvailableForContact = userInfo.AvailableForContact
+                //AvailableForContact = userInfo.AvailableForContact
             };
             return View(model);
         }
@@ -190,11 +190,11 @@ namespace MyResume.WebApp.Controllers
                 ImageSrcPaths = new List<string>(),
                 Title = item.Title,
                 Summary = item.Summary,
-                MainText = item.MainText,
+                //MainText = item.MainText,
                 OrderPosMaxLimit = _config.GetValue<int>("ItemSettings:MaxLimit"),
                 OrderPosition = item.OrderPosition,
-                EnableComments = item.EnableComments,
-                EnableRating = item.EnableRating,
+                //EnableComments = item.EnableComments,
+                //EnableRating = item.EnableRating,
 
             };
 
@@ -244,10 +244,10 @@ namespace MyResume.WebApp.Controllers
 
                 item.Title = model.Title;
                 item.Summary = model.Summary;
-                item.MainText = model.MainText;
+                //item.MainText = model.MainText;
                 item.OrderPosition = model.OrderPosition;
-                item.EnableComments = model.EnableComments;
-                item.EnableRating = model.EnableRating;
+                //item.EnableComments = model.EnableComments;
+                //item.EnableRating = model.EnableRating;
 
                 var files = new List<IFormFile>() {
                     model.Thumbnail,
@@ -335,10 +335,10 @@ namespace MyResume.WebApp.Controllers
                     AchievementId = newItemId,
                     Title = model.Title,
                     Summary = model.Summary,
-                    MainText = model.MainText,
+                    //MainText = model.MainText,
                     OrderPosition = model.OrderPosition,
-                    EnableComments = model.EnableComments,
-                    EnableRating = model.EnableRating,
+                    //EnableComments = model.EnableComments,
+                    //EnableRating = model.EnableRating,
                     ItemGalleryImageFilePaths = new List<ItemGalleryImageFilePath>()
 
                 };
@@ -421,11 +421,11 @@ namespace MyResume.WebApp.Controllers
                 ImageSrcPaths = new List<string>(),
                 Title = item.Title,
                 Summary = item.Summary,
-                MainText = item.MainText,
+                //MainText = item.MainText,
                 OrderPosMaxLimit = _config.GetValue<int>("ItemSettings:MaxLimit"),
                 OrderPosition = item.OrderPosition,
-                EnableComments = item.EnableComments,
-                EnableRating = item.EnableRating,
+                //EnableComments = item.EnableComments,
+                //EnableRating = item.EnableRating,
 
             };
 

@@ -6,7 +6,7 @@
     {
         Model[i].Index = i;
 
-        <div id="skill_@i" class="skill col-12 mb-2">
+        <div id="skill_@i" class="skill col-12 mb-5 mb-md-2">
             <div class="row">
                 @await Component.InvokeAsync("SkillEditDisplay", new { skill = Model[i] })
             </div>

@@ -20,7 +20,7 @@ namespace MyResume.WebApp.Models
         [Required]
         public int Index { get; set; }
         //[Required(ErrorMessage = "Description is required")]
-        [MaxLength(60)]
+        [MaxLength(120)]
         public string Discription { get; set; } // TODO fix type Description 
 
         [NotMapped]

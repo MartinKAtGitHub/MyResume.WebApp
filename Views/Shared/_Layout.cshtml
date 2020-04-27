@@ -97,15 +97,13 @@
             @if (signInManager.IsSignedIn(User))
             {
 
-
-
-                <li class="nav-item  form-inline">
+                @*<li class="nav-item  form-inline">
                     <form method="post" asp-controller="Account" asp-action="logout">
                         <button type="submit" class="nav-link active btn btn-link py-0" style="width:auto;">
                             Logout @User.Identity.Name
                         </button>
                     </form>
-                </li>
+                </li>*@
 
                 @*<li class="nav-item active">
                         <a class="nav-link" asp-controller="Account"
@@ -120,7 +118,6 @@
                         My Resume Page
                     </a>
                 </li>
-
 
                 <li class="nav-item dropdown">
                     <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink"
@@ -137,6 +134,12 @@
 
                         <a class="dropdown-item" asp-controller="Account"
                            asp-action="DeleteAccountConfirmation">Delete Account</a>
+
+                        <form method="post" asp-controller="Account" asp-action="logout">
+                            <button type="submit" class="dropdown-item mt-4">
+                                Logout @User.Identity.Name
+                            </button>
+                        </form>
 
                     </div>
                 </li>

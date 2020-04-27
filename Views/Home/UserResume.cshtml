@@ -12,7 +12,8 @@
 
 
 <div class="row mb-5">
-    <div class="col text-md-left text-sm-center align-self-center">
+    
+    <div class="col-12 col-md mb-3  text-center text-md-left align-self-center">
         <h3 class="display-3 text-break nameTitle">@Model.UserInfo.FirstName</h3>
         <h3 class="display-3 text-break nameTitle">@Model.UserInfo.MiddelName</h3>
         <h3 class="display-3 text-break nameTitle">@Model.UserInfo.LasttName</h3>
@@ -27,15 +28,15 @@
             <h4 class="display-4 text-muted text-break nameTitle">@Model.UserInfo.ApplicationUser.UserName</h4>
         }
     </div>
-    <div class="col-4 text-right align-self-center">
+   
+    <div class="col-12 col-md-4 text-center text-md-right align-self-center">
 
         <img class="mb-3 img-fluid" src="@avatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
-
         <h5 id="userResumeSummary">@Model.UserInfo.Summary</h5>
 
         @if (Model.EnableOwnerOptions)
         {
-            <a asp-action="EditUserInfo" asp-controller="Home">Edit Personal Information</a>
+            <a class="btn btn-info" asp-action="EditUserInfo" asp-controller="Home"><i class="fas fa-edit"></i> Edit Personal Information</a>
         }
     </div>
 
@@ -86,9 +87,8 @@
                 @*<div class="row">
                         <div class="col"><div class="text-danger" asp-validation-summary="All"></div></div>
                     </div>*@
-                <div class="row no-gutters mt-3">
-                    <div class="col-3">
-
+                <div class="row no-gutters mt-5">
+                    <div class="col-12 col-md-3 mb-4">
                         <input id="createSkillTagNameInput" class="skill-tag-name-input" asp-for="@Model.NewSkillViewModel.TagName" placeholder=" Create new tag name" />
                         @*<span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.TagName"></span>*@
 
@@ -96,7 +96,7 @@
                         @*<span class="text-danger" asp-validation-for="@Model.NewSkillViewModel.Level"></span>*@
                     </div>
 
-                    <div class="col p-2">
+                    <div class="col p-2 mb-4">
                         <select id="createSkillLevelRating">
                             @for (int i = 1; i <= Model.NewSkillViewModel.MaxLevelLimit; i++)
                             {
@@ -105,7 +105,7 @@
                         </select>
                     </div>
 
-                    <div class="col-1 text-center">
+                    <div class="col-12 col-md-1 mb-2 text-center">
                         <button id="createNewSkillBtn" type="submit" class="btn btn-success"><i class="fas fa-plus"></i></button>
                         <span id="spinner" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
                     </div>

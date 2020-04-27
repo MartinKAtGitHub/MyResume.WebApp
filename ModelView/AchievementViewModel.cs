@@ -16,15 +16,15 @@ namespace MyResume.WebApp.ModelView
         //public string userId { get; set; }
 
         [Required]
-        [MaxLength(35)]
+        [MaxLength(50)]
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(380)]
+        [MaxLength(600)]
         public string Summary { get; set; }
 
-        [MaxLength(600)]
-        public string MainText { get; set; }
+        //[MaxLength(600)]
+        //public string MainText { get; set; }
 
 
         public IFormFile Thumbnail { get; set; }
@@ -40,8 +40,8 @@ namespace MyResume.WebApp.ModelView
         [DataType(DataType.Text)]
         [Range(1, 6, ErrorMessage = "Value out of range.")] 
         public int OrderPosition { get; set; }
-        public bool EnableComments { get; set; }
-        public bool EnableRating { get; set; }
+        //public bool EnableComments { get; set; }
+        //public bool EnableRating { get; set; }
         public List<string> ImageSrcPaths { get; set; }
 
         
