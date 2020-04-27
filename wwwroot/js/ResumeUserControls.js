@@ -11,7 +11,7 @@ $(document).ready(function () {
                 if (textStatus == "error") {
                     AttachEventsToSkillOparations();
                     ShowAlert("Something went wrong, please refresh and try again", "alert-danger", 8000);
-                    alert("ERROR on DELETE skill: " + jqXHR.status + " | " + jqXHR.statusText);
+                    //alert("ERROR on DELETE skill: " + jqXHR.status + " | " + jqXHR.statusText);
                 }
             });
         });
@@ -180,13 +180,13 @@ function OnAddExpBtnClick() {
                 OnAddExpBtnClick();
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
-                alert("SUCCESS creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
+                //alert("SUCCESS creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
             }
             if (textStatus == "error") {
                 OnAddExpBtnClick();
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
-                alert("ERROR creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
+                alert(" On Creating new Experience section | something went wrong, please refresh and try again");
             }
         });
     });
@@ -359,18 +359,17 @@ function OnSuccessfulEditEXP() {
     OnDeleteBtnToggleDeleteMark();
     ConnectAddFieldsBtns();
     OnAddExpBtnClick();
-    alert("TEMP | EDIT | Successful");
+    //alert("TEMP | EDIT | Successful");
 }
 function OnFailureEditEXP(xhr) {
     OnDeleteBtnToggleDeleteMark();
     ConnectAddFieldsBtns();
     OnAddExpBtnClick();
-    alert("EDIT something went wrong | Status : " + xhr.status + " | Text = " + xhr.statusText);
+    alert(" On Editing |something went wrong, please refresh and try again");
 }
 function OnSuccessCreatNewSkill() {
     AttachEventsToSkillOparations();
     ShowAlert("Request to create new skill sent!", "alert-success", 4000);
-    //alert(`Success | Create new skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailCreatNewSkill() {
     AttachEventsToSkillOparations();
@@ -389,7 +388,6 @@ function OnFailCreatNewSkill() {
 }
 function OnSuccessEditSkill(jqXHR) {
     AttachEventsToSkillOparations();
-    // alert(`Success | EDIT skill | ${jqXHR.status} , ${jqXHR.statusText}`);
 }
 function OnFailEditSkill(jqXHR) {
     AttachEventsToSkillOparations();

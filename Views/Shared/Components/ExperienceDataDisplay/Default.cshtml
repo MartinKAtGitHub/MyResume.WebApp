@@ -1,33 +1,64 @@
 ﻿@model List<Experience>
+@*EXP DISPLAY*@
 
 @if (Model.Any())
 {
 
+    <div class="col">
 
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        <div class="m-3 bg-dark">
-            <h3>@Model[i].Title</h3>
-            <br />
-
-            @for (int j = 0; j < Model[i].ExperiencePoints.Count; j++)
-            {
-                <h4>@Model[i].ExperiencePoints[j].Title</h4>
-                <br />
-
-                @for (int k = 0; k < Model[i].ExperiencePoints[j].Descriptions.Count; k++)
-                {
-
-                    <h5>@Model[i].ExperiencePoints[j].Descriptions[k].Discription</h5>
-                    <br />
-                }
-            }
+        <div class="row no-gutters border-bottom mb-5">
+            <div class="col">
+                <h3 class="display-3">Experience</h3>
+            </div>
         </div>
-    }
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <!--EXP Section-->
+            <div class=" experience-section-display row mb-4 p-3">
+                <div class="col-12 mb-1">
+                    <h2>@Model[i].Title</h2>
+                </div>
+
+                <div class="col-12">
+                    <ul class="exp-point-ul">
+                        @for (int j = 0; j < Model[i].ExperiencePoints.Count; j++)
+                        {
+                            <li>
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <h4>@Model[i].ExperiencePoints[j].Title</h4>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <ul>
+                                            @for (int k = 0; k < Model[i].ExperiencePoints[j].Descriptions.Count; k++)
+                                            {
+                                                <li class="mb-2">
+                                                    <h6>@Model[i].ExperiencePoints[j].Descriptions[k].Discription</h6>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
 }
 else
 {
-    <div>
-        <h1 class="text-danger">No experience sections was found.</h1>
+    <div class="col">
+        <div class="row no-gutters border-bottom mb-5">
+            <div class="col">
+                <h3 class="display-3">Experience</h3>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <h3 class="text-warning mx-auto">No experience sections was found.</h3>
+        </div>
     </div>
 }
