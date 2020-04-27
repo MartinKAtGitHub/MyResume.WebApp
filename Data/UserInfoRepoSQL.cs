@@ -63,8 +63,13 @@ namespace MyResume.WebApp.Data
                 // we load the FK data(ApplicationUser) using include. Then we search the user name 
 
                 var filterdUsers = _appDbContext.UserInformation
-                    .Include( info => info.ApplicationUser)
-                    .Where( t => t.ApplicationUser.UserName.Contains(searchString)).ToList(); // Double check if this creates another query
+                    .Include(info => info.ApplicationUser)
+                    .Where(t =>
+                       t.ApplicationUser.UserName.Contains(searchString) ||
+                       t.ApplicationUser.Email.Contains(searchString) ||
+                       t.FirstName.Contains(searchString) ||
+                       t.MiddelName.Contains(searchString) ||
+                       t.LasttName.Contains(searchString)).ToList(); // Double check if this creates another query
 
 
                 return filterdUsers;
