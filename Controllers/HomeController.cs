@@ -828,8 +828,6 @@ namespace MyResume.WebApp.Controllers
                 updatedExpGrps.Add(expGrp);
             }
 
-
-
             _experienceRepo.UpdateAll(updatedExpGrps);
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
         }

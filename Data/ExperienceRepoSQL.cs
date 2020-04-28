@@ -109,7 +109,7 @@ namespace MyResume.WebApp.Data
 
         public int GetExperienceCount(Guid userInfoId)
         {
-            var result = _appDbContext.Experiences.Select(x => x.UserInformationId == userInfoId).ToList().Count;
+            var result = _appDbContext.Experiences.Where(x => x.UserInformationId == userInfoId).ToList().Count;
             return result;
         }
 
