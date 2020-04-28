@@ -503,7 +503,7 @@ function OnSuccessfulEditEXP() { // Successful
     ConnectAddFieldsBtns();
     OnAddExpBtnClick();
 
-    //alert("TEMP | EDIT | Successful");
+    ShowAlert("Sections Updated!", "alert-success", 4000);
 }
 
 function OnFailureEditEXP(xhr: XMLHttpRequest) {

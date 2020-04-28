@@ -591,6 +591,7 @@ namespace MyResume.WebApp.Controllers
             return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
         }
 
+        [Authorize]
         public IActionResult AddEXP()
         {
             var activeUserId = _userManager.GetUserId(User);
@@ -630,7 +631,8 @@ namespace MyResume.WebApp.Controllers
             _experienceRepo.CreateExp(exp);
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
         }
-
+        
+        [Authorize]
         public IActionResult AddpointFieldToExperienceView(string expGrpId)
         {
             var activeUserId = _userManager.GetUserId(User);
@@ -679,6 +681,7 @@ namespace MyResume.WebApp.Controllers
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
         }
 
+        [Authorize]
         public IActionResult AddDescFieldToExperienceView(string expGrpId, string pointId)
         {
             var activeUserId = _userManager.GetUserId(User);

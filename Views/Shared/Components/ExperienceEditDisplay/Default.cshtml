@@ -26,13 +26,15 @@
                   data-ajax-method="post"
                   data-ajax-success="EditSuccess"
                   data-ajax-failure="EditFailure"
-                  data-ajax-update="#exp-grp-container">
+                  data-ajax-update="#exp-grp-container"
+                  data-ajax-loading="#editSpinner">
+
 
                 <div asp-validation-summary="All" class="text-danger"></div>
 
                 @for (int i = 0; i < Model.Count; i++)
                 {
-                    <div id="experienceSection_@i" class="experience-section row mb-2 ">
+                    <div id="experienceSection_@i" class="experience-section row mb-5 ">
                         @*<input id="experienceSectionID_@i" asp-for="@Model[i].Id" hidden type="text" />*@
 
                         <div class=" del-btn-container ">
@@ -133,7 +135,7 @@
 
                 <div class="row mb-3">
                     <div class="col-12">
-                        <button class="btn btn-info btn-block" type="submit">Submit Changes</button>
+                        <button class="btn btn-info btn-block" type="submit">Submit Changes <i id="editSpinner" class="fas fa-spinner fa-spin" style="display:none;"></i></button>
                     </div>
                 </div>
             </form>
