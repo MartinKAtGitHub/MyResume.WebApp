@@ -1,23 +1,33 @@
-﻿@if (ViewBag.ErrorTitle == null)
+﻿@{
+    ViewBag.Title = "Error Found";
+}
+
+
+@if (ViewBag.ErrorTitle == null)
 {
-    //Generic error message
-    <h3>
-        An error has occurred while processing your request.
-        Contact the administration : martinwebsitemail@gmail.com
-    </h3>
-    <h3>Exception Details:</h3>
-    <div class="alert alert-danger">
-        <h5>Exception Path</h5>
-        <hr />
-        <p>@ViewBag.ExceptionPath</p>
+    <div class="row mt-5 mb-5">
+        <div class="col-12">
+            <h5 class="text-center text-danger">
+                An error has occurred while processing your request.
+                Contact the administration : martinwebsitemail@gmail.com
+            </h5>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="alert alert-danger">
+                <h5>Exception Path</h5>
+                <hr />
+                <p>@ViewBag.ExceptionPath</p>
+            </div>
+        </div>
+        @*<div class="alert alert-danger">
+            <h5>Exception Message</h5>
+            <hr />
+            <p>@ViewBag.ExceptionMessage</p>
+        </div>*@
 
-    <div class="alert alert-danger">
-        <h5>Exception Message</h5>
-        <hr />
-        <p>@ViewBag.ExceptionMessage</p>
     </div>
-
 }
 else
 {

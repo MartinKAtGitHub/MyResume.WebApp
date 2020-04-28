@@ -78,7 +78,11 @@ a.item-edit-link {
 }
 
 
-
+#avatarImage{
+    width:200px;
+    height:200px;
+    object-fit:contain;
+}
 
 #nameContainer {
     display: inline-block;

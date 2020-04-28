@@ -29,9 +29,10 @@
         }
     </div>
    
-    <div class="col-12 col-md-4 text-center text-md-right align-self-center">
+    <div class="col-12 col-md-4 text-center align-self-center">
 
-        <img class="mb-3 img-fluid" src="@avatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
+        <img id="avatarImage" class="mb-3" src="@avatarImgPath" alt="Avatar_@Model.UserInfo.ApplicationUser.UserName" asp-append-version="true" />
+
         <h5 id="userResumeSummary">@Model.UserInfo.Summary</h5>
 
         @if (Model.EnableOwnerOptions)
@@ -55,7 +56,7 @@
                 </div>
 
                 <!-- Modal body -->
-                <div id="deleteSkillModalBody" class="modal-body">
+                <div id="deleteSkillModalBody" class="modal-body mt-5">
                     <button id="deleteSkillModalBtn" type="button" class="deleteSkillConfirmBtns m-2 btn btn-danger" data-dismiss="modal">YES</button>
                     <button type="button" class="deleteSkillConfirmBtns m-2 btn btn-info" data-dismiss="modal">NO</button>
                 </div>

@@ -53,15 +53,18 @@ namespace MyResume.WebApp.Controllers
 
         public IActionResult UserResume(string id)
         {
-            if (string.IsNullOrEmpty(id))
+           
+            var userInfo = _userInfoRepo.Read(id);
+
+            if (userInfo == null)
             {
-                ViewBag.ErrorTitle = "Can't find Resume ";
-                ViewBag.ErrorMessage = "No user is selected";
-                return View("Error");
+                Response.StatusCode = 404;
+                ViewBag.ErrorTitle = "Can't find User";
+                ViewBag.ErrorMessage = "The id did not match with any users in our data base";
+                return View("PageNotFound");
             }
 
             var userID = _userManager.GetUserId(User);
-            var userInfo = _userInfoRepo.Read(id);
             var allUserItems = _achievementRepo.ReadAll(userInfo.UserInformationId);
 
             var model = new UserResumeViewModel
@@ -181,8 +184,6 @@ namespace MyResume.WebApp.Controllers
                 ViewBag.ErrorMessage = "Please login with the correct user to edit this item";
                 return View("Error");
             }
-
-            // ----------------------------------------------
 
             var model = new AchievementViewModel()
             {
@@ -383,14 +384,18 @@ namespace MyResume.WebApp.Controllers
         public IActionResult DeleteItem(Guid id)
         {
             var item = _achievementRepo.Read(id);
-            var userId = _userManager.GetUserId(User);
-            var userInfo = _userInfoRepo.Read(userId);
-
+           
             if (item == null)
             {
+                Response.StatusCode = 404;
+                ViewBag.ErrorTitle = "Wrong id";
                 ViewBag.ErrorMessage = $"Item with Id = {id} cannot be found";
                 return View("PageNotFound");
             }
+
+            var userId = _userManager.GetUserId(User);
+            var userInfo = _userInfoRepo.Read(userId);
+
 
             FileProcessing.DeleteAllGalleryImages(_userManager.GetUserName(User), item, _config, _webHostEnvironment);
 
@@ -409,9 +414,9 @@ namespace MyResume.WebApp.Controllers
             if (item == null)
             {
                 Response.StatusCode = 404;
-                ViewBag.ErrorTitle = "Can't find display item";
-                ViewBag.ErrorMessage = "";
-                return View("Error");
+                ViewBag.ErrorTitle = "Wrong ID";
+                ViewBag.ErrorMessage = "Can't find portfolio item";
+                return View("PageNotFound");
             }
 
 
@@ -449,7 +454,7 @@ namespace MyResume.WebApp.Controllers
 
             if (string.IsNullOrEmpty(userInfo.AvatarImgPath)) // We don't want to do anything if we dont have an image to remove 
             {
-                ModelState.AddModelError("","No Image to Remove");
+                ModelState.AddModelError("", "No Image to Remove");
                 return RedirectToAction("EditUserInfo");
             }
 
@@ -465,8 +470,17 @@ namespace MyResume.WebApp.Controllers
         [HttpPost]
         public IActionResult RemoveGalleryImg(Guid id, int imageIndex)
         {
-            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
             var item = _achievementRepo.Read(id);
+
+            if (item == null)
+            {
+                Response.StatusCode = 404;
+                ViewBag.ErrorTitle = "Wrong ID";
+                ViewBag.ErrorMessage = "Can't find portfolio item";
+                return View("PageNotFound");
+            }
+           
+            var userInfo = _userInfoRepo.Read(_userManager.GetUserId(User));
 
             if (string.IsNullOrEmpty(item.ItemGalleryImageFilePaths[imageIndex].GalleryImageFilePath)) // We don't want to do anything if we dont have an image to remove 
             {
@@ -631,7 +645,7 @@ namespace MyResume.WebApp.Controllers
             _experienceRepo.CreateExp(exp);
             return ViewComponent("ExperienceEditDisplay", new { userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId });
         }
-        
+
         [Authorize]
         public IActionResult AddpointFieldToExperienceView(string expGrpId)
         {
@@ -643,6 +657,7 @@ namespace MyResume.WebApp.Controllers
             }
 
             var exp = _experienceRepo.Read(expGrpId);
+
 
             if (exp.UserInformationId != userInfoId)
             {
@@ -686,7 +701,7 @@ namespace MyResume.WebApp.Controllers
         {
             var activeUserId = _userManager.GetUserId(User);
             var userInfoId = _userInfoRepo.Read(activeUserId).UserInformationId;
-         
+
             if (!ModelState.IsValid)
             {
                 return ViewComponent("ExperienceEditDisplay", new { userInfoId = userInfoId });
@@ -717,7 +732,8 @@ namespace MyResume.WebApp.Controllers
                 {
                     Id = Guid.NewGuid().ToString(),
                     Index = expPointDescCount,
-                    Discription = ""                });
+                    Discription = ""
+                });
             }
             else
             {
@@ -845,14 +861,14 @@ namespace MyResume.WebApp.Controllers
 
             if (skilCount >= maxLimit)
             {
-               // Response.StatusCode = 400; // THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
+                // Response.StatusCode = 400; // THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
                 ModelState.AddModelError("", $"You have reached the max limit of proficiencies({maxLimit}), please delete unnecessary proficiencies ");
                 return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
             }
 
             if (!ModelState.IsValid)
             {
-              //  Response.StatusCode = 400; //THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
+                //  Response.StatusCode = 400; //THIS WILL STOP FORM AJAX TO UPDATE THE DIV TO DISPLAY MODEL ERRORS
                 return ViewComponent("SkillsContainerEditing", new { appUserId = appUserId });
             }
 
@@ -919,9 +935,9 @@ namespace MyResume.WebApp.Controllers
             if (deleteSkill == null)
             {
                 Response.StatusCode = 404;
-                ViewBag.ErrorTitle = "Cant find proficiency";
-                ViewBag.ErrorMessage = "Pleas refresh and try again";
-                return View("Error");
+                ViewBag.ErrorTitle = "Can't find Skill";
+                ViewBag.ErrorMessage = "Please refresh and try again";
+                return View("PageNotFound");
             }
 
             if (deleteSkill.ApplicationUserId != appUserId)

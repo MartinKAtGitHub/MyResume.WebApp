@@ -3,7 +3,23 @@
     ViewBag.Title = "Page Not Found";
 }
 
-<h1>Page not found</h1>
-<h4>@ViewBag.ErrorMessage</h4>
+    <div class="row">
 
-<a asp-controller="Home" asp-action="Index">Home Page</a>
+        <div class="col-12 text-warning text-center mb-3">
+            <h1>Page not found</h1>
+        </div>
+
+        <div class="col-12 text-warning text-center mb-3">
+            <h4>@ViewBag.ErrorTitle</h4>
+        </div>
+        <div class="col-12 text-warning text-center mb-5">
+            <h4>@ViewBag.ErrorMessage</h4>
+        </div>
+
+        <div class="col-12 text-center">
+            <a class="btn btn-info" asp-controller="Home" asp-action="Index">Home Page</a>
+        </div>
+    </div>
+
+
+
