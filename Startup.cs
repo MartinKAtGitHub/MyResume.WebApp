@@ -38,6 +38,16 @@ namespace MyResume.WebApp
               
             });
 
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential 
+                // cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                // requires using Microsoft.AspNetCore.Http;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("MyResumeDBV1")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -98,6 +108,8 @@ namespace MyResume.WebApp
 
             app.UseHttpsRedirection(); // http redirected to httpS
             app.UseStaticFiles();
+
+            app.UseCookiePolicy();
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -51,6 +51,11 @@ namespace MyResume.WebApp.Controllers
             return View(UserSearchResult);
         }
 
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
         public IActionResult UserResume(string id)
         {
            
