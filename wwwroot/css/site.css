@@ -28,6 +28,11 @@ a.item-edit-link {
 }
 
 /*---------- Bootstrap mods ----------*/
+.list-group-item {
+    background-color: inherit;
+    border: 1px solid #fff8dc47;
+}
+
 .card {
     border: 0px;
 }

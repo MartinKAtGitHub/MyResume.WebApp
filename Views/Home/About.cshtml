@@ -1,0 +1,80 @@
+﻿<div class="row justify-content-center text-center mt-5 mb-5">
+    <h1 class="mb-4 display-2">My Resume</h1>
+    <h3 class="display-4">A web application for creating and hosting resumes and Image based portfolios</h3>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <ul class="nav nav-tabs nav-fill" id="myAboutTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="who-tab" data-toggle="tab" href="#who" role="tab" aria-controls="who" aria-selected="true">Who?</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="why-tab" data-toggle="tab" href="#why" role="tab" aria-controls="why" aria-selected="false">Why?</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="what-tab" data-toggle="tab" href="#what" role="tab" aria-controls="what" aria-selected="false">What?</a>
+            </li>
+        </ul>
+        <div class="tab-content mt-5" id="myAboutTabContent">
+
+            <div class=" lead text-center tab-pane fade show active" id="who" role="tabpanel" aria-labelledby="who-tab">
+
+                <h1 class="font-weight-light mb-3">Who made this?</h1>
+
+                <p>Welcome to My Resume, a mobile friendly web app made by me! Karan Bhullar.</p>
+                <p>Please take a look at <a asp-action="Index" asp-route-searchString="Karan">my resume</a> to learn more about me.</p>
+            </div>
+
+            <div class="lead text-center tab-pane fade" id="why" role="tabpanel" aria-labelledby="why-tab">
+                
+                <h1 class="font-weight-light mb-3">Why make this?</h1>
+
+                <p>The main purpose behind this web app is to demonstrate my proficiency in Full Stack development.</p>
+                <p>
+                    I was struggling to find experience in the web development field, so i decided to create some of my own.
+                    In this app you will be able to create your own resume with a predefined style(more styles to come).
+                    You also have a portfolio section which will allow you to add portfolio items with image galleries and descriptions.
+                </p>
+                <p>
+                    I fully understand that this web app is not the most innovative or well designed app, but this is more to display technical skills then artistic once.
+                    In time i will add more user friendly features and variety.
+                </p>
+            </div>
+
+            <div class=" lead row text-center tab-pane fade" id="what" role="tabpanel" aria-labelledby="what-tab">
+                <div class="col-12">
+                    <div class="row justify-content-center text-center mb-5">
+                        <h1 class="font-weight-light">What technologies where used?</h1>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <h2 class="font-weight-light mb-4">Front End</h2>
+
+                            <ul class="list-group list-group-flush border-bottom m-3">
+                                <li class="list-group-item">JavaScript/TypeScript</li>
+                                <li class="list-group-item">JQuery(JS library)</li>
+                                <li class="list-group-item">Bootstrap 4</li>
+                                <li class="list-group-item">Razor markup</li>
+                                <li class="list-group-item">HTML5/CSS3</li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col-6">
+                            <h2 class="font-weight-light mb-4">Back End</h2>
+
+                            <ul class="list-group list-group-flush border-bottom m-3">
+                                <li class="list-group-item">ASP.NET Core 3.1</li>
+                                <li class="list-group-item">Entity Framework Core</li>
+                                <li class="list-group-item">SQL</li>
+                                <li class="list-group-item">C#</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

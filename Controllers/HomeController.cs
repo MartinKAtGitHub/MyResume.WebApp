@@ -91,6 +91,12 @@ namespace MyResume.WebApp.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult About()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         [Authorize]

@@ -66,10 +66,10 @@ namespace MyResume.WebApp.Data
 
             foreach (var point in Experience.ExperiencePoints)
             {
-                var sortedDescriptions = point.Descriptions.OrderByDescending(x => x.Index).ToList();
+                var sortedDescriptions = point.Descriptions.OrderBy(x => x.Index).ToList();
                 point.Descriptions = sortedDescriptions;
             }
-            Experience.ExperiencePoints = Experience.ExperiencePoints.OrderByDescending(x => x.Index).ToList();
+            Experience.ExperiencePoints = Experience.ExperiencePoints.OrderBy(x => x.Index).ToList();
             return Experience;
         }
 
@@ -79,12 +79,12 @@ namespace MyResume.WebApp.Data
 
             foreach (var exp in result)
             {
-                var sortedExpPoints = exp.ExperiencePoints.OrderByDescending(x => x.Index).ToList();
+                var sortedExpPoints = exp.ExperiencePoints.OrderBy(x => x.Index).ToList();
                 exp.ExperiencePoints = sortedExpPoints;
 
                 foreach (var point in exp.ExperiencePoints)
                 {
-                    var sortedDescriptions = point.Descriptions.OrderByDescending(x => x.Index).ToList();
+                    var sortedDescriptions = point.Descriptions.OrderBy(x => x.Index).ToList();
                     point.Descriptions = sortedDescriptions;
                 }
             }

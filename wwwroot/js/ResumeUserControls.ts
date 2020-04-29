@@ -253,7 +253,7 @@ function OnAddExpBtnClick() {
 
     $("#addNewExpSection").on("click", () => {
 
-        // $("#editExpFrom").submit();
+        ($(this).get(0) as HTMLButtonElement).disabled = true;
        
         $("#exp-grp-container").load("/Home/AddEXP", (responseText, textStatus, jqXHR) => {
 
@@ -261,7 +261,8 @@ function OnAddExpBtnClick() {
                 OnAddExpBtnClick();
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
-                //alert("SUCCESS creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
+              
+                ShowAlert("Add new Experience section", "alert-success", 3000);
 
             }
             if (textStatus == "error") {
@@ -270,6 +271,7 @@ function OnAddExpBtnClick() {
                 ConnectAddFieldsBtns();
                 alert(" On Creating new Experience section | something went wrong =" + jqXHR.status);
 
+                ($(this).get(0) as HTMLButtonElement).disabled = false;
             }
         });
 
@@ -290,7 +292,7 @@ function UpdateWithNewDescField(addDescbtn: JQuery<HTMLElement>, sectionID: stri
 
     addDescbtn.on("click", () => {
 
-       // $("#editExpFrom").submit();
+        ($(this).get(0) as HTMLButtonElement).disabled = true;
 
         $("#exp-grp-container").load("/Home/AddDescFieldToExperienceView", { expGrpId: sectionID, pointId: pointSectionId }, (responseText, textStatus, jqXHR) => {
 
@@ -304,6 +306,7 @@ function UpdateWithNewDescField(addDescbtn: JQuery<HTMLElement>, sectionID: stri
                 alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
 
+            ($(this).get(0) as HTMLButtonElement).disabled = false;
         });
 
     });
@@ -320,6 +323,7 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
 
        // $("#editExpFrom").submit();
 
+        ($(this).get(0) as HTMLButtonElement).disabled = true;
         $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expGrpId: sectionID }, (responseText, textStatus, jqXHR) => {
 
             if (textStatus == "success") {
@@ -332,6 +336,7 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
                 alert("Something went wrong code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
 
+            ($(this).get(0) as HTMLButtonElement).disabled = false;
         });
     });
 }
@@ -510,8 +515,8 @@ function OnFailureEditEXP(xhr: XMLHttpRequest) {
     OnDeleteBtnToggleDeleteMark();
     ConnectAddFieldsBtns();
     OnAddExpBtnClick();
-    alert(" On Editing |something went wrong, please refresh and try again");
-}
+    alert(" On Editing | something went wrong, please refresh and try again");
+} 
 
 function OnSuccessCreatNewSkill() {
 

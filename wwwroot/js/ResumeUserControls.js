@@ -173,25 +173,28 @@ function OnDeleteBtnToggleDeleteMark() {
     }
 }
 function OnAddExpBtnClick() {
+    var _this = this;
     $("#addNewExpSection").on("click", function () {
-        // $("#editExpFrom").submit();
+        $(_this).get(0).disabled = true;
         $("#exp-grp-container").load("/Home/AddEXP", function (responseText, textStatus, jqXHR) {
             if (textStatus == "success") {
                 OnAddExpBtnClick();
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
-                //alert("SUCCESS creating EXP : " + jqXHR.status + " | " + jqXHR.statusText);
+                ShowAlert("Add new Experience section", "alert-success", 3000);
             }
             if (textStatus == "error") {
                 OnAddExpBtnClick();
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
                 alert(" On Creating new Experience section | something went wrong =" + jqXHR.status);
+                $(_this).get(0).disabled = false;
             }
         });
     });
 }
 function UpdateWithNewDescField(addDescbtn, sectionID, pointSectionId) {
+    var _this = this;
     if (sectionID == undefined) {
         alert("Error: Cant find every experience section, pleas try to refresh or contact admins");
         return;
@@ -201,7 +204,7 @@ function UpdateWithNewDescField(addDescbtn, sectionID, pointSectionId) {
         return;
     }
     addDescbtn.on("click", function () {
-        // $("#editExpFrom").submit();
+        $(_this).get(0).disabled = true;
         $("#exp-grp-container").load("/Home/AddDescFieldToExperienceView", { expGrpId: sectionID, pointId: pointSectionId }, function (responseText, textStatus, jqXHR) {
             if (textStatus == "success") {
                 OnDeleteBtnToggleDeleteMark();
@@ -212,16 +215,19 @@ function UpdateWithNewDescField(addDescbtn, sectionID, pointSectionId) {
                 ConnectAddFieldsBtns();
                 alert("Something went wrong  code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
+            $(_this).get(0).disabled = false;
         });
     });
 }
 function UpdateWithNewPointField(addPointbtn, sectionID) {
+    var _this = this;
     if (sectionID == undefined) {
         alert("Error: Cant find every experience section, pleas try to refresh or contact admins");
         return;
     }
     addPointbtn.on("click", function () {
         // $("#editExpFrom").submit();
+        $(_this).get(0).disabled = true;
         $("#exp-grp-container").load("/Home/AddpointFieldToExperienceView", { expGrpId: sectionID }, function (responseText, textStatus, jqXHR) {
             if (textStatus == "success") {
                 OnDeleteBtnToggleDeleteMark();
@@ -232,6 +238,7 @@ function UpdateWithNewPointField(addPointbtn, sectionID) {
                 ConnectAddFieldsBtns();
                 alert("Something went wrong code : " + jqXHR.status + " | " + jqXHR.statusText);
             }
+            $(_this).get(0).disabled = false;
         });
     });
 }
@@ -366,7 +373,7 @@ function OnFailureEditEXP(xhr) {
     OnDeleteBtnToggleDeleteMark();
     ConnectAddFieldsBtns();
     OnAddExpBtnClick();
-    alert(" On Editing |something went wrong, please refresh and try again");
+    alert(" On Editing | something went wrong, please refresh and try again");
 }
 function OnSuccessCreatNewSkill() {
     AttachEventsToSkillOparations();
