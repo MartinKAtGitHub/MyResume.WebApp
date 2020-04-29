@@ -373,8 +373,20 @@ namespace MyResume.WebApp.Controllers
 
                     if (!_env.IsDevelopment()) // ! in development mode we dont want to be sending Email confirmation mails all the time.
                     {
-                        await _messageService.SendEmailAsync(user.UserName, user.Email, "Email confirmation",
-                            $"Click the link to confirm your Email : {confirmationLink}");
+                        try
+                        {
+                            await _messageService.SendEmailAsync(user.UserName, user.Email, "Email confirmation",
+                                               $"Click the link to confirm your Email : {confirmationLink}");
+                        }
+                        catch (Exception)
+                        {
+                            await _userManager.DeleteAsync(user);
+                            ViewBag.ErrorTitle = "Can't send confirmation email";
+                            ViewBag.ErrorMessage = "Please contact the administration if this issue persists: martinwebsitemail@gmail.com";
+                            return View("Error");
+                        }
+
+                            _userInfoRepo.CreateDefault(user);
                     }
                     else
                     {
@@ -388,7 +400,7 @@ namespace MyResume.WebApp.Controllers
                         //   return RedirectToAction("EmailConfirmDevView", "account" , new { confirmLink  = confirmationLink});
                     }
 
-                    _userInfoRepo.CreateDefault(user);
+                    //_userInfoRepo.CreateDefault(user);
 
                     // await _signInManager.SignInAsync(user, isPersistent: false);
                     // return RedirectToAction("index", "home");

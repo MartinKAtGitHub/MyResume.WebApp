@@ -12,7 +12,7 @@ namespace Portfolio_Website_Core.Utilities.MailService
     {
         private readonly IConfiguration configuration;
 
-        private string _fromName = "Employee Website";
+        private string _fromName = "My Resume";
         private string _fromEmailAddress = "martinwebsitemail@gmail.com";
 
         public MessageService(IConfiguration configuration)
