@@ -164,6 +164,7 @@ namespace MyResume.WebApp.Controllers
             {
                 AvatarImgPath = userInfo.AvatarImgPath,
                 Summary = userInfo.Summary,
+                UserName = _userManager.GetUserName(User)
                 //MainText = userInfo.MainText,
                 //AvailableForContact = userInfo.AvailableForContact
             };

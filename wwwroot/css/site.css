@@ -80,6 +80,7 @@ a.item-edit-link {
 
 #userResumeSummary {
     white-space: pre-wrap;
+   
 }
 
 
@@ -88,6 +89,8 @@ a.item-edit-link {
     height:200px;
     object-fit:contain;
 }
+
+
 
 #nameContainer {
     display: inline-block;

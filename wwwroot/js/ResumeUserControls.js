@@ -209,6 +209,7 @@ function UpdateWithNewDescField(addDescbtn, sectionID, pointSectionId) {
             if (textStatus == "success") {
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
+                ShowAlert("Add new description section", "alert-success", 3000);
             }
             if (textStatus == "error") {
                 OnDeleteBtnToggleDeleteMark();
@@ -232,6 +233,7 @@ function UpdateWithNewPointField(addPointbtn, sectionID) {
             if (textStatus == "success") {
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
+                ShowAlert("Add new Highlight section", "alert-success", 3000);
             }
             if (textStatus == "error") {
                 OnDeleteBtnToggleDeleteMark();

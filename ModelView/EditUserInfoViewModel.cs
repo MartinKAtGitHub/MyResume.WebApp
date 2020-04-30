@@ -8,15 +8,15 @@ namespace MyResume.WebApp.ModelView
         public string UserName { get; set; }
 
         // ADD VALIDATION TO THIS
-        [MaxLength(15, ErrorMessage = "First name exceeds character limit")]
+        [MaxLength(30, ErrorMessage = "First name exceeds character limit")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [MaxLength(15, ErrorMessage = "Middle name exceeds character limit")]
+        [MaxLength(30, ErrorMessage = "Middle name exceeds character limit")]
         [Display(Name = "Middle Name")]
         public string MiddleName { get; set; }
 
-        [MaxLength(15, ErrorMessage = "Last name exceeds character limit")]
+        [MaxLength(30, ErrorMessage = "Last name exceeds character limit")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
@@ -29,7 +29,7 @@ namespace MyResume.WebApp.ModelView
         [Display(Name ="Avatar image")]
         public IFormFile AvatarImage { get; set; }
 
-        [MaxLength(380)]
+        [MaxLength(600, ErrorMessage ="You can not exceed the 600 character limit")]
         public string Summary { get; set; }
         //public string MainText { get; set; }
         public bool AvailableForContact { get; set; }

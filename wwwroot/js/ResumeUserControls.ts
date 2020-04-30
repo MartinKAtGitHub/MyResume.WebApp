@@ -299,6 +299,7 @@ function UpdateWithNewDescField(addDescbtn: JQuery<HTMLElement>, sectionID: stri
             if (textStatus == "success") {
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
+                ShowAlert("Add new description section", "alert-success", 3000);
             }
             if (textStatus == "error") {
                 OnDeleteBtnToggleDeleteMark();
@@ -329,6 +330,7 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
             if (textStatus == "success") {
                 OnDeleteBtnToggleDeleteMark();
                 ConnectAddFieldsBtns();
+                ShowAlert("Add new Highlight section", "alert-success", 3000);
             }
             if (textStatus == "error") {
                 OnDeleteBtnToggleDeleteMark();

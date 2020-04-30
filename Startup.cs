@@ -34,8 +34,8 @@ namespace MyResume.WebApp
             // So before the file is checked its is buffed(stored on the pc temperately) we want to limit the file they can upload to this buffer area which is default to 128mb
             services.Configure<FormOptions>(op => 
             {
-                op.MultipartBodyLengthLimit = 102400; // in bytes 1024byte = 1kb
-              
+                op.MultipartBodyLengthLimit = 202400; // in bytes 1024byte = 1kb 102400
+
             });
 
             services.Configure<CookiePolicyOptions>(options =>

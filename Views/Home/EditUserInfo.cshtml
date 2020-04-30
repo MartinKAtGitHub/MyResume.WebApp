@@ -3,6 +3,16 @@
     ViewBag.Title = " Edit user information";
 
     var avatarImgPath = Model.AvatarImgPath ?? Model.DefaultAvatarPath;
+
+    //if(string.IsNullOrEmpty(Model.AvatarImgPath))
+    //{
+    //    avatarImgPath = Model.DefaultAvatarPath;
+    //}
+    //else
+    //{
+    //    avatarImgPath = Model.AvatarImgPath;
+    //}
+
 }
 
 
@@ -14,7 +24,7 @@
             <h2 class="display-4"> @Model.UserName </h2>
         </div>
         <div class="col-12 text-center">
-            <h2 class="display-4">information</h2>
+            <h2 class="display-4">Information</h2>
         </div>
     </div>
 
@@ -42,7 +52,7 @@
 
             <div class=" form-row mb-5">
                 <div class="col-12 text-center mb-2">
-                    <h6 class="text-info">Only image files of type PNG and size of 5KB is accepted</h6>
+                    <h6 class="text-info">Only image files of type PNG and size of 110KB is accepted</h6>
                 </div>
                 <div class="col-12">
                     <label asp-for="AvatarImage"></label>
@@ -56,15 +66,15 @@
             <div class="form-row mb-3">
                 <div class="form-group col">
                     <label asp-for="@Model.FirstName"></label>
-                    <input asp-for="@Model.FirstName" class="form-control" value="@Model.FirstName" />
+                    <input asp-for="@Model.FirstName" class="form-control" placeholder="@Model.FirstName" />
                 </div>
                 <div class="form-group col">
                     <label asp-for="@Model.MiddleName"></label>
-                    <input asp-for="@Model.MiddleName" class="form-control" value="@Model.MiddleName" />
+                    <input asp-for="@Model.MiddleName" class="form-control" placeholder="@Model.MiddleName" />
                 </div>
                 <div class="form-group col">
                     <label asp-for="@Model.LastName"></label>
-                    <input asp-for="@Model.LastName" class="form-control" value="@Model.LastName" />
+                    <input asp-for="@Model.LastName" class="form-control" placeholder="@Model.LastName" />
                 </div>
             </div>
 
