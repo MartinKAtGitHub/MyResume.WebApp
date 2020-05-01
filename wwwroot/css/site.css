@@ -98,7 +98,7 @@ a.item-edit-link {
 
 
 #mainTextBlock {
-    white-space: pre-wrap;
+    white-space: pre-line;
 }
 
 .avatar-card {
@@ -125,11 +125,16 @@ a.item-edit-link {
     box-shadow: -5px 5px #070a15;
 }
 
-#item_container.row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax( var(--itemWidth), 1fr));
-    padding: 30px;
+#itemSummery {
+    padding: 20px;
+    white-space: pre-line;
 }
+
+    #item_container.row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax( var(--itemWidth), 1fr));
+        padding: 30px;
+    }
 
 .item-card {
     background-color: var(--rgbDefault);

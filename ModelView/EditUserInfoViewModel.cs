@@ -29,7 +29,7 @@ namespace MyResume.WebApp.ModelView
         [Display(Name ="Avatar image")]
         public IFormFile AvatarImage { get; set; }
 
-        [MaxLength(600, ErrorMessage ="You can not exceed the 600 character limit")]
+        [StringLength(600, ErrorMessage ="You can not exceed the 600 character limit")]
         public string Summary { get; set; }
         //public string MainText { get; set; }
         public bool AvailableForContact { get; set; }

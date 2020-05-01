@@ -1,5 +1,5 @@
 ﻿@inject IConfiguration config;
-@{ 
+@{
     var LinkedInProfileLink = config.GetValue<string>("LinkedIn:ProfileLink");
 }
 
@@ -28,26 +28,27 @@
                 <h1 class="font-weight-light mb-3">Who made this?</h1>
 
                 <p>Welcome to My Resume, a mobile friendly web app made by me! Karan Bhullar.</p>
-                <p>Please take a look at <a asp-action="Index" asp-route-searchString="Karan">my resume</a> or my <a href="@LinkedInProfileLink">LinkedIn</a> to learn more about me.</p>
+                <p>Please take a look at <a asp-action="Index" asp-route-searchString="Karan">resume page</a> or my <a href="@LinkedInProfileLink">LinkedIn</a> to learn more about me.</p>
+                <p>You can also contact me through: <strong>karansinghcontactmail@gmail.com</strong></p>
             </div>
 
             <div class="lead text-center tab-pane fade" id="why" role="tabpanel" aria-labelledby="why-tab">
 
                 <h1 class="font-weight-light mb-3">Why make this?</h1>
 
-                <p>The main purpose behind this web app is to demonstrate my proficiency in Full Stack development.</p>
+                <p>The main purpose behind this web app is to demonstrate my proficiency in Full Stack web development.</p>
                 <p>
-                    I was struggling to find experience in the web development field, so i decided to create some of my own.
-                    In this app you will be able to create your own user account and create a resume with a predefined style(more styles to come).
+                    I was struggling to find experience in the web development field, so I decided to create some of my own.
+                    In this app you will be able to create your own user account and create a resume with a predefined, simple to understand style(more styles to come).
                     You also have a portfolio section which will allow you to upload images to galleries and add descriptions.
                 </p>
                 <p>
-                    All the sections(Skill, Experience and Portfolio) are customizable. You can add and remove sections as you see fit. You can see examples of accounts by searching for "Test"
-                    or if you don't want to create an account, search for "Karan" and look in the Portfolio section to see screen-shots of the editing.
+                    All the sections(Skill, Experience and Portfolio) are editable. You can add and remove sections as you see fit. You can see examples of accounts by searching for "Test" at the home page.
+                    If you don't want to create an account, search for "Karan" and look in the Portfolio section to see <a asp-controller="Home" asp-action="DisplayItem" asp-route-id="70771858-8391-475d-83c1-80a0d8575984">screen shots</a> of the editing view.
                 </p>
                 <p>
-                    I fully understand that this web app is not the most innovative or well designed app, but this is more to display technical skills then artistic once.
-                    In time i will add more user friendly features and variety.
+                    I have focused more on displaying my technical skills rather then artistic or design oriented skills.
+                    In time i will add more user friendly features, variety and implement better layouts and designs.
                 </p>
             </div>
 
