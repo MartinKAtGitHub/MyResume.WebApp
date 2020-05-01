@@ -296,6 +296,9 @@ a.item-edit-link {
     /*width: 100%;
     min-height: 200px;*/
 }
+.experience-section-display-title{
+    word-wrap:break-word;
+}
 
 .experience-section-title, .point-section-title, .desc-section-title {
     border: none;
