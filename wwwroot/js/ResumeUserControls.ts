@@ -320,6 +320,7 @@ function UpdateWithNewPointField(addPointbtn: JQuery<HTMLElement>, sectionID: st
         return;
     }
 
+
     addPointbtn.on("click", () => {
 
        // $("#editExpFrom").submit();
