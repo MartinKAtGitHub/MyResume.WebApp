@@ -1,7 +1,7 @@
 # MyResume.WebApp ( [Live Demo](http://84.209.58.152:8080/) )
 I am hosting the Live demo on my own server, this might lead to some bad connections and downtime
 Please try again after 10-15 mins, by clicking on the on [Live Demo](http://84.209.58.152:8080/) link.
-The server starts up at 09:30 and shuts down at around 21:30 +.
+The server starts up at 09:30 and shuts down at around 21:00 +.
 
 The hosting of the web app fell outside of the scope for what i was trying to do with this project, which is to showcase my Full Stack development abilities and not SysAdmin skill set. I don't plan on launching this web app commercially either so buying hosting and domain was not an appealing option. So let me apologize in advance for any inconvenience with connecting to my old server.
 
